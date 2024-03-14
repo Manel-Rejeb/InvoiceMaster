@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "@/styles/_main.css"
+import { mr } from "@/lib/mr"
+import { AuthFooter } from "@/components/footer/auth-footer";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +19,14 @@ export default function RootLayout({
 }>) {
     return (
 
-        <div className={inter.className}>{children}</div>
+        <div className={mr(inter.className, "w-full h-screen flex")}>
+            <div className="bg-white flex-1 flex items-center justify-center flex-col">
+                <div className="flex-1 flex items-center justify-center">{children}</div>
+                <div><AuthFooter /></div>
+            </div>
+            <div className="bg-blue-500 flex-1 flex items-center justify-center bg-[url(/assets/bg-auth-image.png)] bg-no-repeat bg-cover bg-center"> <img className="w-[70%]" alt="auth-image" src="assets/auth-screens.png" /> </div>
+        </div>
 
     );
 }
+
