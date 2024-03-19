@@ -21,8 +21,8 @@ const Page = () => {
                 <form autoComplete="off">
                     <div className="grid gap-y-4">
 
-                        <Input type="email" placeholder="Enter your email" />
-                        <Input type="password" placeholder="Enter your password" />
+                        <Input type="email" placeholder="Enter your email" autoComplete="off" />
+                        <Input type="password" placeholder="Enter your password" autoComplete="new-password" />
 
                         <button type="submit" className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">Sign in</button>
                     </div>

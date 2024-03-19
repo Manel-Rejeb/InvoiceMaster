@@ -18,7 +18,7 @@ const Page = () => {
                 <form autoComplete="off">
                     <div className="grid gap-y-4">
                         {/* <!-- Form Group --> */}
-                        <Input type="email" placeholder="Enter your email" />
+                        <Input type="email" placeholder="Enter your email" autoComplete="off" />
                         {/* <!-- Buttons --> */}
                         <div className="mt-7 grid gap-3 w-full sm:inline-flex">
                             <button type="submit" className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">Send</button>
