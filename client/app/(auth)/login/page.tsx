@@ -1,5 +1,6 @@
 "use client"
 import { Input } from "@/components/input/input"
+import Link from 'next/link'
 
 const Page = () => {
     // TODO: ajouter des espaces entre les inputs, le bouton, les liens et le titre
@@ -31,9 +32,9 @@ const Page = () => {
 
                     <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
                         Don't have an account yet?
-                        <a className="text-blue-600 decoration-2 hover:underline font-medium dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="../examples/html/signup.html">
+                        <Link passHref href="/register" className="text-blue-600 decoration-2 hover:underline font-medium dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                             Sign up here
-                        </a>
+                        </Link>
                     </p>
                 </div>
             </div>

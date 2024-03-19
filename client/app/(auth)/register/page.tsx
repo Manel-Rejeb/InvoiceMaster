@@ -1,5 +1,6 @@
 "use client"
 import { Input } from "@/components/input/input"
+import Link from "next/link"
 
 const Page = () => {
     return (
@@ -31,9 +32,9 @@ const Page = () => {
 
                     <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
                         Already have an Account?
-                        <a className="text-blue-600 decoration-2 hover:underline font-medium dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="../examples/html/signup.html">
+                        <Link passHref href="/login" className="text-blue-600 decoration-2 hover:underline font-medium dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                             Sign in
-                        </a>
+                        </Link>
                     </p>
                 </div>
             </div>
