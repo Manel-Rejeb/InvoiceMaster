@@ -1,6 +1,8 @@
+import '@/styles/_main.css'
+
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import '@/styles/_main.css'
+
 import { mr } from '@/lib/mr'
 import { Stepper } from '@/components/steps/stepper'
 
@@ -17,12 +19,13 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <div className={mr(inter.className, 'w-full h-screen flex')}>
-      <div className='w-[375px] bg-gray-100 flex items-center justify-center'>
+    <div className={mr(inter.className, 'flex overflow-hidden h-screen')}>
+      <div className='w-[375px] h-screen bg-gray-100 flex items-center justify-center'>
         <Stepper />
       </div>
-      <div className='bg-white flex-1 flex items-center justify-center flex-col'>
-        <div className='flex-1 flex items-center justify-center w-full'>{children}</div>
+
+      <div className='flex-1 bg-white overflow-auto'>
+        <div className='p-4'>{children}</div>
       </div>
     </div>
   )
