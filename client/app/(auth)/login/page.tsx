@@ -6,7 +6,6 @@ import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 const Page = () => {
-  // TODO: ajouter des espaces entre les inputs, le bouton, les liens et le titre
   const {
     formState: { errors, isValid },
     handleSubmit,
@@ -21,27 +20,23 @@ const Page = () => {
         </p>
       </div>
 
-      <div className='mt-5'>
+      <div className='mt-8'>
         {/* <!-- Form --> */}
-        <form
-          autoComplete='off'
-          onSubmit={handleSubmit((data: UserLoginType) => {
-            console.log(data)
-          })}>
-          <div className='grid gap-y-4'>
-            <Controller
-              name='email'
-              control={control}
-              render={({ field }) => (
-                <Input
-                  {...field}
-                  type='email'
-                  placeholder='Enter your email'
-                  autoComplete='off'
-                  errorMessages={errors?.email && errors.email.message}
-                />
-              )}
-            />
+        <div className='grid gap-y-4'>
+          <Controller
+            name='email'
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                type='email'
+                placeholder='Enter your email'
+                autoComplete='off'
+                errorMessages={errors?.email && errors.email.message}
+              />
+            )}
+          />
+          <div className='flex flex-col'>
             <Controller
               name='password'
               control={control}
@@ -55,19 +50,25 @@ const Page = () => {
                 />
               )}
             />
-
-            <button
-              type='submit'
-              // disabled={!isValid} //this is will didabled the button if the form is not valid
-              className='w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'>
-              Sign in
-            </button>
+            <Link passHref href={'/forget-password'} className='w-full text-sm capitalize text-end text-blue-600'>
+              forget password ?
+            </Link>
           </div>
-        </form>
+        </div>
+        <button
+          type='submit'
+          onClick={handleSubmit((data: UserLoginType) => {
+            console.log(data)
+          })}
+          // disabled={!isValid} //this is will didabled the button if the form is not valid
+          className='mt-8 w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'>
+          Sign in
+        </button>
         {/* <!-- End Form --> */}
-        <div className='text-center'>
+
+        <div className='text-center mt-8'>
           <p className='mt-2 text-sm text-gray-600 dark:text-gray-400'>
-            Don't have an account yet?
+            Don't have an account yet?{' '}
             <Link
               passHref
               href='/register'
