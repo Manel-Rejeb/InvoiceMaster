@@ -1,31 +1,50 @@
-import { ConflictException, Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
-import { CreateUserDto } from './dto/user.dto';
-import { hash } from 'bcrypt';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {} // injecting the prismaservice into the user service
+  constructor(
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+  ) {}
 
-  async create(dto: CreateUserDto) {
-    const user = await this.prisma.user.findUnique({
-      where: {
-        email: dto.email,
-      },
-    });
+  async createUser(user: User): Promise<User> {
+    const userData = await this.userRepository.create(user);
+    return this.userRepository.save(userData);
+  }
 
-    if (user) {
-      throw new ConflictException('email duplicated');
+  async getAllUsers(): Promise<User[]> {
+    return this.userRepository.find();
+  }
+
+  async findUserById(id: number): Promise<User> {
+    const userData = await this.userRepository.findOneBy({ id });
+    if (!userData) {
+      throw new NotFoundException('User Not Found');
     }
+    return userData;
+  }
 
-    const newUser = await this.prisma.user.create({
-      data: {
-        ...dto,
-        password: await hash(dto.password, 10),
-      },
-    });
+  async updateUser(id: number, user: User): Promise<User> {
+    const userData = await this.userRepository.findOneBy({ id });
+    if (!userData) {
+      throw new NotFoundException('User not found');
+    }
+    const updatedUser = this.userRepository.merge(userData, user);
+    return await this.userRepository.save(updatedUser);
+  }
 
-    const { password, ...result } = newUser;
-    return result;
+  async removeUser(id: number): Promise<User> {
+    const userData = await this.userRepository.findOneBy({ id });
+    if (!userData) {
+      throw new NotFoundException('User not found');
+    }
+    return await this.userRepository.remove(userData);
   }
 }
+
+// findOneBy({id}) =>  sepcify Field to query
+// findBy({id}) => returns an array of entity

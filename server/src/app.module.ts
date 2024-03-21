@@ -1,13 +1,29 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { AppService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
+import { AppController } from './app.controller';
+
 import { UserModule } from './user/user.module';
-import { AuthModule } from './auth/auth.module';
-import { PrismaService } from './prisma.service';
+
 @Module({
-  imports: [ConfigModule.forRoot(), UserModule, AuthModule], // access to .env file in the root of the project
+  imports: [
+    /* init type orm database connection */
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: 'localhost',
+      port: 3306,
+      username: 'root',
+      password: '',
+      database: 'invoice-management-internship',
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      synchronize: true,
+    }),
+    /* Start Modules */
+    UserModule,
+    /* End Modules */
+  ],
   controllers: [AppController],
-  providers: [AppService, PrismaService],
+  providers: [AppService],
 })
 export class AppModule {}
