@@ -22,10 +22,11 @@ export const Input: FC<ComponentProps & Record<string, any>> = ({
   ...rest
 }) => {
   return (
-    <div>
+    <div className='flex-1 w-full'>
       {label && (
-        <label htmlFor={type} className='block text-sm mb-2 dark:text-white'>
-          {label}
+        <label htmlFor={type} className='block text-sm mb-1 dark:text-white'>
+          <span>{label}</span>
+          {required && <span className='ml-1 text-red-500'>*</span>}
         </label>
       )}
       <div className='relative'>

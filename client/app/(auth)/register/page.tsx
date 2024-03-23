@@ -1,5 +1,5 @@
 'use client'
-import { Input } from '@/components/input/input'
+import { Input } from '@/ui/input/input'
 import Link from 'next/link'
 
 const Page = () => {
