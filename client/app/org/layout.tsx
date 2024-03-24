@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <div className={mr(inter.className, 'flex overflow-hidden h-screen')}>
-      <div className='w-[375px] h-screen bg-gray-100 flex items-center justify-center'>
+      <div className='w-[500px] h-screen bg-gray-100 flex items-center justify-center'>
         <Stepper />
       </div>
 

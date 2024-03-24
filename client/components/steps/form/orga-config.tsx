@@ -5,6 +5,7 @@ import { useState } from 'react'
 
 import { Input } from '@/ui/input/input'
 import { Select } from '@/ui/select/select'
+import { File } from '@/ui/input/file'
 
 import { COUNTIRES_PHONE_CODE } from '@/constants/countries-code'
 
@@ -20,23 +21,32 @@ export const OrgaConfig: FC = () => {
 
       <div className='flex flex-col gap-8'>
         <Input required type='text' label='Company name' placeholder='Enter company name' />
-        <Input required type='email' label='Email address' placeholder='Enter your company email' />
 
-        <div className='flex items-start'>
-          <Select
-            required
-            selectedValue='+216'
-            label='Phone Number'
-            data={COUNTIRES_PHONE_CODE}
-            style={{ borderStartEndRadius: 0, borderEndEndRadius: 0, borderRight: 0 }}
-            onChange={(e: ChangeEvent<HTMLSelectElement>) => setSelectedPhone(e.target.value)}
-          />
-          <Input
-            type='text'
-            label={'‎'} // this is an invisble character
-            placeholder={`(${selectPhone}) 497-13-58`}
-            style={{ borderStartStartRadius: 0, borderEndStartRadius: 0 }}
-          />
+        <div className='flex gap-8'>
+          <div className='flex flex-1 flex-col gap-8'>
+            <Input required type='email' label='Email address' placeholder='Enter your company email' />
+
+            <div className='flex items-start'>
+              <Select
+                required
+                selectedValue='+216'
+                label='Phone Number'
+                data={COUNTIRES_PHONE_CODE}
+                style={{ borderStartEndRadius: 0, borderEndEndRadius: 0, borderRight: 0 }}
+                onChange={(e: ChangeEvent<HTMLSelectElement>) => setSelectedPhone(e.target.value)}
+              />
+              <Input
+                type='text'
+                label={'‎'} // this is an invisble character
+                placeholder={`(${selectPhone}) 497-13-58`}
+                style={{ borderStartStartRadius: 0, borderEndStartRadius: 0 }}
+              />
+            </div>
+          </div>
+
+          <div className='flex-1'>
+            <File label='Upload logo' required />
+          </div>
         </div>
 
         <Input type='text' label='Tax number' placeholder='Enter tax number' />

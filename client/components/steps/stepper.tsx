@@ -13,7 +13,7 @@ export const Stepper: FC<Partial<ComponentProps>> = ({}) => {
   const step = useSearchParams().get('step')
 
   return (
-    <div className='w-full flex flex-col p-4'>
+    <div className='w-full flex flex-col p-16'>
       {step_org_navigation.map((item, index: number) => (
         <div key={index}>
           <Step

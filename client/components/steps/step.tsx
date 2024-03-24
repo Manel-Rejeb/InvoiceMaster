@@ -21,7 +21,7 @@ export const Step: FC<ComponentProps> = ({ index = 1, title, subTitle, isActive 
         )}>
         <p className='flex'>{index}</p>
       </div>
-      <div className='flex-1 flex flex-col items-start px-2'>
+      <div className='flex-1 flex flex-col items-start justify-center px-2 hover:border hover:bg-white h-[58px] rounded-lg'>
         <p className='text-base capitalize text-start'>{title}</p>
         <p className='text-sm first-letter:capitalize text-start text-gray-600'>{subTitle}</p>
       </div>
