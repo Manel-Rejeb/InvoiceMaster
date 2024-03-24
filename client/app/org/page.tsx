@@ -8,7 +8,7 @@ import { orgaConfigValidation } from '@/validation/orga-config-validation'
 
 import { OrgaConfig } from '@/components/steps/form/orga-config'
 import { TaxCurrency } from '@/components/steps/form/tax-currency'
-import { PaymentPptions } from '@/components/steps/form/payment-options'
+import { PaymentOptions } from '@/components/steps/form/payment-options'
 
 type ComponentProps = {
   searchParams: { step: string | undefined }
@@ -30,7 +30,7 @@ const Page: FC<ComponentProps> = ({ searchParams }) => {
         return <TaxCurrency />
         break
       case '3':
-        return <PaymentPptions />
+        return <PaymentOptions />
         break
       default:
         return <OrgaConfig />

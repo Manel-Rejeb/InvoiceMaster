@@ -74,7 +74,7 @@ export const OrgaConfig: FC = () => {
         </div>
       </div>
 
-      <div className='flex items-center justify-start'>
+      <div className='flex items-center justify-end'>
         <Link
           passHref
           href={`/org?step=2`}
