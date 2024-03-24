@@ -2,12 +2,15 @@
 
 import type { FC, ChangeEvent } from 'react'
 import { useState } from 'react'
+import Link from 'next/link'
 
 import { Input } from '@/ui/input/input'
 import { Select } from '@/ui/select/select'
 import { File } from '@/ui/input/file'
 
 import { COUNTIRES_PHONE_CODE } from '@/constants/countries-code'
+import { INDUSTRIES_BUSINESS } from '@/constants/industry'
+import { COUNTRY_NAMES } from '@/constants/countries'
 
 export const OrgaConfig: FC = () => {
   const [selectPhone, setSelectedPhone] = useState('+216')
@@ -49,10 +52,35 @@ export const OrgaConfig: FC = () => {
           </div>
         </div>
 
-        <Input type='text' label='Tax number' placeholder='Enter tax number' />
-        <Input type='text' label='Phone number' placeholder='Enter phone number' />
-        <Input type='text' label='Phone number' placeholder='Enter phone number' />
-        <Input type='text' label='Phone number' placeholder='Enter phone number' />
+        <div className='flex gap-8'>
+          <Input required type='text' label='TNI' placeholder='Enter tax number identification' />
+          <div className='flex-1'>
+            <Select required selectedValue='' label='Business industry' data={INDUSTRIES_BUSINESS} />
+          </div>
+        </div>
+
+        <Input required type='text' label='Company address' placeholder='Company address' />
+
+        <div className='flex gap-8'>
+          <div className='flex-1'>
+            <Select required selectedValue='Tunisia' label='Country' data={COUNTRY_NAMES} />
+          </div>
+          <Input type='text' label='State' placeholder='Your state' />
+        </div>
+
+        <div className='flex gap-8'>
+          <Input required type='text' label='Post code' placeholder='Your post code' />
+          <Input required type='text' label='City' placeholder='Your city' />
+        </div>
+      </div>
+
+      <div className='flex items-center justify-start'>
+        <Link
+          passHref
+          href={`/org?step=2`}
+          className=' capitalize py-3 px-7 flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'>
+          next step
+        </Link>
       </div>
     </div>
   )

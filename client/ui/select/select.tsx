@@ -15,7 +15,7 @@ type ComponentProps = {
 export const Select: FC<ComponentProps & Record<string, any>> = ({
   label,
   required = false,
-  selectedValue = '+216',
+  selectedValue,
   data,
   errorMessages,
   ...rest
