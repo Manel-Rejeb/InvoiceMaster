@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { PassportModule } from '@nestjs/passport';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { AuthService } from './auth.service';
@@ -19,7 +18,7 @@ import { jwtConstants } from './constants';
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
         secret: jwtConstants.secret,
-        signOptions: { expiresIn: '60s' },
+        signOptions: { expiresIn: '3600s' },
       }),
       inject: [ConfigService],
     }),

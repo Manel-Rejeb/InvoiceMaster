@@ -1,0 +1,6 @@
+export enum USER_ROLE {
+  CLIENT = 'CLIENT',
+  MODERATOR = 'MODERATOR',
+  ADMIN = 'ADMIN',
+  GUEST = 'GUEST',
+}
