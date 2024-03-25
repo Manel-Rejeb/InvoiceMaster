@@ -12,14 +12,19 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) {}
 
+  /**
+   * this function is to test API
+   * TODO: Check for existing users
+   * TODO: One the Auth is working, move this function to constructor to create a static super admin
+   */
   async createUser(user: User): Promise<User> {
     const oldPassword = user.password;
     const hashPassword = await bcrypt.hash(
       oldPassword,
       process.env.PASSWORD_SALT || 10,
     );
-    user.password = hashPassword;
-    const userData = await this.userRepository.create(user);
+    const newUser: User = { ...user, password: hashPassword };
+    const userData = await this.userRepository.create(newUser);
     return this.userRepository.save(userData);
   }
 
@@ -33,6 +38,10 @@ export class UserService {
       throw new NotFoundException('User Not Found');
     }
     return userData;
+  }
+
+  async findByEmail(email: string): Promise<User | null> {
+    return await this.userRepository.findOneBy({ email });
   }
 
   async updateUser(id: number, user: User): Promise<User> {
