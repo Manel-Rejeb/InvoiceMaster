@@ -28,8 +28,8 @@ import { JwtGuard } from './auth/guard/jwt.guard';
       inject: [ConfigService],
     }),
     /* Start Modules */
-    UserModule,
     AuthModule,
+    UserModule,
     /* End Modules */
   ],
   controllers: [AppController],

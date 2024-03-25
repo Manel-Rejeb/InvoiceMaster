@@ -1,4 +1,8 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import * as bcrypt from 'bcrypt';
@@ -38,12 +42,18 @@ export class AuthService {
   }
 
   async register(user: User): Promise<{ access_token: string }> {
-    const isUserExist = this.userService.findByEmail(user.email);
+    let isUserExist = await this.userService.findByEmail(user.email);
+
     if (isUserExist) {
       throw new BadRequestException('Email already exists');
     }
 
-    await this.userService.createUser(user);
-    return this.login(user);
+    const createdUser = await this.userService.createUser(user);
+
+    if (createdUser) {
+      return this.login(user);
+    } else {
+      throw new BadRequestException('Error processing request');
+    }
   }
 }

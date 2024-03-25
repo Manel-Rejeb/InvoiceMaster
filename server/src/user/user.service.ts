@@ -19,10 +19,7 @@ export class UserService {
    */
   async createUser(user: User): Promise<User> {
     const oldPassword = user.password;
-    const hashPassword = await bcrypt.hash(
-      oldPassword,
-      process.env.PASSWORD_SALT || 10,
-    );
+    const hashPassword = await bcrypt.hash(oldPassword, 10);
     const newUser: User = { ...user, password: hashPassword };
     const userData = await this.userRepository.create(newUser);
     return this.userRepository.save(userData);
@@ -41,7 +38,9 @@ export class UserService {
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    return await this.userRepository.findOneBy({ email });
+    return await this.userRepository.findOne({
+      where: { email },
+    });
   }
 
   async updateUser(id: number, user: User): Promise<User> {
