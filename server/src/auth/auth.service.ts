@@ -6,6 +6,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 
 import * as bcrypt from 'bcrypt';
+import e from 'express';
 
 import { User } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
@@ -36,6 +37,9 @@ export class AuthService {
 
   async login(user: User): Promise<{ access_token: string }> {
     const payload = { email: user.email, sub: user.id };
+    if (!user.isActive) {
+      throw new BadRequestException('User is not active, Please contact admin');
+    }
     return {
       access_token: this.jwtService.sign(payload),
     };
@@ -55,5 +59,11 @@ export class AuthService {
     } else {
       throw new BadRequestException('Error processing request');
     }
+  }
+
+  async profile(email: string): Promise<Omit<User, 'password'>> {
+    const user = await this.userService.findByEmail(email);
+    const { password, ...userDataWithoutPassword } = user;
+    return userDataWithoutPassword;
   }
 }

@@ -33,8 +33,9 @@ export class AuthController {
     return await this.authService.register(user);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get('profile')
-  async getProfile(@Request() req) {
-    return req.user;
+  async getProfile(@Request() req): Promise<Omit<User, 'password'>> {
+    return this.authService.profile(req.user.email);
   }
 }
