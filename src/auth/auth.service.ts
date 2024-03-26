@@ -6,6 +6,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 
 import * as bcrypt from 'bcrypt';
+import e from 'express';
 
 import { User } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
@@ -55,5 +56,11 @@ export class AuthService {
     } else {
       throw new BadRequestException('Error processing request');
     }
+  }
+
+  async profile(email: string): Promise<Omit<User, 'password'>> {
+    const user = await this.userService.findByEmail(email);
+    const { password, ...userDataWithoutPassword } = user;
+    return userDataWithoutPassword;
   }
 }
