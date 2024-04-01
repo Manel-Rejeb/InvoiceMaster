@@ -17,7 +17,7 @@ const Page = () => {
           {/* <!-- Form Group --> */}
           <Input type='text' placeholder='User name' autoComplete='off' />
           <Input type='email' placeholder='Enter your email' autoComplete='off' />
-          <Input type='password' placeholder='Confirm your password' autoComplete='new-password' />
+          <Input type='password' placeholder='Enter your password' autoComplete='new-password' />
         </div>
 
         <button
