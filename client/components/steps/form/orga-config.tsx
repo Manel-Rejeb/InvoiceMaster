@@ -4,9 +4,9 @@ import type { FC, ChangeEvent } from 'react'
 import { useState } from 'react'
 import Link from 'next/link'
 
-import { Input } from '@/ui/input/input'
-import { Select } from '@/ui/select/select'
-import { File } from '@/ui/input/file'
+import { Input } from '@/components/ui/input'
+import { Select } from '@/components/select'
+import { File } from '@/components/file'
 
 import { COUNTIRES_PHONE_CODE } from '@/constants/countries-code'
 import { INDUSTRIES_BUSINESS } from '@/constants/industry'
@@ -77,7 +77,7 @@ export const OrgaConfig: FC = () => {
       <div className='flex items-center justify-end'>
         <Link
           passHref
-          href={`/org?step=2`}
+          href={`/organization-config?step=2`}
           className=' capitalize py-3 px-7 flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'>
           next step
         </Link>

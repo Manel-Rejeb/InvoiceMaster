@@ -1,7 +1,8 @@
 'use client'
 import type { FC } from 'react'
-import { mr } from '@/lib/mr'
 import { useState } from 'react'
+
+import { mr } from '@/lib/mr'
 
 export const PaymentOptions: FC = () => {
   const [selectedOptions, setSelectedOptions] = useState<{ id: string; src: string }[]>([])

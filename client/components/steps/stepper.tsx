@@ -21,7 +21,7 @@ export const Stepper: FC<Partial<ComponentProps>> = ({}) => {
             isActive={(step ? parseInt(step) : 1) >= index + 1}
             title={item.title}
             subTitle={item.subTitle}
-            onChangeStep={() => push(`/org?step=${index + 1}`)}
+            onChangeStep={() => push(`/organization-config?step=${index + 1}`)}
           />
           {step_org_navigation.length !== index + 1 && (
             <div className='w-[1px] border-l-[1.75px] border-dashed border-blue-600 h-[42px] ml-[27px]' />

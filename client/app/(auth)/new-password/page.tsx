@@ -1,6 +1,7 @@
 'use client'
-import { Input } from '@/ui/input/input'
 import Link from 'next/link'
+
+import { Input } from '@/components/ui/input'
 
 const Page = () => {
   return (

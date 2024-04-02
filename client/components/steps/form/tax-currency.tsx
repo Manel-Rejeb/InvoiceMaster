@@ -1,10 +1,10 @@
 'use client'
 
-import type { FC, ChangeEvent } from 'react'
 import Link from 'next/link'
 import { useState } from 'react'
+import type { FC, ChangeEvent } from 'react'
 
-import { Input } from '@/ui/input/input'
+import { Input } from '@/components/ui/input'
 
 type Tax = { name: string; rate: number }
 
@@ -145,12 +145,12 @@ export const TaxCurrency: FC = () => {
         </div>
         <div className='flex items-center justify-between gap-4 pt-8'>
           <Link
-            href={`/org?step=3`}
+            href={`/organization-config?step=3`}
             className='py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'>
             Skip this step
           </Link>
           <Link
-            href={`/org?step=3`}
+            href={`/organization-config?step=3`}
             className='py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'>
             Next Step
           </Link>

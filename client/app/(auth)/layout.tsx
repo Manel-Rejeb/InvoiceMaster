@@ -1,8 +1,10 @@
+import '@/styles/_main.css'
+
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import '@/styles/_main.css'
-import { mr } from '@/lib/mr'
-import { AuthFooter } from '@/components/footer/auth-footer'
+
+import { cn } from '@/lib/utils'
+import { AuthFooter } from '@/components/auth-footer'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -17,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <div className={mr(inter.className, 'w-full h-screen flex')}>
+    <div className={cn(inter.className, 'w-full h-screen flex')}>
       <div className='bg-white flex-1 flex items-center justify-center flex-col'>
         <div className='w-full flex-1 flex items-center justify-center p-4'>{children}</div>
         <div>

@@ -1,9 +1,10 @@
 'use client'
-import { Input } from '@/ui/input/input'
 import Link from 'next/link'
-import { loginFormValidation } from '@/validation/login-form-validation'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+
+import { Input } from '@/components/ui/input'
+import { loginFormValidation } from '@/validation/login-form-validation'
 
 const Page = () => {
   const {
@@ -31,8 +32,8 @@ const Page = () => {
                 {...field}
                 type='email'
                 placeholder='Enter your email'
-                autoComplete='off'
-                errorMessages={errors?.email && errors.email.message}
+                autoComplete='no'
+                errorMessage={errors?.email && errors.email.message}
               />
             )}
           />
@@ -46,7 +47,7 @@ const Page = () => {
                   type='password'
                   placeholder='Enter your password'
                   autoComplete='new-password'
-                  errorMessages={errors?.password && errors.password.message}
+                  errorMessage={errors?.password && errors.password.message}
                 />
               )}
             />
