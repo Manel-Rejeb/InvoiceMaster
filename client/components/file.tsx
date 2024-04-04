@@ -10,7 +10,7 @@ type ComponentProps = {
 
 export const File: FC<ComponentProps & Record<string, any>> = ({ label, required = false, errorMessages, ...rest }) => {
   return (
-    <div>
+    <div className='flex-1 flex flex-col w-full h-full'>
       {label && (
         <label htmlFor='af-submit-app-upload-images' className='block text-sm mb-1 dark:text-white'>
           <span>{label}</span>
@@ -19,7 +19,7 @@ export const File: FC<ComponentProps & Record<string, any>> = ({ label, required
       )}
       <label
         htmlFor='af-submit-app-upload-images'
-        className='group p-4 sm:p-7 block cursor-pointer text-center border-2 border-dashed border-gray-200 rounded-lg focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 dark:border-gray-700'>
+        className='flex-1 h-full group flex-col flex items-center justify-center cursor-pointer text-center p-4 sm:p-7 border border-dashed border-gray-200 rounded-lg focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 dark:border-gray-700'>
         <input id='af-submit-app-upload-images' name='af-submit-app-upload-images' type='file' className='sr-only' />
         <svg
           className='size-10 mx-auto text-gray-400 dark:text-gray-600'

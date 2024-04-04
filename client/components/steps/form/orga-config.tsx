@@ -5,7 +5,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 
 import { Input } from '@/components/ui/input'
-import { Select } from '@/components/select'
+import { SelectDropDown } from '@/components/select'
 import { File } from '@/components/file'
 
 import { COUNTIRES_PHONE_CODE } from '@/constants/countries-code'
@@ -30,7 +30,7 @@ export const OrgaConfig: FC = () => {
             <Input required type='email' label='Email address' placeholder='Enter your company email' />
 
             <div className='flex items-start'>
-              <Select
+              <SelectDropDown
                 required
                 selectedValue='+216'
                 label='Phone Number'
@@ -55,7 +55,7 @@ export const OrgaConfig: FC = () => {
         <div className='flex gap-8'>
           <Input required type='text' label='TNI' placeholder='Enter tax number identification' />
           <div className='flex-1'>
-            <Select required selectedValue='' label='Business industry' data={INDUSTRIES_BUSINESS} />
+            <SelectDropDown required selectedValue='' label='Business industry' data={INDUSTRIES_BUSINESS} />
           </div>
         </div>
 
@@ -63,7 +63,7 @@ export const OrgaConfig: FC = () => {
 
         <div className='flex gap-8'>
           <div className='flex-1'>
-            <Select required selectedValue='Tunisia' label='Country' data={COUNTRY_NAMES} />
+            <SelectDropDown required selectedValue='Tunisia' label='Country' data={COUNTRY_NAMES} />
           </div>
           <Input type='text' label='State' placeholder='Your state' />
         </div>
@@ -77,7 +77,7 @@ export const OrgaConfig: FC = () => {
       <div className='flex items-center justify-end'>
         <Link
           passHref
-          href={`/organization-config?step=2`}
+          href={`/org?step=2`}
           className=' capitalize py-3 px-7 flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'>
           next step
         </Link>
