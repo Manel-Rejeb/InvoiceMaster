@@ -9,6 +9,7 @@ import { AppController } from './app.controller';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtGuard } from './auth/guard/jwt.guard';
+import { ArticlesModule } from './articles/articles.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { JwtGuard } from './auth/guard/jwt.guard';
     /* Start Modules */
     AuthModule,
     UserModule,
+    ArticlesModule,
     /* End Modules */
   ],
   controllers: [AppController],
