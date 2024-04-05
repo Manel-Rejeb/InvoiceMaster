@@ -42,6 +42,7 @@ export default function RootLayout({
 const navigation_items: { title: string; path: string; icon: React.ReactElement }[] = [
   { title: 'overview', path: '/dashboard', icon: <Gauge className='h-5 w-5' /> },
   // { title: 'services & products', path: '/dashboard/services', icon: <Fullscreen className='h-5 w-5' /> },
+
   { title: 'articles', path: '/dashboard/article', icon: <Fullscreen className='h-5 w-5' /> },
   { title: 'invoices', path: '/dashboard/invoices', icon: <ReceiptText className='h-5 w-5' /> },
   { title: 'vendors', path: '/dashboard/vendors', icon: <Puzzle className='h-5 w-5' /> },

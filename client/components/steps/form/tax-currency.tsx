@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input'
 
 type Tax = { name: string; rate: number }
 
-export const TaxCurrency: FC = () => {
+export const TaxConfig: FC = () => {
   const [taxes, setTaxes] = useState<Tax[]>([])
   const [newlyAddedValue, setNewlyAddedValue] = useState<Tax>({
     name: '',

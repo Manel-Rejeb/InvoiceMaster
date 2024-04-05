@@ -77,7 +77,7 @@ export const OrgaConfig: FC = () => {
       <div className='flex items-center justify-end'>
         <Link
           passHref
-          href={`/org?step=2`}
+          href={`/organization-config?step=2`}
           className=' capitalize py-3 px-7 flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'>
           next step
         </Link>

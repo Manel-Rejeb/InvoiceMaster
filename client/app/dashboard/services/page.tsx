@@ -74,63 +74,47 @@ export const columns: ColumnDef<Payment>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'status',
-    header: 'Status',
-    cell: ({ row }) => <div className='capitalize'>{row.getValue('status')}</div>,
+    accessorKey: 'name',
+    header: 'Name',
+    cell: ({ row }) => <div className='capitalize'>{row.getValue('name')}</div>,
   },
   {
-    accessorKey: 'email',
-    header: ({ column }) => {
-      return (
-        <Button variant='ghost' onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-          Email
-          <ArrowUpDown className='ml-2 h-4 w-4' />
-        </Button>
-      )
-    },
-    cell: ({ row }) => <div className='lowercase'>{row.getValue('email')}</div>,
+    accessorKey: 'description',
+    header: 'Description',
+    cell: ({ row }) => <div className='capitalize'>{row.getValue('description')}</div>,
   },
   {
-    accessorKey: 'amount',
-    header: () => <div className='text-right'>Amount</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue('amount'))
+    accessorKey: 'type',
+    header: 'Type',
+    cell: ({ row }) => <div className='capitalize'>{row.getValue('type')}</div>,
+  },
 
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-      }).format(amount)
-
-      return <div className='text-right font-medium'>{formatted}</div>
-    },
+  {
+    accessorKey: 'price',
+    header: 'Price',
+    cell: ({ row }) => <div className='capitalize'>{row.getValue('price')}</div>,
+  },
+  {
+    accessorKey: 'tax',
+    header: 'Tax',
+    cell: ({ row }) => <div className='capitalize'>{row.getValue('tax')}</div>,
+  },
+  {
+    accessorKey: 'unit',
+    header: 'Unit',
+    cell: ({ row }) => <div className='lowercase'>{row.getValue('unit')}</div>,
+  },
+  {
+    accessorKey: 'curency',
+    header: 'Curency',
+    cell: ({ row }) => <div className='uppercase'>{row.getValue('curency')}</div>,
   },
   {
     id: 'actions',
+    header: () => <Button variant='ghost'>Actions</Button>,
+    cell: () => <MoreHorizontal className='h-4 w-4' />,
+    enableSorting: false,
     enableHiding: false,
-    cell: ({ row }) => {
-      const payment = row.original
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant='ghost' className='h-8 w-8 p-0'>
-              <span className='sr-only'>Open menu</span>
-              <MoreHorizontal className='h-4 w-4' />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='end'>
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(payment.id)}>
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )
-    },
   },
 ]
 
@@ -163,9 +147,9 @@ export default function DataTableDemo() {
     <div className='w-full p-16'>
       <div className='flex items-center py-4'>
         <Input
-          placeholder='Search service...'
-          value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
-          onChange={(event) => table.getColumn('email')?.setFilterValue(event.target.value)}
+          placeholder='Search article...'
+          value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
+          onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
           className='max-w-sm'
         />
         <DropdownMenu>

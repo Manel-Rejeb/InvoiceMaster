@@ -7,8 +7,9 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { orgaConfigValidation } from '@/validation/orga-config-validation'
 
 import { OrgaConfig } from '@/components/steps/form/orga-config'
-import { TaxCurrency } from '@/components/steps/form/tax-currency'
+
 import { PaymentOptions } from '@/components/steps/form/payment-options'
+import { TaxConfig } from '@/components/steps/form/tax-currency'
 
 type ComponentProps = {
   searchParams: { step: string | undefined }
@@ -27,7 +28,7 @@ const Page: FC<ComponentProps> = ({ searchParams }) => {
         return <OrgaConfig />
         break
       case '2':
-        return <TaxCurrency />
+        return <TaxConfig />
         break
       case '3':
         return <PaymentOptions />
