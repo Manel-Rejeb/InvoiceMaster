@@ -10,6 +10,7 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtGuard } from './auth/guard/jwt.guard';
 import { ArticlesModule } from './articles/articles.module';
+import { CustomersModule } from './customers/customers.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { ArticlesModule } from './articles/articles.module';
     AuthModule,
     UserModule,
     ArticlesModule,
+    CustomersModule,
     /* End Modules */
   ],
   controllers: [AppController],

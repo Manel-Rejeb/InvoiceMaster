@@ -117,7 +117,9 @@ export const columns: ColumnDef<Payment>[] = [
     enableHiding: false,
   },
 ]
-
+const dataArray: Payment[] = Array(150)
+  .fill(0)
+  .map((_) => ({ ...data[0] }))
 export default function DataTableDemo() {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
@@ -125,7 +127,7 @@ export default function DataTableDemo() {
   const [rowSelection, setRowSelection] = React.useState({})
 
   const table = useReactTable({
-    data,
+    data: dataArray,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,

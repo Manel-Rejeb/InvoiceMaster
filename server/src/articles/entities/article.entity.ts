@@ -39,6 +39,9 @@ export class Article {
   })
   article_unit: string;
 
+  @Column({ name: 'article_picture', nullable: true })
+  article_picture: string;
+
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt?: Date;
 
