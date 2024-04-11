@@ -1,12 +1,7 @@
-import {
-  Injectable,
-  BadRequestException,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import * as bcrypt from 'bcrypt';
-import e from 'express';
 
 import { User } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
