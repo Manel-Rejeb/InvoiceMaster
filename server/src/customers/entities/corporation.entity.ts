@@ -1,9 +1,6 @@
 import {
   Column,
-  CreateDateColumn,
-  DeleteDateColumn,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
   Entity,
   JoinColumn,
   OneToOne,
@@ -41,12 +38,6 @@ export class CorporateCustomer {
 
   @Column({ name: 'contact_person_phone_number' })
   contact_person_phone_number: string;
-
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  createdAt?: Date;
-
-  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  updatedAt?: Date;
 
   @OneToOne(() => Customer, (customer) => customer.corporate)
   @JoinColumn()

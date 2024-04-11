@@ -2,10 +2,10 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  JoinColumn,
 } from 'typeorm';
 import { IndividualCustomer } from './individual.entity';
 import { CorporateCustomer } from './corporation.entity';

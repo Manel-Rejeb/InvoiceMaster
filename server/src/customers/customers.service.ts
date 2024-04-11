@@ -11,11 +11,26 @@ export class CustomersService {
   constructor(
     @InjectRepository(Customer)
     private readonly customerRepository: Repository<Customer>,
+    @InjectRepository(CorporateCustomer)
+    private readonly corporateRepository: Repository<CorporateCustomer>,
+    @InjectRepository(IndividualCustomer)
+    private readonly individualRepository: Repository<IndividualCustomer>,
   ) {}
 
   async create(createCustomer: Customer): Promise<Customer> {
-    const newCustomer = await this.customerRepository.create(createCustomer);
-    return this.customerRepository.save(newCustomer);
+    if (!createCustomer.type_customer) {
+      const indi = this.individualRepository.create(createCustomer.individual);
+      await this.individualRepository.save(indi);
+      createCustomer.individual = indi;
+    }
+
+    if (createCustomer.type_customer) {
+      const corp = this.corporateRepository.create(createCustomer.corporate);
+      await this.corporateRepository.save(corp);
+      createCustomer.corporate = corp;
+    }
+
+    return this.customerRepository.save(createCustomer);
   }
 
   async findAll(): Promise<Customer[]> {
