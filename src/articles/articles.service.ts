@@ -37,7 +37,7 @@ export class ArticlesService {
       articleData,
       updateArticle,
     );
-    return await this.articleRepository.save(articleData);
+    return await this.articleRepository.save(updatedArticle);
   }
 
   async remove(id: number): Promise<Article> {

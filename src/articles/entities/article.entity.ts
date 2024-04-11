@@ -7,30 +7,38 @@ import {
 } from 'typeorm';
 
 import { ARTICLE_UNIT } from './enum/ARTICLE_UNIT';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
 export class Article {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @ApiProperty()
   @Column({ name: 'article_name', nullable: false })
   article_name: string;
 
+  @ApiProperty()
   @Column({ name: 'article_description' })
   article_description: string;
 
+  @ApiProperty()
   @Column({ name: 'article_type' })
   article_type: boolean;
 
+  @ApiProperty()
   @Column({ name: 'article_price' })
   article_price: number;
 
+  @ApiProperty()
   @Column({ name: 'article_currency' })
   article_currency: string;
 
+  @ApiProperty()
   @Column({ name: 'article_tax' })
   article_tax: number;
 
+  @ApiProperty()
   @Column({
     type: 'enum',
     name: 'article_unit',
@@ -38,6 +46,10 @@ export class Article {
     default: ARTICLE_UNIT.QUANTITY,
   })
   article_unit: string;
+
+  @ApiProperty()
+  @Column({ name: 'article_picture', nullable: true })
+  article_picture: string;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt?: Date;

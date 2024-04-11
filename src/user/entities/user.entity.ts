@@ -1,31 +1,36 @@
 import {
   Entity,
   Column,
-  Unique,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 import { USER_ROLE } from './enum/ROLE';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @ApiProperty()
   @Column({ unique: true })
   username: string;
 
+  @ApiProperty()
   @Column({ unique: true })
   email: string;
 
+  @ApiProperty()
   @Column()
   password: string;
 
+  @ApiProperty()
   @Column({ default: true })
   isActive: boolean;
 
+  @ApiProperty()
   @Column({ type: 'enum', enum: USER_ROLE, default: USER_ROLE.MODERATOR })
   role: string;
 
