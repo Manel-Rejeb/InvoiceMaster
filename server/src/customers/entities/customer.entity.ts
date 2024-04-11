@@ -2,9 +2,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { IndividualCustomer } from './individual.entity';
+import { CorporateCustomer } from './corporation.entity';
 
 @Entity()
 export class Customer {
@@ -40,4 +44,10 @@ export class Customer {
 
   @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt?: Date;
+
+  @OneToOne(() => IndividualCustomer, (individual) => individual.customer)
+  individual: IndividualCustomer;
+
+  @OneToOne(() => CorporateCustomer, (corporate) => corporate.customer)
+  corporate: CorporateCustomer;
 }
