@@ -1,10 +1,10 @@
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateCustomerDto } from './dto/create-customer.dto';
-import { UpdateCustomerDto } from './dto/update-customer.dto';
 
 import { Customer } from './entities/customer.entity';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { CorporateCustomer } from './entities/corporation.entity';
+import { IndividualCustomer } from './entities/individual.entity';
 
 @Injectable()
 export class CustomersService {
@@ -13,8 +13,8 @@ export class CustomersService {
     private readonly customerRepository: Repository<Customer>,
   ) {}
 
-  async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
-    const newCustomer = await this.customerRepository.create(createCustomerDto);
+  async create(createCustomer: Customer): Promise<Customer> {
+    const newCustomer = await this.customerRepository.create(createCustomer);
     return this.customerRepository.save(newCustomer);
   }
 
@@ -25,7 +25,10 @@ export class CustomersService {
   }
 
   async findOne(id: number): Promise<Customer> {
-    const customerData = await this.customerRepository.findOneBy({ id });
+    const customerData = await this.customerRepository.findOne({
+      where: { id: id },
+      relations: ['individual', 'corporate'],
+    });
     if (!customerData) {
       throw new NotFoundException('Customer Not Found');
     }
