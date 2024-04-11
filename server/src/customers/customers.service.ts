@@ -55,6 +55,18 @@ export class CustomersService {
     if (!customerData) {
       throw new NotFoundException('Customer Not Found');
     }
+
+    if (!updateCustomer.type_customer) {
+      const indi = this.individualRepository.create(updateCustomer.individual);
+      await this.individualRepository.save(indi);
+      updateCustomer.individual = indi;
+    }
+    if (updateCustomer.type_customer) {
+      const corp = this.corporateRepository.create(updateCustomer.corporate);
+      await this.corporateRepository.save(corp);
+      updateCustomer.corporate = corp;
+    }
+
     const updatedCustomer = this.customerRepository.merge(
       customerData,
       updateCustomer,
