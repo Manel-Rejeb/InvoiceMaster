@@ -52,7 +52,7 @@ export function DataTable<T>({ data, columns }: PropsWithChildren<ComponentProps
 
   return (
     <div className='w-full'>
-      <div className='flex items-center p-4'></div>
+      {/* <div className='flex items-center p-4'></div> */}
       <Table className='w-full rounded-none'>
         <TableHeader className='bg-gray-100 h-[42px]'>
           {table.getHeaderGroups().map((headerGroup) => (

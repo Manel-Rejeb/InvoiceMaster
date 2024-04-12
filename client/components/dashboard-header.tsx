@@ -1,7 +1,10 @@
+'use client'
+
 import type { FC } from 'react'
 
 import Link from 'next/link'
-import { CircleUser, Home, LineChart, Menu, Package, Package2, Search, ShoppingCart, Users } from 'lucide-react'
+import { usePathname } from 'next/navigation'
+
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -16,11 +19,24 @@ import {
 import { Input } from '@/components/ui/input'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb'
+
+import { CircleUser, Home, LineChart, Menu, Package, Package2, Search, ShoppingCart, Users } from 'lucide-react'
+
 type ComponentProps = {
   navigation: { title: string; path: string; icon: React.ReactElement }[]
 }
 
 export const DashboardHeader: FC<ComponentProps> = ({ navigation }) => {
+  const pathname = usePathname()
+
   return (
     <header className='flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6'>
       <Sheet>
@@ -61,35 +77,63 @@ export const DashboardHeader: FC<ComponentProps> = ({ navigation }) => {
           </div>
         </SheetContent>
       </Sheet>
-      <div className='w-full flex-1'>
-        <form>
+      <div className='w-full flex-1 flex gap-6 items-center justify-between'>
+        <Breadcrumb>
+          <BreadcrumbList>
+            {pathname
+              .split('/')
+              .filter((path) => path != '')
+              .map((path, index, paths) => {
+                return (
+                  <div
+                    key={index}
+                    className={`flex gap-1 items-center text-content-disabled last:text-content-display ${
+                      index === paths.length - 1 ? 'font-[500]' : ''
+                    }`}>
+                    <BreadcrumbItem key={index}>
+                      {pathname.split('/').slice(-1)[0] === path ? (
+                        <BreadcrumbPage className='capitalize'>{path}</BreadcrumbPage>
+                      ) : (
+                        <BreadcrumbLink href={`/${paths.slice(0, index + 1).join('/')}`} className='capitalize'>
+                          {path}
+                        </BreadcrumbLink>
+                      )}
+                    </BreadcrumbItem>
+                    {index < paths.length - 1 && <BreadcrumbSeparator />}
+                  </div>
+                )
+              })}
+          </BreadcrumbList>
+        </Breadcrumb>
+
+        <form className='w-full max-w-[350px]'>
           <div className='flex items-center relative'>
             <Search className='absolute left-2.5 top-3.5 h-4 w-4 text-muted-foreground' />
             <Input
               type='search'
               placeholder='Search products...'
-              className='w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3'
+              className='w-full appearance-none bg-background pl-8 shadow-none'
             />
           </div>
         </form>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant='secondary' size='icon' className='rounded-full'>
+              <CircleUser className='h-5 w-5' />
+              <span className='sr-only'>Toggle user menu</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align='end'>
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>profile</DropdownMenuItem>
+            <DropdownMenuItem>Settings</DropdownMenuItem>
+            <DropdownMenuItem>Support</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Logout</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant='secondary' size='icon' className='rounded-full'>
-            <CircleUser className='h-5 w-5' />
-            <span className='sr-only'>Toggle user menu</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align='end'>
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>profile</DropdownMenuItem>
-          <DropdownMenuItem>Settings</DropdownMenuItem>
-          <DropdownMenuItem>Support</DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>Logout</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
     </header>
   )
 }
