@@ -5,6 +5,8 @@ import { Inter } from 'next/font/google'
 
 import { cn } from '@/lib/utils'
 import { AuthFooter } from '@/components/auth-footer'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,6 +20,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  if (cookies().get('token')) {
+    redirect('/dashboard')
+  }
+
   return (
     <div className={cn(inter.className, 'w-full h-screen flex')}>
       <div className='bg-white flex-1 flex items-center justify-center flex-col'>

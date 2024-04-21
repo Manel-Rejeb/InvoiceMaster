@@ -3,9 +3,8 @@
 import type { FC } from 'react'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import {
@@ -28,7 +27,20 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
 
-import { CircleUser, Home, LineChart, Menu, Package, Package2, Search, ShoppingCart, Users } from 'lucide-react'
+import {
+  CircleUser,
+  Delete,
+  Home,
+  LineChart,
+  LogOut,
+  Menu,
+  Package,
+  Package2,
+  Search,
+  ShoppingCart,
+  Users,
+} from 'lucide-react'
+import { LOGOUT } from '@/app/(auth)/login/_actions/server-action'
 
 type ComponentProps = {
   navigation: { title: string; path: string; icon: React.ReactElement }[]
@@ -36,6 +48,7 @@ type ComponentProps = {
 
 export const DashboardHeader: FC<ComponentProps> = ({ navigation }) => {
   const pathname = usePathname()
+  const { push } = useRouter()
 
   return (
     <header className='flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6'>
@@ -50,7 +63,7 @@ export const DashboardHeader: FC<ComponentProps> = ({ navigation }) => {
           <nav className='grid gap-2 text-lg font-medium'>
             <Link href='#' className='flex items-center gap-2 text-lg font-semibold'>
               <Package2 className='h-6 w-6' />
-              <span className='sr-only'>Acme Inc</span>
+              <span className='sr-only'>Invoice Master</span>
             </Link>
             {navigation.map((item, index: number) => (
               <Link
@@ -130,7 +143,7 @@ export const DashboardHeader: FC<ComponentProps> = ({ navigation }) => {
             <DropdownMenuItem>Settings</DropdownMenuItem>
             <DropdownMenuItem>Support</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Logout</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => LOGOUT().then(() => push('/login'))}>Logout</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

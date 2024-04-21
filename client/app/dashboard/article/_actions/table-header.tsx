@@ -1,7 +1,8 @@
 'use client'
 
-import { ColumnDef } from '@tanstack/react-table'
 import { Trash, Edit } from 'lucide-react'
+import { ColumnDef } from '@tanstack/react-table'
+import { DELETE } from './server-action'
 
 export const articleColumns: ColumnDef<ArticleType>[] = [
   {
@@ -34,7 +35,7 @@ export const articleColumns: ColumnDef<ArticleType>[] = [
         <button>
           <Edit className='text-blue-500' size={18} />
         </button>
-        <button>
+        <button onClick={() => DELETE(row.original.id)}>
           <Trash className='text-red-500' size={18} />
         </button>
       </div>

@@ -44,7 +44,7 @@ export const SelectDropDown: FC<ComponentProps & Record<string, any>> = ({
           </SelectTrigger>
           <SelectContent>
             {data.map((el, index: number) => (
-              <SelectItem key={index} value={el.value}>
+              <SelectItem key={`${index}${el.value}`} value={el.value}>
                 {el.label}
               </SelectItem>
             ))}

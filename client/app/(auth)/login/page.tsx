@@ -1,10 +1,13 @@
 'use client'
+
 import Link from 'next/link'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 import { Input } from '@/components/ui/input'
-import { loginFormValidation } from '@/validation/login-form-validation'
+import { loginFormValidation } from '@/app/(auth)/login/_actions/login-form-validation'
+
+import { POST } from '@/app/(auth)/login/_actions/server-action'
 
 const Page = () => {
   const {
@@ -58,9 +61,7 @@ const Page = () => {
         </div>
         <button
           type='submit'
-          onClick={handleSubmit((data: UserLoginType) => {
-            console.log(data)
-          })}
+          onClick={handleSubmit((data: UserLoginType) => POST(data).then((res) => console.log(res)))}
           // disabled={!isValid} //this is will didabled the button if the form is not valid
           className='mt-8 w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'>
           Sign in
