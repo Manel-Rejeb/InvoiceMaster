@@ -11,6 +11,7 @@ import { AuthModule } from './auth/auth.module';
 import { JwtGuard } from './auth/guard/jwt.guard';
 import { ArticlesModule } from './articles/articles.module';
 import { CustomersModule } from './customers/customers.module';
+import { InvoicesModule } from './invoices/invoices.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { CustomersModule } from './customers/customers.module';
     UserModule,
     ArticlesModule,
     CustomersModule,
+    InvoicesModule,
     /* End Modules */
   ],
   controllers: [AppController],

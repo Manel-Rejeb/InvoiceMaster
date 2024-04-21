@@ -10,7 +10,9 @@ import {
 import { ArticlesService } from './articles.service';
 import { Article } from './entities/article.entity';
 import { ApiTags } from '@nestjs/swagger';
+import { Public } from 'src/shared/decorators/public.decorator';
 
+@Public() // just for testing purposes
 @ApiTags('article')
 @Controller('api/article')
 export class ArticlesController {

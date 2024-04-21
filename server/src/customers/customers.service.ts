@@ -46,7 +46,7 @@ export class CustomersService {
     });
     if (!customerData) {
       throw new NotFoundException('Customer Not Found');
-    }
+    }//try catch for error handling 
     return customerData;
   }
 
