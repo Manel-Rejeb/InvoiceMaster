@@ -3,6 +3,7 @@ import type { FC } from 'react'
 import { useState } from 'react'
 
 import { mr } from '@/lib/mr'
+import Link from 'next/link'
 
 export const PaymentOptions: FC = () => {
   const [selectedOptions, setSelectedOptions] = useState<{ id: string; src: string }[]>([])
@@ -33,9 +34,12 @@ export const PaymentOptions: FC = () => {
       </div>
       {/* <!-- End Grid --> */}
       <div className='flex items-center justify-end'>
-        <button className=' capitalize py-3 px-7 flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'>
+        <Link
+          passHref
+          href={`/dashboard`}
+          className=' capitalize py-3 px-7 flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'>
           Confirm
-        </button>
+        </Link>
       </div>
     </div>
   )

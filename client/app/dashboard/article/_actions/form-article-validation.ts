@@ -6,7 +6,7 @@ export const articleFormValidation = yup.object().shape({
   id: yup.string(),
   article_name: yup.string().required('Article name is required'),
   article_description: yup.string(),
-  article_type: yup.string(),
+  article_type: yup.boolean(),
   article_price: yup.number(),
   article_currency: yup.string(),
   article_tax: yup.string(),

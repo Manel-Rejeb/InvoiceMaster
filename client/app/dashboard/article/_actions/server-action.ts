@@ -19,9 +19,11 @@ export async function GET(): Promise<ArticleType[]> {
 }
 
 export async function POST(article: ArticleForm): Promise<ArticleType> {
-  console.log(article)
   return await fetch('http://localhost:7080/api/article', {
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify(article),
   })
     .then((res) => res.json())
