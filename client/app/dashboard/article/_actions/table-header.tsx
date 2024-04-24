@@ -3,6 +3,7 @@
 import { Trash, Edit } from 'lucide-react'
 import { ColumnDef } from '@tanstack/react-table'
 import { DELETE } from './server-action'
+import Link from 'next/link'
 
 export const articleColumns: ColumnDef<ArticleType>[] = [
   {
@@ -32,9 +33,9 @@ export const articleColumns: ColumnDef<ArticleType>[] = [
     accessorKey: 'id',
     cell: ({ row }) => (
       <div className='flex items-center justify-end gap-2'>
-        <button>
+        <Link href={`/dashboard/article/${row.original.id}`}>
           <Edit className='text-blue-500' size={18} />
-        </button>
+        </Link>
         <button onClick={() => DELETE(row.original.id)}>
           <Trash className='text-red-500' size={18} />
         </button>

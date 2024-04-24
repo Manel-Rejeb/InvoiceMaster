@@ -20,7 +20,7 @@ import { ApiTags } from '@nestjs/swagger';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @UseGuards(AuthGuard('local'))
+  @UseGuards(AuthGuard('local')) //stratégie locale pour l'authentification
   @Post('login')
   async login(
     @Request() req,
@@ -35,7 +35,7 @@ export class AuthController {
     return await this.authService.register(user);
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt')) //stratégie jwt pour l'authentification
   @Get('profile')
   async getProfile(@Request() req): Promise<Omit<User, 'password'>> {
     return this.authService.profile(req.user.email);

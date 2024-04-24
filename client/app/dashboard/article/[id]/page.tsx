@@ -19,7 +19,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 import { articleFormValidation } from '@/app/dashboard/article/_actions/form-article-validation'
-import { POST } from '@/app/dashboard/article/_actions/server-action'
+import { FIND, POST, PATCH } from '@/app/dashboard/article/_actions/server-action'
 
 interface PageProps {
   params: { id: string }
@@ -29,15 +29,34 @@ export default function page({ params }: PageProps) {
   type ArticleForm = yup.InferType<typeof articleFormValidation>
 
   const { push } = useRouter()
+  const [loading, setLoading] = useState(true)
 
   const {
     formState: { errors },
     control,
     handleSubmit,
+    reset,
     getValues,
   } = useForm({
     resolver: yupResolver(articleFormValidation),
   })
+
+  useEffect(() => {
+    if (params.id !== 'new') {
+      FIND(params.id)
+        .then((res) =>
+          reset({
+            ...res,
+            article_type: res.article_type ? 'true' : 'false',
+            article_tax: `${res.article_tax}%`,
+            article_picture: '',
+          } as unknown as ArticleForm)
+        )
+        .then(() => setLoading(false))
+    }
+  }, [params.id])
+
+  if (loading && params.id != 'new') return <div>Loading...</div>
 
   return (
     <main className='flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6'>
@@ -99,8 +118,19 @@ export default function page({ params }: PageProps) {
                   )}
                 />
               </div>
+
               <div className='flex-1'>
-                <File label='‎' />
+                <Controller
+                  name='article_picture'
+                  control={control}
+                  render={({ field }) => (
+                    <File
+                      {...field}
+                      label='Article Picture'
+                      errorMessage={errors?.article_picture && errors.article_picture.message}
+                    />
+                  )}
+                />
               </div>
             </div>
             <div className='grid grid-cols-4 gap-4'>
@@ -170,12 +200,18 @@ export default function page({ params }: PageProps) {
               <Button
                 type='submit'
                 onClick={handleSubmit((data: ArticleForm) => {
-                  POST(data)
+                  POST(data).then((res) => push('/dashboard/article'))
                 })}>
                 Create New
               </Button>
             ) : (
-              <Button>Update Article</Button>
+              <Button
+                type='submit'
+                onClick={handleSubmit((data) => {
+                  PATCH(params.id, data).then((res) => push('/dashboard/article'))
+                })}>
+                Update Article
+              </Button>
             )}
           </div>
         </form>
@@ -183,3 +219,22 @@ export default function page({ params }: PageProps) {
     </main>
   )
 }
+
+/**
+ *  <Button
+                type='submit'
+                onClick={(e) => {
+                  e.preventDefault()
+                  //PATCH(params.id, data).then((res) => push('/dashboard/article'))
+                  console.log(getValues('article_name'))
+                  console.log(getValues('article_type'))
+                  console.log(getValues('article_unit'))
+                  console.log(getValues('article_picture'))
+                  console.log(getValues('article_price'))
+                  console.log(getValues('article_currency'))
+                  console.log(getValues('article_tax'))
+                  console.log(getValues('article_description'))
+                }}>
+                Update Article
+              </Button>
+ */

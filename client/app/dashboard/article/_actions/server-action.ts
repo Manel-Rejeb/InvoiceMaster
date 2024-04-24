@@ -27,15 +27,44 @@ export async function POST(article: ArticleForm): Promise<ArticleType> {
     body: JSON.stringify(article),
   })
     .then((res) => res.json())
+    .then((data) => {
+      revalidatePath('/dashboard/article')
+      return data
+    })
+    .catch((err) => {
+      throw new Error(err.message)
+    })
+}
+
+export async function FIND(id: string): Promise<ArticleType> {
+  return await fetch(`http://localhost:7080/api/article/${id}`, {
+    method: 'GET',
+    next: { revalidate: 0 },
+  })
+    .then((res) => res.json())
     .then((data) => data)
     .catch((err) => {
       throw new Error(err.message)
     })
 }
 
-export async function FIND() {}
-
-export async function PUT() {}
+export async function PATCH(id: string, article: ArticleForm): Promise<ArticleType> {
+  return await fetch(`http://localhost:7080/api/article/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(article),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      revalidatePath('/dashboard/article')
+      return data
+    })
+    .catch((err) => {
+      throw new Error(err.message)
+    })
+}
 
 export async function DELETE(id: number): Promise<ArticleType> {
   return await fetch(`http://localhost:7080/api/article/${id}`, {

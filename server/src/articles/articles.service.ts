@@ -33,11 +33,8 @@ export class ArticlesService {
     if (!articleData) {
       throw new NotFoundException('Article Not Found');
     }
-    const updatedArticle = this.articleRepository.merge(
-      articleData,
-      updateArticle,
-    );
-    return await this.articleRepository.save(updatedArticle);
+    await this.articleRepository.update(id, updateArticle);
+    return await this.articleRepository.findOneBy({ id });
   }
 
   async remove(id: number): Promise<Article> {
