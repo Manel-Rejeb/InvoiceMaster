@@ -65,7 +65,10 @@ export default function page({ params }: PageProps) {
           <h1 className='text-lg font-semibold md:text-2xl'>Articles</h1>
           <p className='text-sm text-muted-foreground mt-2'>List of articles that you provide as services.</p>
         </div>
-        <Button variant='destructive'>Cancel</Button>
+
+        <Button variant='destructive' onClick={() => push('/dashboard/article')}>
+          Cancel
+        </Button>
       </div>
       <div className='flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm'>
         <form className='w-full h-full p-6'>
@@ -94,8 +97,8 @@ export default function page({ params }: PageProps) {
                       defaultValue={field.value}
                       label='Article type'
                       data={[
-                        { label: 'Product', value: 'true' },
-                        { label: 'Service', value: 'false' },
+                        { label: 'Product', value: 'false' },
+                        { label: 'Service', value: 'true' },
                       ]}
                       required
                       errorMessage={errors?.article_type && errors.article_type.message}

@@ -59,6 +59,5 @@ const payment_methods: { id: string; src: string }[] = [
     src: 'https://th.bing.com/th/id/R.12157bd2c525a40802c8c90fe5fc432a?rik=WEELBQLnn9vtZA&pid=ImgRaw&r=0',
   },
   { id: 'method4', src: 'https://www.drupal.org/files/project-images/ClicToPay_logo.png' },
-  { id: 'method5', src: 'https://ufxone.com/wp-content/uploads/2023/10/f.png' },
   { id: 'method6', src: 'https://itstaskable.com/wp-content/uploads/2021/03/Payoneer-logo-1200x422.png' },
 ]
