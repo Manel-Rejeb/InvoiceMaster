@@ -49,7 +49,10 @@ export class CorporateCustomer {
   @Column({ name: 'contact_person_phone_number' })
   contact_person_phone_number: string;
 
-  @OneToOne(() => Customer, (customer) => customer.corporate)
+  @OneToOne(() => Customer, (customer) => customer.corporate, {
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+  })
   @JoinColumn()
   customer: Customer;
 }

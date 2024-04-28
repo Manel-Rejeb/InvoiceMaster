@@ -21,7 +21,10 @@ export class IndividualCustomer {
   @Column({ name: 'last_name' })
   last_name: string;
 
-  @OneToOne(() => Customer, (customer) => customer.individual)
+  @OneToOne(() => Customer, (customer) => customer.individual, {
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+  })
   @JoinColumn()
   customer: Customer;
 }
