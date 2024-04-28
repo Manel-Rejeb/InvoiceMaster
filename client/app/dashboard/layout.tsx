@@ -51,7 +51,6 @@ const navigation_items: { title: string; path: string; icon: React.ReactElement 
 
   { title: 'articles', path: '/dashboard/article', icon: <Fullscreen className='h-5 w-5' /> },
   { title: 'invoices', path: '/dashboard/invoices', icon: <ReceiptText className='h-5 w-5' /> },
-  { title: 'vendors', path: '/dashboard/vendors', icon: <Puzzle className='h-5 w-5' /> },
   { title: 'customers', path: '/dashboard/customers', icon: <Users className='h-5 w-5' /> },
   { title: 'projects', path: '/dashboard/projects', icon: <Folder className='h-5 w-5' /> },
   { title: 'quotations', path: '/dashboard/quotations', icon: <FileBarChart2 className='h-5 w-5' /> },
