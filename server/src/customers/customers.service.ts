@@ -46,7 +46,7 @@ export class CustomersService {
     });
     if (!customerData) {
       throw new NotFoundException('Customer Not Found');
-    }//try catch for error handling 
+    } //try catch for error handling
     return customerData;
   }
 
@@ -56,22 +56,26 @@ export class CustomersService {
       throw new NotFoundException('Customer Not Found');
     }
 
+    /**
+     * @title Update Doc One to One
+     * @description Update each at a time
+     * @author manel-rejeb
+     * deconstruction of the object we are sending on the request to avoid resetting corporate and individuak throws an error by deconstructing we strip the relation adn keep to update only the customer
+     */
+    const { corporate, individual, ...rest } = updateCustomer;
+    /************/
+    await this.customerRepository.update(id, { ...rest });
+
     if (!updateCustomer.type_customer) {
-      const indi = this.individualRepository.create(updateCustomer.individual);
-      await this.individualRepository.save(indi);
-      updateCustomer.individual = indi;
+      // this.individualRepository.delete(updateCustomer.id)
+      await this.individualRepository.update(individual.id, individual);
     }
     if (updateCustomer.type_customer) {
-      const corp = this.corporateRepository.create(updateCustomer.corporate);
-      await this.corporateRepository.save(corp);
-      updateCustomer.corporate = corp;
+      // this.individualRepository.delete(updateCustomer.id)
+      await this.corporateRepository.update(corporate.id, corporate);
     }
 
-    const updatedCustomer = this.customerRepository.merge(
-      customerData,
-      updateCustomer,
-    );
-    return await this.customerRepository.save(updatedCustomer);
+    return await this.customerRepository.findOneBy({ id });
   }
 
   async remove(id: number): Promise<Customer> {
