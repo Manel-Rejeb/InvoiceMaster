@@ -4,10 +4,14 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToOne,
+  Or,
+  JoinColumn,
 } from 'typeorm';
 
 import { USER_ROLE } from './enum/ROLE';
 import { ApiProperty } from '@nestjs/swagger';
+import { Organization } from 'src/organization/entities/organization.entity';
 
 @Entity()
 export class User {
@@ -39,4 +43,8 @@ export class User {
 
   @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt?: Date;
+
+  @ApiProperty({ type: Organization })
+  @OneToOne(() => Organization, (organization) => organization.user)
+  organization: Organization;
 }
