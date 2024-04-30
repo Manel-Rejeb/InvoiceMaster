@@ -24,13 +24,13 @@ export async function POST(individual: IndividualForm): Promise<IndividualCustom
     })
 }
 
-export async function PATCH(id: string): Promise<IndividualCustomerType> {
+export async function PATCH(id: string, individual: IndividualForm): Promise<IndividualCustomerType> {
   return await fetch(`http://localhost:7080/api/customer/${id}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ isSoftDelete: true }),
+    body: JSON.stringify(individual),
   })
     .then((res) => res.json())
     .then((data) => {

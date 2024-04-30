@@ -54,9 +54,15 @@ export const customerColumns: ColumnDef<CustomerType>[] = [
     accessorKey: 'id',
     cell: ({ row }) => (
       <div className='flex item-center justify-end gap-2'>
-        <Link href={`/dashboard/customer/${row.original.id}`}>
-          <Edit className='text-blue-500' size={18} />
-        </Link>
+        {row.original.type_customer ? (
+          <Link href={`/dashboard/customers/corporate?id=${row.original.id}`}>
+            <Edit className='text-blue-500' size={18} />
+          </Link>
+        ) : (
+          <Link href={`/dashboard/customers/individual?id=${row.original.id}`}>
+            <Edit className='text-blue-500' size={18} />
+          </Link>
+        )}
         <button onClick={() => DELETE(row.original.id)}>
           <Trash className='text-red-500' size={18} />
         </button>

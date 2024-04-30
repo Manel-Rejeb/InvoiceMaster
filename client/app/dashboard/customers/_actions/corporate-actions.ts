@@ -16,7 +16,7 @@ export async function POST(corporate: CorporateForm): Promise<CorporateCustomerT
   })
     .then((res) => res.json())
     .then((data) => {
-      revalidatePath('/dashboard/customers/corporate')
+      revalidatePath('/dashboard/customers')
       return data
     })
     .catch((err) => {
@@ -24,17 +24,17 @@ export async function POST(corporate: CorporateForm): Promise<CorporateCustomerT
     })
 }
 
-export async function PATCH(id: string): Promise<CorporateCustomerType> {
+export async function PATCH(id: string, corporate: CorporateForm): Promise<CorporateCustomerType> {
   return await fetch(`http://localhost:7080/api/customer/${id}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ isSoftDelete: true }),
+    body: JSON.stringify(corporate),
   })
     .then((res) => res.json())
     .then((data) => {
-      revalidatePath('/dashboard/customers/corporate')
+      revalidatePath('/dashboard/customers')
       return data
     })
     .catch((err) => {

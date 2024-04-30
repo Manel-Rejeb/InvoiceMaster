@@ -2,7 +2,7 @@ type CustomerType = {
   id: number
   type_customer: boolean
   customer_email: string
-  customer_phone: string
+  customer_number: number
   customer_address: string
   customer_reference: string
   customer_city: string
@@ -18,7 +18,7 @@ type CustomerType = {
 type CorporateCustomerType = {
   id: number
   corporation_name: string
-  tax_number: string
+  tax_number: number
   industry: string
   headquarter_address: string
   contact_person_first_name: string

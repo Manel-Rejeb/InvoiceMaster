@@ -16,7 +16,7 @@ export default async function page() {
           <p className='text-sm text-muted-foreground mt-2'>List of all your costumers.</p>
         </div>
 
-        <Link passHref href={'/dashboard/customers/corporate'}>
+        <Link passHref href={'/dashboard/customers/corporate?id=new'}>
           <Button>Create Customer</Button>
         </Link>
       </div>

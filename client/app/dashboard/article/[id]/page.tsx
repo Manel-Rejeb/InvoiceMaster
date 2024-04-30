@@ -36,7 +36,6 @@ export default function page({ params }: PageProps) {
     control,
     handleSubmit,
     reset,
-    getValues,
   } = useForm({
     resolver: yupResolver(articleFormValidation),
   })
