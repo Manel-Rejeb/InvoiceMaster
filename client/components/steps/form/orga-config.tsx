@@ -23,27 +23,14 @@ export const OrgaConfig: FC = () => {
       </div>
 
       <div className='flex flex-col gap-8'>
-        <Input required type='text' label='Company name' placeholder='Enter company name' />
+        <Input required type='text' label='Company name' placeholder='Company name' />
 
         <div className='flex gap-8'>
           <div className='flex flex-1 flex-col gap-8'>
-            <Input required type='email' label='Email address' placeholder='Enter your company email' />
+            <Input required type='email' label='Email address' placeholder='Company email' />
 
             <div className='flex items-start'>
-              <SelectDropDown
-                required
-                selectedValue='+216'
-                label='Phone Number'
-                data={COUNTIRES_PHONE_CODE}
-                style={{ borderStartEndRadius: 0, borderEndEndRadius: 0, borderRight: 0 }}
-                onChange={(e: ChangeEvent<HTMLSelectElement>) => setSelectedPhone(e.target.value)}
-              />
-              <Input
-                type='text'
-                label={'‎'} // this is an invisble character
-                placeholder={`(${selectPhone}) 497-13-58`}
-                style={{ borderStartStartRadius: 0, borderEndStartRadius: 0 }}
-              />
+              <Input required type='number' label='Phone number' placeholder='Company phone number' />
             </div>
           </div>
 
@@ -59,18 +46,14 @@ export const OrgaConfig: FC = () => {
           </div>
         </div>
 
-        <Input required type='text' label='Company address' placeholder='Company address' />
-
         <div className='flex gap-8'>
-          <div className='flex-1'>
-            <SelectDropDown required selectedValue='Tunisia' label='Country' data={COUNTRY_NAMES} />
-          </div>
-          <Input type='text' label='State' placeholder='Your state' />
+          <Input required type='text' label='Company address' placeholder='Company address' />
+          <SelectDropDown required selectedValue='Tunisia' label='Country' data={COUNTRY_NAMES} />
         </div>
 
         <div className='flex gap-8'>
+          <Input type='text' label='State' placeholder='Your state' />
           <Input required type='text' label='Post code' placeholder='Your post code' />
-          <Input required type='text' label='City' placeholder='Your city' />
         </div>
       </div>
 

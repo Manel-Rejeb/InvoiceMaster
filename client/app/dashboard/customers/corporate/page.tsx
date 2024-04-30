@@ -51,7 +51,7 @@ export default function page({ searchParams }: PageProps) {
   return (
     <main className='flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6'>
       <div className='flex items-center justify-between'>
-        <div>
+        <div className="flex-1" >
           {searchParams.id && searchParams.id === 'new' && (
             <div className='flex items-center gap-4'>
               <Label htmlFor='corporate'>Individual</Label>
