@@ -51,7 +51,7 @@ export default function page({ searchParams }: PageProps) {
   return (
     <main className='flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6'>
       <div className='flex items-center justify-between'>
-        <div className="flex-1" >
+        <div className='flex-1'>
           {searchParams.id && searchParams.id === 'new' && (
             <div className='flex items-center gap-4'>
               <Label htmlFor='corporate'>Individual</Label>
@@ -147,7 +147,8 @@ export default function page({ searchParams }: PageProps) {
                     <SelectDropDown
                       {...field}
                       required
-                      selectedValue=''
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
                       label='Business industry'
                       data={INDUSTRIES_BUSINESS}
                       errorMessage={errors?.corporate?.industry && errors.corporate.industry.message}
@@ -192,7 +193,7 @@ export default function page({ searchParams }: PageProps) {
                       required
                       selectedValue='Tunisia'
                       label='Country'
-                      data={COUNTRY_NAMES.map((el) => ({ ...el, label: `${el.value} - ${el.label}` }))}
+                      data={COUNTRY_NAMES}
                     />
                   )}
                 />
