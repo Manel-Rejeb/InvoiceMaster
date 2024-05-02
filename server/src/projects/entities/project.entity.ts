@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { PROJECT_STATUS } from './enum/PROJECT_STATUS';
 
 @Entity()
 export class Project {
@@ -29,7 +30,12 @@ export class Project {
   project_end_date: Date;
 
   @ApiProperty()
-  @Column({ name: 'project_status' })
+  @Column({
+    name: 'project_status',
+    type: 'enum',
+    enum: PROJECT_STATUS,
+    default: PROJECT_STATUS.ONGOING,
+  })
   project_status: string;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
