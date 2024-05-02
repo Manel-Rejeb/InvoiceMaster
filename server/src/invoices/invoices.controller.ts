@@ -10,9 +10,11 @@ import {
 import { InvoicesService } from './invoices.service';
 import { ApiTags } from '@nestjs/swagger';
 import { Invoice } from './entities/invoice.entity';
+import { Public } from 'src/shared/decorators/public.decorator';
 
+@Public()
 @ApiTags('invoice')
-@Controller('api/invoices')
+@Controller('api/invoice')
 export class InvoicesController {
   constructor(private readonly invoicesService: InvoicesService) {}
 
