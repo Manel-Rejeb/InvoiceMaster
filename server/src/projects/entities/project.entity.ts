@@ -3,10 +3,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { PROJECT_STATUS } from './enum/PROJECT_STATUS';
+import { Customer } from 'src/customers/entities/customer.entity';
 
 @Entity()
 export class Project {
@@ -43,4 +46,11 @@ export class Project {
 
   @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt?: Date;
+
+  @ManyToMany(() => Customer, (customer) => customer.project, {
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn()
+  customer: Customer;
 }

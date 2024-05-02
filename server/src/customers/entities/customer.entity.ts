@@ -7,11 +7,13 @@ import {
   UpdateDateColumn,
   JoinColumn,
   ManyToOne,
+  ManyToMany,
 } from 'typeorm';
 import { IndividualCustomer } from './individual.entity';
 import { CorporateCustomer } from './corporation.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { Invoice } from 'src/invoices/entities/invoice.entity';
+import { Project } from 'src/projects/entities/project.entity';
 
 @Entity()
 export class Customer {
@@ -70,4 +72,11 @@ export class Customer {
   })
   @JoinColumn()
   invoice: Invoice;
+
+  @ManyToMany(() => Project, (project) => project.customer, {
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn()
+  project: Project;
 }
