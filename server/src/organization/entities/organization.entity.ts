@@ -1,10 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Tax } from 'src/taxes/entities/tax.entity';
 import { User } from 'src/user/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -67,4 +69,11 @@ export class Organization {
   })
   @JoinColumn()
   user: User;
+
+  @OneToMany(() => Tax, (tax) => tax.organization, {
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn()
+  tax: Tax;
 }

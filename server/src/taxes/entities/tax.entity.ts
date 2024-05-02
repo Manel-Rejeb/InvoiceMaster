@@ -1,8 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Organization } from 'src/organization/entities/organization.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -31,4 +34,11 @@ export class Tax {
     default: false,
   })
   isSoftDelete?: boolean;
+
+  @ManyToOne(() => Organization, (organization) => organization.tax, {
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn()
+  organization: Organization;
 }
