@@ -6,10 +6,12 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   JoinColumn,
+  ManyToOne,
 } from 'typeorm';
 import { IndividualCustomer } from './individual.entity';
 import { CorporateCustomer } from './corporation.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { Invoice } from 'src/invoices/entities/invoice.entity';
 
 @Entity()
 export class Customer {
@@ -61,4 +63,11 @@ export class Customer {
   @ApiProperty({ type: CorporateCustomer })
   @OneToOne(() => CorporateCustomer, (corporate) => corporate.customer)
   corporate: CorporateCustomer;
+
+  @ManyToOne(() => Invoice, (invoice) => invoice.customer, {
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn()
+  invoice: Invoice;
 }

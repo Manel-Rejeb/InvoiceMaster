@@ -1,8 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Customer } from 'src/customers/entities/customer.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -33,43 +36,15 @@ export class Invoice {
   invoice_image: string;
 
   @ApiProperty()
-  @Column({ name: 'invoice_receiver_name' })
-  invoice_receiver_name: string;
-
-  @ApiProperty()
-  @Column({ name: 'invoice_receiver_address' })
-  invoice_receiver_address: string;
-
-  @ApiProperty()
-  @Column({ name: 'invoice_receiver_post' })
-  invoice_receiver_post: string;
-
-  @ApiProperty()
-  @Column({ name: 'invoice_receiver_tax_number' })
-  invoice_receiver_tax_number: string;
-
-  @ApiProperty()
-  @Column({ name: 'invoice_sender_name' })
-  invoice_sender_name: string;
-
-  @ApiProperty()
-  @Column({ name: 'invoice_sender_address' })
-  invoice_sender_address: string;
-
-  @ApiProperty()
-  @Column({ name: 'invoice_sender_post' })
-  invoice_sender_post: string;
-
-  @ApiProperty()
-  @Column({ name: 'invoice_sender_tax_number' })
-  invoice_sender_tax_number: string;
+  @Column({ name: 'tampon_signature' })
+  tampon_signature: string;
 
   @ApiProperty()
   @Column({ name: 'invoice_tva', type: 'boolean' })
   invoice_tva: boolean;
 
   @ApiProperty()
-  @Column({ name: 'invoice_tva_value' })
+  @Column({ name: 'Payment_status' })
   invoice_tva_value: number;
 
   @ApiProperty()
@@ -77,12 +52,16 @@ export class Invoice {
   invoice_total: number;
 
   @ApiProperty()
-  @Column({ name: 'price_hors_tax' })
-  invoice_price_hors_tax: number;
+  @Column({ name: 'subtotal' }) // price before tax and discount
+  invoice_subtotal: number;
 
   @ApiProperty()
-  @Column({ name: 'invoice_status' })
-  invoice_status: string;
+  @Column({ name: 'discount' })
+  invoice_discount: number;
+
+  @ApiProperty()
+  @Column({ name: 'total_amount' })
+  invoice_total_amount: number;
 
   @ApiProperty()
   @Column({ name: 'invoice_description' })
@@ -97,4 +76,11 @@ export class Invoice {
 
   @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt?: Date;
+
+  @OneToMany(() => Customer, (customer) => customer.invoice, {
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn()
+  customer: Customer;
 }
