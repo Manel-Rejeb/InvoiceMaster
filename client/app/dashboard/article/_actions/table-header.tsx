@@ -6,11 +6,6 @@ import { DELETE } from './server-action'
 import Link from 'next/link'
 
 export const articleColumns: ColumnDef<ArticleType>[] = [
-  // {
-  //   id: 'id',
-  //   header: 'id',
-  //   accessorKey: 'id',
-  // },
   {
     id: 'article-name',
     header: 'Article Name',
