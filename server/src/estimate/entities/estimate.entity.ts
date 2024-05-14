@@ -1,5 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Item } from 'src/item/entities/item.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Estimate {
@@ -53,4 +60,10 @@ export class Estimate {
   @ApiProperty()
   @Column({ name: 'estimate_template_name' })
   estimate_template_name: string;
+
+  // Establishing one-to-many relationship items
+  @ApiProperty({ type: Item })
+  @OneToMany(() => Item, (item) => item.estimate)
+  @JoinColumn()
+  items: Item[];
 }

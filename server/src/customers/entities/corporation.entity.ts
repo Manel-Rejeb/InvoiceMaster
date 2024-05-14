@@ -29,25 +29,25 @@ export class CorporateCustomer {
   @Column({ name: 'headquarter_address' })
   headquarter_address: string;
 
-  @ApiProperty()
-  @Column({ name: 'contact_person_first_name' })
-  contact_person_first_name: string;
+  // @ApiProperty()
+  // @Column({ name: 'contact_person_first_name' })
+  // contact_person_first_name: string;
 
-  @ApiProperty()
-  @Column({ name: 'contact_person_last_name' })
-  contact_person_last_name: string;
+  // @ApiProperty()
+  // @Column({ name: 'contact_person_last_name' })
+  // contact_person_last_name: string;
 
-  @ApiProperty()
-  @Column({ name: 'contact_person_email' })
-  contact_person_email: string;
+  // @ApiProperty()
+  // @Column({ name: 'contact_person_email' })
+  // contact_person_email: string;
 
-  @ApiProperty()
-  @Column({ name: 'contact_person_job_title' })
-  contact_person_job_title: string;
+  // @ApiProperty()
+  // @Column({ name: 'contact_person_job_title' })
+  // contact_person_job_title: string;
 
-  @ApiProperty()
-  @Column({ name: 'contact_person_phone_number' })
-  contact_person_phone_number: string;
+  // @ApiProperty()
+  // @Column({ name: 'contact_person_phone_number' })
+  // contact_person_phone_number: string;
 
   @OneToOne(() => Customer, (customer) => customer.corporate, {
     onUpdate: 'CASCADE',

@@ -1,5 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Estimate } from 'src/estimate/entities/estimate.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Item {
@@ -25,4 +32,12 @@ export class Item {
   @ApiProperty()
   @Column({ name: 'item_tatal' })
   item_total: number;
+
+  //establish the relationship between the item and the invoice(many-to-one)
+  @ApiProperty({ type: Estimate })
+  @ManyToOne(() => Estimate, (estimate) => estimate.items, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn()
+  estimate: Estimate[];
 }

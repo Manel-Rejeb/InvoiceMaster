@@ -16,7 +16,9 @@ export class ItemService {
   }
 
   async findAll(): Promise<Item[]> {
-    return this.itemRepository.find();
+    return this.itemRepository.find({
+      relations: ['estimate'],
+    });
   }
 
   async findOne(id: number): Promise<Item> {
