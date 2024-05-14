@@ -3,9 +3,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 
-import { AppService } from './app.service';
-import { AppController } from './app.controller';
-
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtGuard } from './auth/guard/jwt.guard';
@@ -46,9 +43,8 @@ import { ExpensesModule } from './expenses/expenses.module';
     ExpensesModule,
     /* End Modules */
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [
-    AppService,
     {
       provide: APP_GUARD,
       useClass: JwtGuard,

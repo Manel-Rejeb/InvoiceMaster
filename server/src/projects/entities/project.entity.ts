@@ -3,7 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
+  JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -47,10 +47,9 @@ export class Project {
   @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt?: Date;
 
-  @ManyToMany(() => Customer, (customer) => customer.project, {
-    onUpdate: 'CASCADE',
-    onDelete: 'CASCADE',
-  })
-  @JoinColumn()
-  customer: Customer;
+  // Establishing many-to-many relationship with Customer
+  @ApiProperty({ type: Customer })
+  @ManyToMany(() => Customer, (customer) => customer.projects)
+  @JoinTable()
+  customers: Customer[];
 }

@@ -4,10 +4,14 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 
 import { ARTICLE_UNIT } from './enum/ARTICLE_UNIT';
 import { ApiProperty } from '@nestjs/swagger';
+import { Invoice } from 'src/invoices/entities/invoice.entity';
+import { Customer } from 'src/customers/entities/customer.entity';
 
 @Entity()
 export class Article {
@@ -62,4 +66,16 @@ export class Article {
     default: false,
   })
   isSoftDelete?: boolean;
+
+  @ApiProperty({ type: Invoice })
+  @ManyToOne(() => Invoice, (invoice) => invoice.article)
+  @JoinColumn()
+  invoice: Invoice;
+
+  @ApiProperty({ type: Customer })
+  @ManyToOne(() => Customer, (customer) => customer.article, {
+    onDelete: 'SET NULL',
+  })
+  @JoinColumn()
+  customer: Customer;
 }

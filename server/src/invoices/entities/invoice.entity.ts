@@ -1,10 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Article } from 'src/articles/entities/article.entity';
 import { Customer } from 'src/customers/entities/customer.entity';
+
 import {
   Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -77,10 +80,15 @@ export class Invoice {
   @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt?: Date;
 
-  @OneToMany(() => Customer, (customer) => customer.invoice, {
-    onUpdate: 'CASCADE',
-    onDelete: 'CASCADE',
+  @ApiProperty({ type: Article })
+  @OneToMany(() => Article, (article) => article.invoice, {
+    onDelete: 'SET NULL',
   })
+  @JoinColumn()
+  article: Article[];
+
+  @ApiProperty({ type: Customer })
+  @ManyToOne(() => Customer, (customer) => customer.invoices)
   @JoinColumn()
   customer: Customer;
 }

@@ -35,7 +35,7 @@ export class CustomersService {
 
   async findAll(): Promise<Customer[]> {
     return this.customerRepository.find({
-      relations: ['individual', 'corporate'],
+      relations: ['individual', 'corporate', 'projects', 'invoices'],
     });
   }
 
@@ -63,7 +63,7 @@ export class CustomersService {
      * deconstruction of the object we are sending on the request to avoid resetting corporate and individuak throws an error by deconstructing we strip the relation adn keep to update only the customer
      */
     const { corporate, individual, ...rest } = updateCustomer;
-    /************/
+
     await this.customerRepository.update(id, { ...rest });
 
     if (!updateCustomer.type_customer) {

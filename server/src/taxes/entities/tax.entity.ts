@@ -23,6 +23,10 @@ export class Tax {
   @Column({ name: 'tax_percentage', nullable: false })
   tax_percentage: number;
 
+  @ApiProperty()
+  @Column({ name: 'tax_description', nullable: false })
+  tax_description: string;
+
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt?: Date;
 
@@ -34,11 +38,4 @@ export class Tax {
     default: false,
   })
   isSoftDelete?: boolean;
-
-  @ManyToOne(() => Organization, (organization) => organization.tax, {
-    onUpdate: 'CASCADE',
-    onDelete: 'CASCADE',
-  })
-  @JoinColumn()
-  organization: Organization;
 }

@@ -2,18 +2,20 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  JoinColumn,
-  ManyToOne,
-  ManyToMany,
 } from 'typeorm';
 import { IndividualCustomer } from './individual.entity';
 import { CorporateCustomer } from './corporation.entity';
 import { ApiProperty } from '@nestjs/swagger';
-import { Invoice } from 'src/invoices/entities/invoice.entity';
 import { Project } from 'src/projects/entities/project.entity';
+import { Invoice } from 'src/invoices/entities/invoice.entity';
+import { Article } from 'src/articles/entities/article.entity';
 
 @Entity()
 export class Customer {
@@ -66,17 +68,23 @@ export class Customer {
   @OneToOne(() => CorporateCustomer, (corporate) => corporate.customer)
   corporate: CorporateCustomer;
 
-  @ManyToOne(() => Invoice, (invoice) => invoice.customer, {
-    onUpdate: 'CASCADE',
-    onDelete: 'CASCADE',
+  // Establishing many-to-many relationship with Project
+  @ApiProperty({ type: Project })
+  @ManyToMany(() => Project, (project) => project.customers, {
+    cascade: true,
   })
-  @JoinColumn()
-  invoice: Invoice;
+  @JoinTable()
+  projects: Project[];
 
-  @ManyToMany(() => Project, (project) => project.customer, {
-    onUpdate: 'CASCADE',
-    onDelete: 'CASCADE',
-  })
+  // Establishing one-to-many relationship with Invoice
+  @ApiProperty({ type: Invoice })
+  @OneToMany(() => Invoice, (invoice) => invoice.customer)
   @JoinColumn()
-  project: Project;
+  invoices: Invoice[];
+
+  // Establishing one-to-many relationship with Article
+  @ApiProperty({ type: Article })
+  @OneToMany(() => Article, (article) => article.customer)
+  @JoinColumn()
+  article: Article[];
 }

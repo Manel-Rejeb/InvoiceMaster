@@ -62,18 +62,4 @@ export class Organization {
 
   @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt?: Date;
-
-  @OneToOne(() => User, (user) => user.organization, {
-    onUpdate: 'CASCADE',
-    onDelete: 'CASCADE',
-  })
-  @JoinColumn()
-  user: User;
-
-  @OneToMany(() => Tax, (tax) => tax.organization, {
-    onUpdate: 'CASCADE',
-    onDelete: 'CASCADE',
-  })
-  @JoinColumn()
-  tax: Tax;
 }

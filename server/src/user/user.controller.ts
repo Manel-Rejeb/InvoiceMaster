@@ -11,7 +11,9 @@ import {
 import { User } from './entities/user.entity';
 import { UserService } from './user.service';
 import { ApiTags } from '@nestjs/swagger';
+import { Public } from 'src/shared/decorators/public.decorator';
 
+@Public()
 @ApiTags('user')
 @Controller('api/user')
 export class UserController {

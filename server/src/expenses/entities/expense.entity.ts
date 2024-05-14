@@ -4,7 +4,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  PrimaryColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -26,6 +25,10 @@ export class Expense {
     name: 'expense_description',
   })
   expense_description: string;
+
+  @ApiProperty()
+  @Column({ name: 'expense_type' })
+  expense_type: boolean;
 
   @ApiProperty()
   @Column({
@@ -71,4 +74,6 @@ export class Expense {
     default: false,
   })
   isSoftDelete?: boolean;
+
+  //Establishing a relationship between the Article and the Category entities
 }
