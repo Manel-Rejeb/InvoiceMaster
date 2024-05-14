@@ -14,6 +14,7 @@ import { TaxesModule } from './taxes/taxes.module';
 import { ProjectsModule } from './projects/projects.module';
 import { ExpensesModule } from './expenses/expenses.module';
 import { EstimateModule } from './estimate/estimate.module';
+import { ItemModule } from './item/item.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { EstimateModule } from './estimate/estimate.module';
     ProjectsModule,
     ExpensesModule,
     EstimateModule,
+    ItemModule,
     /* End Modules */
   ],
   controllers: [],
