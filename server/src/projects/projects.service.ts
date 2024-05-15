@@ -15,8 +15,7 @@ export class ProjectsService {
 
   async create(createProject: Project): Promise<Project> {
     const newProject = await this.projectRepository.create(createProject);
-    /* i have to manually set the relation! */
-    // newProject.customer = createProject.customer;
+
     return this.projectRepository.save(newProject);
   }
 

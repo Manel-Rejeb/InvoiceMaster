@@ -17,9 +17,7 @@ export class InvoicesService {
   }
 
   async findAll(): Promise<Invoice[]> {
-    return this.invoiceRepository.find({
-      relations: ['customer', 'article'],
-    });
+    return this.invoiceRepository.find();
   }
 
   async findOne(id: number): Promise<Invoice> {

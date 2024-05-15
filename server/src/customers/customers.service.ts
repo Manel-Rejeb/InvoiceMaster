@@ -35,7 +35,7 @@ export class CustomersService {
 
   async findAll(): Promise<Customer[]> {
     return this.customerRepository.find({
-      relations: ['individual', 'corporate', 'projects', 'invoices'],
+      relations: ['individual', 'corporate', 'projects', 'estimates'],
     });
   }
 

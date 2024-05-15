@@ -66,16 +66,4 @@ export class Article {
     default: false,
   })
   isSoftDelete?: boolean;
-
-  @ApiProperty({ type: Invoice })
-  @ManyToOne(() => Invoice, (invoice) => invoice.article)
-  @JoinColumn()
-  invoice: Invoice;
-
-  @ApiProperty({ type: Customer })
-  @ManyToOne(() => Customer, (customer) => customer.article, {
-    onDelete: 'SET NULL',
-  })
-  @JoinColumn()
-  customer: Customer;
 }

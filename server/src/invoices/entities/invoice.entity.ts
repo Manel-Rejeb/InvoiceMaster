@@ -79,16 +79,4 @@ export class Invoice {
 
   @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt?: Date;
-
-  @ApiProperty({ type: Article })
-  @OneToMany(() => Article, (article) => article.invoice, {
-    onDelete: 'SET NULL',
-  })
-  @JoinColumn()
-  article: Article[];
-
-  @ApiProperty({ type: Customer })
-  @ManyToOne(() => Customer, (customer) => customer.invoices)
-  @JoinColumn()
-  customer: Customer;
 }

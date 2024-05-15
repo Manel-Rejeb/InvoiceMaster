@@ -15,6 +15,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Project } from 'src/projects/entities/project.entity';
 import { Invoice } from 'src/invoices/entities/invoice.entity';
 import { Article } from 'src/articles/entities/article.entity';
+import { Estimate } from 'src/estimate/entities/estimate.entity';
 
 @Entity()
 export class Customer {
@@ -75,15 +76,9 @@ export class Customer {
   @JoinTable()
   projects: Project[];
 
-  // Establishing one-to-many relationship with Invoice
-  @ApiProperty({ type: Invoice })
-  @OneToMany(() => Invoice, (invoice) => invoice.customer)
+  // Establishing one-to-many relationship with Estimate
+  @ApiProperty({ type: () => Estimate })
+  @OneToMany(() => Estimate, (estimate) => estimate.customer)
   @JoinColumn()
-  invoices: Invoice[];
-
-  // Establishing one-to-many relationship with Article
-  @ApiProperty({ type: Article })
-  @OneToMany(() => Article, (article) => article.customer)
-  @JoinColumn()
-  article: Article[];
+  estimates: Estimate[];
 }

@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Customer } from 'src/customers/entities/customer.entity';
 import { Item } from 'src/item/entities/item.entity';
 import { Project } from 'src/projects/entities/project.entity';
 import {
@@ -77,4 +78,12 @@ export class Estimate {
   })
   @JoinTable()
   project: Project;
+
+  // Establishing many-to-one relationship with Customer
+  @ApiProperty({ type: () => Project })
+  @ManyToOne(() => Project, (project) => project.estimates, {
+    cascade: true,
+  })
+  @JoinTable()
+  customer: Customer;
 }
