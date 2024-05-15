@@ -15,13 +15,12 @@ export class ProjectsService {
 
   async create(createProject: Project): Promise<Project> {
     const newProject = await this.projectRepository.create(createProject);
-
     return this.projectRepository.save(newProject);
   }
 
   async findAll(): Promise<Project[]> {
     return this.projectRepository.find({
-      relations: ['customers', 'estimate'],
+      relations: ['customer', 'estimates'],
     });
   }
 
