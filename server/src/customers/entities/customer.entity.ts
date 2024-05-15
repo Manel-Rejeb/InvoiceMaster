@@ -13,8 +13,6 @@ import { IndividualCustomer } from './individual.entity';
 import { CorporateCustomer } from './corporation.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { Project } from 'src/projects/entities/project.entity';
-import { Invoice } from 'src/invoices/entities/invoice.entity';
-import { Article } from 'src/articles/entities/article.entity';
 import { Estimate } from 'src/estimate/entities/estimate.entity';
 
 @Entity()

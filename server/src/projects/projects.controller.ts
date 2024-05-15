@@ -19,8 +19,8 @@ export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
   @Post()
-  create(@Body() createProject: Project) {
-    return this.projectsService.create(createProject);
+  create(@Body() createProject: Project, customerId: number) {
+    return this.projectsService.create(createProject, customerId);
   }
 
   @Get()

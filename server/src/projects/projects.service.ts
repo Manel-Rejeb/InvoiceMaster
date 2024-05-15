@@ -13,7 +13,14 @@ export class ProjectsService {
     private readonly customerRepository: Repository<Customer>,
   ) {}
 
-  async create(createProject: Project): Promise<Project> {
+  async create(createProject: Project, customerId: number): Promise<Project> {
+    const customer = await this.customerRepository.findOne({
+      where: { id: customerId },
+    });
+    if (!customer) {
+      throw new NotFoundException('Customer not found');
+    }
+    createProject.customer = customer;
     const newProject = await this.projectRepository.create(createProject);
     return this.projectRepository.save(newProject);
   }

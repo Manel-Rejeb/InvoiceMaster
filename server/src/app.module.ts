@@ -47,6 +47,7 @@ import { ContactPersonModule } from './contact-person/contact-person.module';
     EstimateModule,
     ItemModule,
     ContactPersonModule,
+
     /* End Modules */
   ],
   controllers: [],
