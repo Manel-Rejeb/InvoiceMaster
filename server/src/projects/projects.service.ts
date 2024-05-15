@@ -15,12 +15,14 @@ export class ProjectsService {
 
   async create(createProject: Project): Promise<Project> {
     const newProject = await this.projectRepository.create(createProject);
+    /* i have to manually set the relation! */
+    // newProject.customer = createProject.customer;
     return this.projectRepository.save(newProject);
   }
 
   async findAll(): Promise<Project[]> {
     return this.projectRepository.find({
-      relations: ['customers'],
+      relations: ['customers', 'estimate'],
     });
   }
 
@@ -49,25 +51,25 @@ export class ProjectsService {
     return await this.projectRepository.remove(projectData);
   }
 
-  async addCustomerToProject(
-    projectId: number,
-    customerId: number,
-  ): Promise<Project> {
-    const projectData = await this.projectRepository.findOneBy({
-      id: projectId,
-    });
-    if (!projectData) {
-      throw new NotFoundException('Project Not Found');
-    }
+  // async addCustomerToProject(
+  //   projectId: number,
+  //   customerId: number,
+  // ): Promise<Project> {
+  //   const projectData = await this.projectRepository.findOneBy({
+  //     id: projectId,
+  //   });
+  //   if (!projectData) {
+  //     throw new NotFoundException('Project Not Found');
+  //   }
 
-    const customerData = await this.customerRepository.findOneBy({
-      id: customerId,
-    });
-    if (!customerData) {
-      throw new NotFoundException('Customer Not Found');
-    }
+  //   const customerData = await this.customerRepository.findOneBy({
+  //     id: customerId,
+  //   });
+  //   if (!customerData) {
+  //     throw new NotFoundException('Customer Not Found');
+  //   }
 
-    projectData.customers.push(customerData);
-    return this.projectRepository.save(projectData);
-  }
+  //   projectData.customer = customerData;
+  //   return this.projectRepository.save(projectData);
+  // }
 }

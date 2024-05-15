@@ -3,13 +3,16 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   JoinTable,
-  ManyToMany,
+  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { PROJECT_STATUS } from './enum/PROJECT_STATUS';
 import { Customer } from 'src/customers/entities/customer.entity';
+import { Estimate } from 'src/estimate/entities/estimate.entity';
 
 @Entity()
 export class Project {
@@ -47,9 +50,15 @@ export class Project {
   @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt?: Date;
 
-  // Establishing many-to-many relationship with Customer
-  @ApiProperty({ type: Customer })
-  @ManyToMany(() => Customer, (customer) => customer.projects)
+  // Establishing one-to-many relationship with Customer
+  @ApiProperty({ type: () => Customer })
+  @ManyToOne(() => Customer, (customer) => customer.projects)
   @JoinTable()
-  customers: Customer[];
+  customer: Customer;
+
+  // Establishing one-to-many relationship with estimate
+  @ApiProperty({ type: () => Estimate })
+  @OneToMany(() => Estimate, (estimate) => estimate.project)
+  @JoinColumn()
+  estimates: Estimate[];
 }

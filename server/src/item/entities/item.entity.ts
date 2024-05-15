@@ -26,18 +26,18 @@ export class Item {
   item_unit: string;
 
   @ApiProperty()
-  @Column({ name: 'item_sous_total' })
-  item_sous_total: number;
+  @Column({ name: 'item_reference' })
+  item_sous_total: string;
 
   @ApiProperty()
-  @Column({ name: 'item_tatal' })
+  @Column({ name: 'item_total' })
   item_total: number;
 
   //establish the relationship between the item and the invoice(many-to-one)
-  @ApiProperty({ type: Estimate })
+  @ApiProperty({ type: () => Estimate })
   @ManyToOne(() => Estimate, (estimate) => estimate.items, {
     onDelete: 'CASCADE',
   })
   @JoinColumn()
-  estimate: Estimate[];
+  estimate: Estimate;
 }

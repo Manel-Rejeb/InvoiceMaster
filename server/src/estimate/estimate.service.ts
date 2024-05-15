@@ -17,7 +17,7 @@ export class EstimateService {
 
   async findAll(): Promise<Estimate[]> {
     return this.estimateRepository.find({
-      relations: ['items'],
+      relations: ['items', 'project'],
     });
   }
 

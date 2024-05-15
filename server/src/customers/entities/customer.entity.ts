@@ -4,7 +4,6 @@ import {
   Entity,
   JoinColumn,
   JoinTable,
-  ManyToMany,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -68,9 +67,9 @@ export class Customer {
   @OneToOne(() => CorporateCustomer, (corporate) => corporate.customer)
   corporate: CorporateCustomer;
 
-  // Establishing many-to-many relationship with Project
-  @ApiProperty({ type: Project })
-  @ManyToMany(() => Project, (project) => project.customers, {
+  // Establishing one-to-many relationship with Project
+  @ApiProperty({ type: () => Project })
+  @OneToMany(() => Project, (project) => project.customer, {
     cascade: true,
   })
   @JoinTable()

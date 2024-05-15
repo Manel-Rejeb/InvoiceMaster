@@ -1,9 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Item } from 'src/item/entities/item.entity';
+import { Project } from 'src/projects/entities/project.entity';
 import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -62,8 +65,16 @@ export class Estimate {
   estimate_template_name: string;
 
   // Establishing one-to-many relationship items
-  @ApiProperty({ type: Item })
+  @ApiProperty({ type: () => Item })
   @OneToMany(() => Item, (item) => item.estimate)
   @JoinColumn()
   items: Item[];
+
+  // Establishing many-to-one relationship with Project
+  @ApiProperty({ type: () => Project })
+  @ManyToOne(() => Project, (project) => project.estimates, {
+    cascade: true,
+  })
+  @JoinTable()
+  project: Project;
 }
