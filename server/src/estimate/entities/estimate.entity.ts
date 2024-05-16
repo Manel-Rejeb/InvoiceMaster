@@ -21,6 +21,7 @@ export class Estimate {
   @Column({ name: 'estimate_reference' })
   estimate_reference: string;
 
+  // TODO: use the createdAt annotation
   @ApiProperty()
   @Column({ name: 'estimate_date' })
   estimate_date: Date;
@@ -50,20 +51,12 @@ export class Estimate {
   estimate_discount: number;
 
   @ApiProperty()
-  @Column({ name: 'estimate_total_amount' })
-  estimate_total_amount: number;
-
-  @ApiProperty()
   @Column({ name: 'estimate_description' })
   estimate_description: string;
 
   @ApiProperty()
   @Column({ name: 'estimate_status' })
   estimate_status: boolean;
-
-  @ApiProperty()
-  @Column({ name: 'estimate_template_name' })
-  estimate_template_name: string;
 
   // Establishing one-to-many relationship items
   @ApiProperty({ type: () => Item })

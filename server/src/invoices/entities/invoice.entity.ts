@@ -1,17 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Article } from 'src/articles/entities/article.entity';
-import { Customer } from 'src/customers/entities/customer.entity';
 
 import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { INVOICE_STATUS } from './enum/INVOICE_STATUS';
 
 @Entity()
 export class Invoice {
@@ -47,8 +43,13 @@ export class Invoice {
   invoice_tva: boolean;
 
   @ApiProperty()
-  @Column({ name: 'Payment_status' })
-  invoice_tva_value: number;
+  @Column({
+    name: 'Payment_status',
+    type: 'enum',
+    enum: INVOICE_STATUS,
+    default: INVOICE_STATUS.UNPAID,
+  })
+  invoice_payment_status: string;
 
   @ApiProperty()
   @Column({ name: 'total_price' })

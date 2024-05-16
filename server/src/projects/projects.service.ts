@@ -14,14 +14,17 @@ export class ProjectsService {
   ) {}
 
   async create(createProject: Project, customerId: number): Promise<Project> {
-    const customer = await this.customerRepository.findOne({
-      where: { id: customerId },
+    const customer = await this.customerRepository.findOneBy({
+      id: customerId,
     });
     if (!customer) {
       throw new NotFoundException('Customer not found');
     }
-    createProject.customer = customer;
-    const newProject = await this.projectRepository.create(createProject);
+
+    const newProject = await this.projectRepository.create({
+      ...createProject,
+      customer: customer,
+    });
     return this.projectRepository.save(newProject);
   }
 

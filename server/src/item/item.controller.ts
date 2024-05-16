@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ItemService } from './item.service';
 import { Item } from './entities/item.entity';
@@ -19,8 +20,8 @@ export class ItemController {
   constructor(private readonly itemService: ItemService) {}
 
   @Post()
-  create(@Body() createItem: Item) {
-    return this.itemService.create(createItem);
+  create(@Body() createItem: Item, @Query('estimate') estimateId: string) {
+    return this.itemService.create(createItem, +estimateId);
   }
 
   @Get()

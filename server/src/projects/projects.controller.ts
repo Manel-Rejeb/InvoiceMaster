@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { Public } from 'src/shared/decorators/public.decorator';
@@ -19,8 +20,11 @@ export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
   @Post()
-  create(@Body() createProject: Project, customerId: number) {
-    return this.projectsService.create(createProject, customerId);
+  create(
+    @Body() createProject: Project,
+    @Query('customer') customerId: string,
+  ) {
+    return this.projectsService.create(createProject, +customerId);
   }
 
   @Get()
