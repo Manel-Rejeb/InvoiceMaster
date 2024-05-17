@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { TaxesService } from './taxes.service';
 import { Public } from 'src/shared/decorators/public.decorator';
@@ -19,8 +20,8 @@ export class TaxesController {
   constructor(private readonly taxesService: TaxesService) {}
 
   @Post()
-  create(@Body() createTax: Tax) {
-    return this.taxesService.create(createTax);
+  create(@Body() createTax: Tax, @Query('estimate') estimateId) {
+    return this.taxesService.create(createTax, +estimateId);
   }
 
   @Get()

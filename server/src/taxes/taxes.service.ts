@@ -3,21 +3,35 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Tax } from './entities/tax.entity';
+import { Estimate } from 'src/estimate/entities/estimate.entity';
 
 @Injectable()
 export class TaxesService {
   constructor(
     @InjectRepository(Tax)
     private readonly taxRepository: Repository<Tax>,
+    @InjectRepository(Tax)
+    private readonly estimateRepository: Repository<Estimate>,
   ) {}
 
-  async create(createTax: Tax): Promise<Tax> {
-    const newTax = await this.taxRepository.create(createTax);
+  async create(createTax: Tax, estimateId: number): Promise<Tax> {
+    const estimate = await this.taxRepository.findOneBy({
+      id: estimateId,
+    });
+    if (!estimate) {
+      throw new NotFoundException('estimate not found');
+    }
+    const newTax = await this.taxRepository.create({
+      ...createTax,
+      estimates: estimate,
+    });
     return this.taxRepository.save(newTax);
   }
 
   async findAll(): Promise<Tax[]> {
-    return this.taxRepository.find();
+    return this.taxRepository.find({
+      relations: ['estimates'],
+    });
   }
 
   async findOne(id: number): Promise<Tax> {

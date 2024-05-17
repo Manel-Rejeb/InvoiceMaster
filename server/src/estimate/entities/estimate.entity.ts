@@ -2,14 +2,17 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Customer } from 'src/customers/entities/customer.entity';
 import { Item } from 'src/item/entities/item.entity';
 import { Project } from 'src/projects/entities/project.entity';
+import { Tax } from 'src/taxes/entities/tax.entity';
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   JoinTable,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -58,6 +61,12 @@ export class Estimate {
   @Column({ name: 'estimate_status' })
   estimate_status: boolean;
 
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createdAt?: Date;
+
+  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  updatedAt?: Date;
+
   // Establishing one-to-many relationship items
   @ApiProperty({ type: () => Item })
   @OneToMany(() => Item, (item) => item.estimate)
@@ -73,10 +82,17 @@ export class Estimate {
   project: Project;
 
   // Establishing many-to-one relationship with Customer
-  @ApiProperty({ type: () => Project })
-  @ManyToOne(() => Project, (project) => project.estimates, {
+  @ApiProperty({ type: () => Customer })
+  @ManyToOne(() => Customer, (customer) => customer.estimates, {
     cascade: true,
   })
   @JoinTable()
   customer: Customer;
+
+  @ApiProperty({ type: () => Tax })
+  @ManyToOne(() => Tax, (tax) => tax.estimates, {
+    cascade: true,
+  })
+  @JoinTable()
+  tax: Tax;
 }

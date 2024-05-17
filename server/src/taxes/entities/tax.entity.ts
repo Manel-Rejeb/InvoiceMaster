@@ -1,11 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Organization } from 'src/organization/entities/organization.entity';
+import { Estimate } from 'src/estimate/entities/estimate.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
-  ManyToOne,
+  JoinTable,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -38,4 +38,9 @@ export class Tax {
     default: false,
   })
   isSoftDelete?: boolean;
+
+  @ApiProperty({ type: () => Estimate })
+  @ManyToMany(() => Estimate, (estimate) => estimate.tax)
+  @JoinTable()
+  estimates: Estimate;
 }
