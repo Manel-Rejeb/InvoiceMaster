@@ -42,7 +42,7 @@ export const AccountAvatar: FC<ComponentProps> = ({}) => {
     <Dropdown menu={{ items }} trigger={['click']}>
       <button className='h-16 w-16 flex items-center justify-center' onClick={(e) => e.preventDefault()}>
         <Space>
-          <Avatar size={42} icon={<AiOutlineUser />} />
+          <Avatar size={32} icon={<AiOutlineUser />} />
         </Space>
       </button>
     </Dropdown>

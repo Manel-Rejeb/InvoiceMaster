@@ -1,23 +1,32 @@
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
-
 import { useRouter } from 'next/router'
 
 import { ConfigProvider } from 'antd/lib'
-import { DashboardLayout } from '@/layout/dashboard.layout'
+import { QueryClientProvider } from '@tanstack/react-query'
+import { queryClient } from '@/util/react-query-client'
+
+import { DashboardLayout } from '@/layouts/dashboard.layout'
+
 
 export default function App({ Component, pageProps }: AppProps) {
   const { pathname } = useRouter()
 
-  if (pathname.includes('/dashboard')) {
-    return (
-      <ConfigProvider theme={{}}>
+  const layout = () => {
+    if (pathname.includes('/dashboard')) {
+      return (
         <DashboardLayout>
           <Component {...pageProps} />
         </DashboardLayout>
-      </ConfigProvider>
-    )
+      )
+    }
+
+    return <Component {...pageProps} />
   }
 
-  return <ConfigProvider theme={{}} ><Component {...pageProps} /></ConfigProvider>
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ConfigProvider theme={{}}>{layout()}</ConfigProvider>
+    </QueryClientProvider>
+  )
 }
