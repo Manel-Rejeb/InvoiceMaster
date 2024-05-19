@@ -81,10 +81,13 @@ export function DataTable<T>({ data, columns }: PropsWithChildren<ComponentProps
       <div className='w-full flex-1 flex items-center justify-between px-6'>
         <div className='flex-1 flex items-center space-x-6 lg:space-x-8'>
           <div className='flex-1 w-full flex items-center space-x-2'>
-            <p className='text-sm font-medium'>Rows</p>
+            <div className='flex w-[100px] items-center justify-center text-sm font-medium'>
+              <p className='text-sm font-medium'>
+                showing 1 to {Math.min(table.getState().pagination.pageSize, table.getRowCount())} of {table.getRowCount()}
+              </p>
+            </div>
             <Select
               defaultValue={`${table.getState().pagination.pageSize}`}
-              style={{ width: 120 }}
               onChange={(value) => {
                 table.setPageSize(Number(value))
               }}
@@ -98,7 +101,6 @@ export function DataTable<T>({ data, columns }: PropsWithChildren<ComponentProps
             />
           </div>
           <div className='flex items-center space-x-2'>
-            <div className='flex w-[100px] items-center justify-center text-sm font-medium'>Total {table.getRowCount()}</div>
             <Button icon={<LuChevronFirst className='h-4 w-4' />} onClick={() => table.setPageIndex(0)} disabled={!table.getCanPreviousPage()} />
             <Button icon={<LuChevronLeft className='h-4 w-4' />} onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()} />
             <div className='flex w-[100px] items-center justify-center text-sm font-medium'>
