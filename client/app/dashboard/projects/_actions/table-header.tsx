@@ -53,10 +53,8 @@ export const projectColumns: ColumnDef<ProjectType>[] = [
     accessorKey: 'id',
     cell: ({ row }) => (
       <div className='flex items-center justify-end gap-2'>
-        <Link href={`/dashboard/projects/${row.id}`}>
-          <a>
-            <Edit className='text-blue-500' size={18} />
-          </a>
+        <Link href={`/dashboard/projects/${row.original.id}`}>
+          <Edit className='text-blue-500' size={18} />
         </Link>
         <button onClick={() => DELETE(row.id)}>
           <Trash className='text-red-500' size={18} />
