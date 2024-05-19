@@ -20,9 +20,14 @@ export class TaxesController {
   constructor(private readonly taxesService: TaxesService) {}
 
   @Post()
-  create(@Body() createTax: Tax, @Query('estimate') estimateId) {
-    return this.taxesService.create(createTax, +estimateId);
+  create(@Body() createTax: Tax) {
+    return this.taxesService.create(createTax);
   }
+
+  // @Post()
+  // create(@Body() createTax: Tax, @Query('estimate') estimateId) {
+  //   return this.taxesService.create(createTax, +estimateId);
+  // }
 
   @Get()
   findAll() {

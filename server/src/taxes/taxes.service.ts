@@ -14,19 +14,24 @@ export class TaxesService {
     private readonly estimateRepository: Repository<Estimate>,
   ) {}
 
-  async create(createTax: Tax, estimateId: number): Promise<Tax> {
-    const estimate = await this.taxRepository.findOneBy({
-      id: estimateId,
-    });
-    if (!estimate) {
-      throw new NotFoundException('estimate not found');
-    }
-    const newTax = await this.taxRepository.create({
-      ...createTax,
-      estimates: estimate,
-    });
+  async create(createTax: Tax): Promise<Tax> {
+    const newTax = await this.taxRepository.create(createTax);
     return this.taxRepository.save(newTax);
   }
+
+  // async create(createTax: Tax, estimateId: number): Promise<Tax> {
+  //   const estimate = await this.taxRepository.findOneBy({
+  //     id: estimateId,
+  //   });
+  //   if (!estimate) {
+  //     throw new NotFoundException('estimate not found');
+  //   }
+  //   const newTax = await this.taxRepository.create({
+  //     ...createTax,
+  //     estimates: estimate,
+  //   });
+  //   return this.taxRepository.save(newTax);
+  // }
 
   async findAll(): Promise<Tax[]> {
     return this.taxRepository.find({
