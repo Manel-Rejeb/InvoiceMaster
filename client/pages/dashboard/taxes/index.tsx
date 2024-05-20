@@ -1,4 +1,4 @@
-import { type JSX, useEffect } from 'react'
+import { type JSX } from 'react'
 
 import { Spin } from 'antd/lib'
 import { useQuery } from '@tanstack/react-query'

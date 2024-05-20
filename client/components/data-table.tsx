@@ -81,9 +81,9 @@ export function DataTable<T>({ data, columns }: PropsWithChildren<ComponentProps
       <div className='w-full flex-1 flex items-center justify-between px-6'>
         <div className='flex-1 flex items-center space-x-6 lg:space-x-8'>
           <div className='flex-1 w-full flex items-center space-x-2'>
-            <div className='flex w-[100px] items-center justify-center text-sm font-medium'>
+            <div className='flex items-center justify-center text-sm font-medium'>
               <p className='text-sm font-medium'>
-                showing 1 to {Math.min(table.getState().pagination.pageSize, table.getRowCount())} of {table.getRowCount()}
+                Showing 1 to {Math.min(table.getState().pagination.pageSize, table.getRowCount())} of {table.getRowCount()}
               </p>
             </div>
             <Select
