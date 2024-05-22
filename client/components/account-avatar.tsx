@@ -7,12 +7,10 @@ interface ComponentProps {}
 const items: MenuProps['items'] = [
   {
     key: '0',
-    label: (
-      <div className='capitalize flex items-center gap-2'>
+    label: <div className='capitalize flex items-center gap-2'>
         <AiOutlineUser size={18} />
         <p>profile</p>
-      </div>
-    ),
+    </div>,
   },
   {
     key: '1',
@@ -28,12 +26,10 @@ const items: MenuProps['items'] = [
   },
   {
     key: '3',
-    label: (
-      <div className='capitalize flex items-center gap-2'>
+    label: <div className='capitalize flex items-center gap-2'>
         <AiOutlineClose />
         <p>logout</p>
-      </div>
-    ),
+    </div>,
   },
 ]
 
@@ -42,7 +38,7 @@ export const AccountAvatar: FC<ComponentProps> = ({}) => {
     <Dropdown menu={{ items }} trigger={['click']}>
       <button className='h-16 w-16 flex items-center justify-center' onClick={(e) => e.preventDefault()}>
         <Space>
-          <Avatar size={32} icon={<AiOutlineUser />} />
+          <Avatar size={42} icon={<AiOutlineUser />} />
         </Space>
       </button>
     </Dropdown>

@@ -3,10 +3,10 @@
 import type { JSX, PropsWithChildren } from 'react'
 import { useMemo, useState } from 'react'
 import { type ColumnDef, useReactTable, getCoreRowModel, getSortedRowModel, getFilteredRowModel, getPaginationRowModel, flexRender, type SortingState, type PaginationState } from '@tanstack/react-table'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { LuChevronFirst, LuChevronLast, LuChevronLeft, LuChevronRight } from 'react-icons/lu'
 
 import { Button, Select } from 'antd/lib'
+
 
 /*
   a table should accept props - columns / data  
@@ -40,12 +40,12 @@ export function DataTable<T>({ data, columns }: PropsWithChildren<ComponentProps
   return (
     <div className='w-full overflow-hidden'>
       {/* <div className='flex items-center p-4'></div> */}
-      <Table className='w-full rounded-none'>
-        <TableHeader className='bg-gray-100 h-[42px]'>
+      <table className='w-full rounded-none'>
+        <thead className='bg-gray-100 h-[42px]'>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
+            <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <TableHead
+                <th
                   key={header.id}
                   colSpan={header.colSpan}
                   className='px-3 capitalize'
@@ -53,31 +53,31 @@ export function DataTable<T>({ data, columns }: PropsWithChildren<ComponentProps
                     width: header.getSize() !== 150 ? header.getSize() : 'auto',
                   }}>
                   {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                </TableHead>
+                </th>
               ))}
-            </TableRow>
+            </tr>
           ))}
-        </TableHeader>
-        <TableBody>
+        </thead>
+        <tbody>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'} className='h-[64px]'>
+              <tr key={row.id} data-state={row.getIsSelected() && 'selected'} className='h-[64px]'>
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id} className='px-3'>
+                  <td key={cell.id} className='px-3'>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
+                  </td>
                 ))}
-              </TableRow>
+              </tr>
             ))
           ) : (
-            <TableRow aria-colspan={columns.length}>
-              <TableCell className='text-center text-sm text-content-display py-4' colSpan={columns.length}>
+            <tr aria-colspan={columns.length}>
+              <td className='text-center text-sm text-content-display py-4' colSpan={columns.length}>
                 No data available
-              </TableCell>
-            </TableRow>
+              </td>
+            </tr>
           )}
-        </TableBody>
-      </Table>
+        </tbody>
+      </table>
       <div className='w-full flex-1 flex items-center justify-between px-6'>
         <div className='flex-1 flex items-center space-x-6 lg:space-x-8'>
           <div className='flex-1 w-full flex items-center space-x-2'>
