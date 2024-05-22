@@ -35,7 +35,7 @@ export class TaxesService {
 
   async findAll(): Promise<Tax[]> {
     return this.taxRepository.find({
-      relations: ['estimates'],
+      order: { id: 'DESC' },
     });
   }
 

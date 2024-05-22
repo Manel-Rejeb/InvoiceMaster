@@ -3,7 +3,9 @@ interface TaxType {
   tax_name: string
   tax_percentage: number
   tax_description: string
+  isSoftDelete: string
   createdAt?: string
   updatedAt?: string
-  isSoftDelete?: boolan
 }
+
+type TaxFormType = Omit<TaxType, 'createdAt' | 'updateAt'>
