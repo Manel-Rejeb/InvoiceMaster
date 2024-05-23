@@ -52,7 +52,10 @@ export class Project {
 
   // Establishing one-to-many relationship with Customer
   @ApiProperty({ type: () => Customer })
-  @ManyToOne(() => Customer, (customer) => customer.projects)
+  @ManyToOne(() => Customer, (customer) => customer.projects, {
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+  })
   @JoinTable()
   customer: Customer;
 

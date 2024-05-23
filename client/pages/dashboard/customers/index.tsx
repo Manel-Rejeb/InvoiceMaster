@@ -1,30 +1,35 @@
 import { type JSX } from 'react'
 
-import { GET } from '@/actions/customer-actions'
 import { useQuery } from '@tanstack/react-query'
-import { Spin } from 'antd/lib'
-import { customerColumns } from '@/components/table-headers/customer-tableheader'
-import { DataTable } from '@/components/data-table'
+import Link from 'next/link'
+import { Button, Input } from 'antd/lib'
 
+import { GET } from '@/actions/customer-actions'
+import { CustomerTable } from '@/components/table-headers/customer-tableheader'
+import { AiOutlineSearch } from 'react-icons/ai'
 
-export default function Customers() : JSX.Element {
-   const {data: customers, isLoading} = useQuery({
-         queryKey: ['customers'],
-         queryFn: GET,
-         staleTime: 0
-   })
+export default function Customers(): JSX.Element {
+  const { data, isLoading } = useQuery({
+    queryKey: ['customers'],
+    queryFn: GET,
+    staleTime: 0,
+  })
 
-if(isLoading) {
-    return (
-        <div className="flex items-center justify-center w-full h-full">
-        <Spin />
+  return (
+    <div className='bg-white h-full w-full flex flex-col items-center border shadow-sm mx-auto gap-6 rounded-md overflow-hidden'>
+      <div className='w-full flex items-center justify-between'>
+        <div>
+          <Input placeholder='Search Customer' suffix={<AiOutlineSearch />} />
         </div>
-    )
-}
-
-    return (
-        <div className='w-full flex items-center justify-center'>
-        <DataTable<CustomerType> data={customers} columns={customerColumns} />
+        <Link passHref href={'/dashboard/customers/create'}>
+          <Button type='primary' className='capitalize'>
+            create new
+          </Button>
+        </Link>
       </div>
-    )
+      <div className='w-full'>
+        <CustomerTable isLoading={isLoading} data={data} />
+      </div>
+    </div>
+  )
 }

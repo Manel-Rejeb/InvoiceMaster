@@ -4,9 +4,22 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 
 import { type MenuProps, Button, Layout, Menu, theme } from 'antd/lib'
-import { AiOutlineMenuFold, AiOutlineMenuUnfold, AiOutlineSetting, AiOutlinePieChart, AiOutlineTeam, AiOutlineFileDone, AiOutlineCluster, AiOutlinePercentage, AiOutlineShopping, AiOutlineShop, AiOutlineProject } from 'react-icons/ai'
+import {
+  AiOutlineMenuFold,
+  AiOutlineMenuUnfold,
+  AiOutlineSetting,
+  AiOutlinePieChart,
+  AiOutlineTeam,
+  AiOutlineFileDone,
+  AiOutlineCluster,
+  AiOutlinePercentage,
+  AiOutlineShopping,
+  AiOutlineShop,
+  AiOutlineProject,
+} from 'react-icons/ai'
 
 import { AccountAvatar } from '@/components/account-avatar'
+import { BreadCrumbs } from '@/components/breadcrumb'
 
 interface ComponentProps {
   children: ReactNode
@@ -21,7 +34,7 @@ export const DashboardLayout: FC<ComponentProps> = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false)
 
   const {
-    token: { colorBgContainer, borderRadiusLG },
+    token: { colorBgContainer },
   } = theme.useToken()
 
   const menu_items: MenuItem[] = [
@@ -33,49 +46,49 @@ export const DashboardLayout: FC<ComponentProps> = ({ children }) => {
     },
     {
       key: '2',
-      icon: <AiOutlineTeam   size={21} /> ,
+      icon: <AiOutlineTeam size={21} />,
       label: 'Users',
       onClick: () => push('/dashboard/users'),
     },
     {
       key: '3',
-      icon: <AiOutlineShop  size={21}/>,
+      icon: <AiOutlineShop size={21} />,
       label: 'Customers',
       onClick: () => push('/dashboard/customers'),
     },
     {
       key: '4',
-      icon: <AiOutlineShopping  size={21}/>,
+      icon: <AiOutlineShopping size={21} />,
       label: 'Articles',
       onClick: () => push('/dashboard/articles'),
     },
     {
       key: '5',
-      icon: <AiOutlineFileDone  size={21}/>,
+      icon: <AiOutlineFileDone size={21} />,
       label: 'Invoices',
       onClick: () => push('/dashboard/invoices'),
     },
     {
       key: '6',
-      icon: <AiOutlineProject  size={21} />,
+      icon: <AiOutlineProject size={21} />,
       label: 'Estimates',
       onClick: () => push('/dashboard/estimates'),
     },
     {
       key: '7',
-      icon: <AiOutlinePercentage  size={21}/>,
+      icon: <AiOutlinePercentage size={21} />,
       label: 'Taxes',
       onClick: () => push('/dashboard/taxes'),
     },
     {
       key: '8',
-      icon: <AiOutlineCluster  size={21} />,
+      icon: <AiOutlineCluster size={21} />,
       label: 'Projects',
       onClick: () => push('/dashboard/projects'),
     },
     {
       key: '9',
-      icon: <AiOutlineSetting  size={21}/>,
+      icon: <AiOutlineSetting size={21} />,
       label: 'Settings',
       onClick: () => push('/dashboard/settings'),
     },
@@ -84,9 +97,12 @@ export const DashboardLayout: FC<ComponentProps> = ({ children }) => {
   /* handles selected menu item index */
   const [selectedeMenuItem, setSelectedMenuItem] = useState('1')
   useEffect(() => {
-    const currentPath = paths.find((path) => path.path.includes(pathname))
+    console.log('Current pathname:', pathname)
+    const currentPath = paths.find((path) => pathname.startsWith(path.path)) // TODO: fix bug for selected dynamic paths
     if (currentPath) {
       setSelectedMenuItem(currentPath.key)
+    } else {
+      setSelectedMenuItem('1')
     }
   }, [pathname])
 
@@ -100,27 +116,22 @@ export const DashboardLayout: FC<ComponentProps> = ({ children }) => {
       </Sider>
       <Layout>
         <Header style={{ position: 'sticky', top: 0, zIndex: 1, width: '100%', padding: 0, background: colorBgContainer }} className='flex items-center justify-between border-b shadow-sm'>
-          <Button
-            type='text'
-            onClick={() => setCollapsed(!collapsed)}
-            icon={collapsed ? <AiOutlineMenuUnfold size={21} /> : <AiOutlineMenuFold size={21} />}
-            style={{
-              fontSize: '16px',
-              width: 64,
-              height: 64,
-            }}
-          />
+          <div className='flex items-center'>
+            <Button
+              type='text'
+              onClick={() => setCollapsed(!collapsed)}
+              icon={collapsed ? <AiOutlineMenuUnfold size={21} /> : <AiOutlineMenuFold size={21} />}
+              style={{
+                fontSize: '16px',
+                width: 64,
+                height: 64,
+              }}
+            />
+            <BreadCrumbs />
+          </div>
           <AccountAvatar />
         </Header>
-        <Content
-          style={{
-            margin: '24px 16px',
-            background: colorBgContainer,
-            borderRadius: borderRadiusLG,
-          }}
-          className='border shadow-sm h-full overflow-hidden'>
-          {children}
-        </Content>
+        <Content style={{ margin: '24px 16px' }}>{children}</Content>
         <Footer style={{ textAlign: 'center' }}>Visto Consulting ©{new Date().getFullYear()} Created by Manel Rejeb.</Footer>
       </Layout>
     </Layout>

@@ -1,30 +1,37 @@
 import { type JSX } from 'react'
 
-import { Spin } from 'antd/lib'
 import { useQuery } from '@tanstack/react-query'
+import { Button, Input } from 'antd/lib'
+import Link from 'next/link'
 
 import { GET } from '@/actions/tax-action'
-import { DataTable } from '@/components/data-table'
-import { taxColumns } from '@/components/table-headers/tax-tableheader'
+import { AiOutlineSearch } from 'react-icons/ai'
+import { TaxTable } from '@/components/table-headers/tax-tableheader'
 
 export default function Tax(): JSX.Element {
-  const { data: taxes, isLoading } = useQuery({
+
+  const { data, isLoading } = useQuery({
     queryKey: ['taxes'],
     queryFn: GET,
     staleTime: 0,
   })
 
-  if (isLoading) {
-    return (
-      <div className='w-full h-full flex items-center justify-center'>
-        <Spin />
-      </div>
-    )
-  }
-
   return (
-    <div className='w-full flex items-center justify-center'>
-      <DataTable<TaxType> data={taxes} columns={taxColumns} />
+    <div className='bg-white h-full w-full flex flex-col items-center border shadow-sm mx-auto gap-6 rounded-md overflow-hidden'>
+      <div className='w-full flex items-center justify-between'>
+        <div>
+          <Input placeholder='Search Tax' suffix={<AiOutlineSearch />} />
+        </div>
+        <Link passHref href={'/dashboard/taxes/create'}>
+          <Button type='primary' className='capitalize'>
+            create new
+          </Button>
+        </Link>
+      </div>
+
+      <div className='w-full'>
+        <TaxTable isLoading={isLoading} data={data} />  
+      </div>
     </div>
   )
 }

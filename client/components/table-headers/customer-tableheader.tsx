@@ -1,92 +1,95 @@
-import { DELETE } from "@/actions/customer-actions";
-import { queryClient } from "@/util/react-query-client";
-import { useMutation } from "@tanstack/react-query";
-import { ColumnDef } from "@tanstack/react-table";
-import { useState } from "react";
-import { LuFileEdit, LuTrash } from "react-icons/lu";
-import { DeleteModal } from "../delete-modal";
+import { type FC } from 'react'
+import { DELETE } from '@/actions/customer-actions'
+import { queryClient } from '@/util/react-query-client'
+import { useMutation } from '@tanstack/react-query'
+import { Button, message, Table, TableColumnsType } from 'antd/lib'
+import { Popconfirm, Space } from 'antd/lib'
+import Link from 'next/link'
+import { LuFileEdit, LuTrash } from 'react-icons/lu'
 
+interface ComponentProps {
+  isLoading: boolean
+  data: CustomerType[]
+}
 
+export const CustomerTable: FC<ComponentProps> = ({ isLoading, data }) => {
+  const [messageApi, contextHolder] = message.useMessage()
 
-export const customerColumns: ColumnDef<CustomerType>[] = [
+  // delete mutation
+  const { mutate } = useMutation({
+    mutationFn: DELETE,
+    onSettled: async () => {
+      return await queryClient.invalidateQueries({ queryKey: ['customers'] })
+    },
+    onSuccess: () =>
+      messageApi.open({
+        type: 'success',
+        content: 'Item successfully delete.',
+      }),
+    onError: () =>
+      messageApi.open({
+        type: 'error',
+        content: 'Can not delete this item.',
+      }),
+  })
+
+  // table header
+  const customerColumns: TableColumnsType<CustomerType> = [
+    Table.EXPAND_COLUMN,
     {
-      id: 'customer-reference',
-      header: 'Reference',
-      accessorKey: 'customer_reference',
+      title:'id',
+      dataIndex:'id',
+      key:'id',
+
     },
     {
-      id: 'customer-email',
-      header: 'Name',
-      accessorKey: 'customer_email',
-      cell: ({ row }) => (
-        <div>
-          <div>
-            {!row.original.type_customer
-              ? `${row.original.individual?.first_name} ${row.original.individual?.last_name}`
-              : row.original.corporate?.corporation_name}
-          </div>
-          <div>
-            <p>{row.original.customer_email}</p>
-          </div>
-        </div>
+      title: 'Reference',
+      dataIndex: 'customer_reference',
+      key: 'customer_reference',
+    },
+    {
+      title: 'email',
+      dataIndex: 'customer_email',
+      key: 'customer_email',
+    },
+    {
+      title: 'Type',
+      dataIndex: 'customer_type',
+      key: 'customer_type',
+      render: (type_customer) => (type_customer ? 'Corporate' : 'Individual'),
+    },
+    {
+      title: 'Address',
+      dataIndex: 'customer_address',
+      key: 'customer_address',
+    },
+    {
+      title: 'Phone number',
+      dataIndex: 'customer_number',
+      key: 'customer_number',
+    },
+    {
+      title: 'Action',
+      dataIndex: 'id',
+      key: 'id',
+      align: 'right',
+      render: (id) => (
+        <Space>
+          <Link href={`/dashboard/customers/${id}`}>
+            <Button icon={<LuFileEdit size={18} />} />
+          </Link>
+          <Popconfirm title='Delete the task' description='Are you sure to delete this task?' okText='Yes' cancelText='No' onConfirm={() => mutate(id)}>
+            <Button icon={<LuTrash size={18} />} danger />
+          </Popconfirm>
+        </Space>
       ),
     },
-    {
-      id: 'customer-type',
-      header: 'Type',
-      accessorFn: (row) => (row.type_customer ? 'Corporate' : 'Individual'),
-    },
-    {
-      id: 'customer-address',
-      header: 'Address',
-      accessorKey: 'customer_address',
-    },
-    {
-      id: 'customer-number',
-      header: 'Phone number',
-      accessorKey: 'customer_number',
-    },
-    {
-      id: 'customer-country',
-      header: 'Country',
-      accessorKey: 'customer_country',
-    },
-    {
-        id: 'actions',
-        header: (row) => <div className='flex justify-end capitalize'>{row.header.id}</div>,
-        accessorKey: 'id',
-        cell: ({ row }) => {    
-            const [isModalOpen, setIsModelOpen] = useState(false)
-            const { mutate } = useMutation({
-              mutationFn: DELETE,
-              onSettled: async () => {
-                return await queryClient.invalidateQueries({ queryKey: ['customers'] })
-              },
-              onSuccess: () => setIsModelOpen(false),
-                onError: () => {
-                    alert('not deleted')
-                },
-            })
+  ]
 
-            return (
-                <div className='flex flex-row-reverse justify-end gap-2'>
-                  <button title='Delete Item'>
-                    <LuTrash size={21} className='text-red-600' onClick={() => setIsModelOpen(true)} />
-                    <DeleteModal
-                      title={`Delete ${row.original.customer_reference}`}
-                      description={`Are you sure you want to delete the item with id = ${row.original.id}?`}
-                      isModalOpen={isModalOpen}
-                      handleOk={() => mutate(row.original.id!)}
-                      handleCancel={() => setIsModelOpen(false)}
-                    />
-                  </button>
-                  <button title='Update Item'>
-                    <LuFileEdit size={21} className='text-blue-600' />
-                  </button>
-                  <div className='flex-1' />
-                </div>
-              )
-            },
-          },
-        ]
-        
+  return (
+    <>
+      {contextHolder}
+      <Table columns={customerColumns} rowKey={'id'} dataSource={data} loading={isLoading} bordered />
+    </>
+  )
+}

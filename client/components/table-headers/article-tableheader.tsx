@@ -1,90 +1,109 @@
-import {useState} from 'react'
+import {FC} from 'react'
 
-import { ColumnDef } from '@tanstack/react-table'
 import { useMutation } from '@tanstack/react-query'
-import { LuFileEdit, LuTrash } from 'react-icons/lu'
 
 import { DELETE } from '@/actions/article-actions'
 import { queryClient } from '@/util/react-query-client'
-import { DeleteModal } from '../delete-modal'
+import { Button, Space} from 'antd/lib'
+import { message, Popconfirm, Table, TableColumnsType } from 'antd/lib'
+import Link from 'next/link'
+import { LuFileEdit, LuTrash } from 'react-icons/lu'
 
-export const articleColumns: ColumnDef<ArticleType>[] = [
-  {
-    id: 'article-name',
-    header: 'Article Name',
-    accessorKey: 'article_name',
-  },
-  {
-    id: 'article-description',
-    header: 'Description',
-    accessorKey: 'article_description',
-  },
-  {
-    id: 'article-type',
-    header: 'Type',
-    accessorKey: 'article_type',
-    accessorFn: (row) => (row.article_type ? 'Service' : 'Product'),
-  },
-  {
-    id: 'price',
-    header: 'Price',
-    accessorFn: (row) =>
-      Intl.NumberFormat('fr-TN', { style: 'currency', currency: row.article_currency }).format(row.article_price),
-  },
-  {
-    id: 'tax',
-    header: 'Tax',
-    accessorFn: (row) => `${row.article_tax}%`,
-  },
-  {
-    id: 'quantity',
-    header: 'Unit',
-    accessorKey: 'article_unit',
-  },
-  {
-    id: 'Currency',
-    header: 'Currency',
-    accessorKey: 'article_currency',
-  },
-  {
-    id: 'actions',
-    header: (row) => <div className='flex justify-end capitalize'>{row.header.id}</div>,
-    accessorKey: 'id',
-    cell: ({ row }) => {
-        const [isModalOpen, setIsModelOpen] = useState(false)
-        const { mutate } = useMutation({
-          mutationFn: DELETE,
-          onSettled: async () => {
-            return await queryClient.invalidateQueries({ queryKey: ['articles'] })
-          },
-          onSuccess: () => setIsModelOpen(false),
-          onError: () => {
-            alert('not deleted')
-          },
-        })
+interface ComponentProps {
+  isLoading: boolean;
+  data: ArticleType[];
+}
 
-    return(
+export const ArticleTable:FC<ComponentProps> = ({isLoading, data }) => {
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const { mutate } = useMutation({
+    mutationFn: DELETE,
+    onSettled: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['articles'] })
+    },
+    onSuccess: () => 
+      messageApi.open({
+        type: 'success',
+        content: 'Item successfully deleted.',
+      }),
+    onError: () => 
+      messageApi.open({
+        type: 'error',
+        content: 'Cannot delete this item.',
+      }),
+  });
+
+  // table header
+const articleColumns: TableColumnsType<ArticleType> = [
+  Table.EXPAND_COLUMN,
+  {
+    title: 'Name',
+    dataIndex: 'article_name',
+    key: 'article_name',
+    sorter: (a, b) => a.article_name.toLowerCase().localeCompare(b.article_name.toLowerCase()),
+    width: '30%',
+  },
+  {
+    title: 'Description',
+    dataIndex: 'article_description',
+    key: 'article_description',
+  },
+ 
+  {
+title: 'Type',
+dataIndex: 'article_type',
+key: 'article_type',
+render: (article_type) => (article_type ? 'Service' : 'Product'),
+  },  
+  {
+title: 'Price',
+dataIndex: 'article_price',
+key: 'article_price',
+render: (article_price, record) =>
+  Intl.NumberFormat('fr-TN', { style: 'currency', currency:record.article_currency}).format(record.article_price),
+  },
+  {
+title: 'Tax',
+dataIndex: 'article_tax',
+key: 'article_tax',
+render: (article_tax) => `${article_tax.article_tax}%`,
+  },
+  {
+    title: 'Unit',
+    dataIndex: 'article_unit',
+    key: 'article_unit',
+  },
+  {
+    title: 'Currency',
+    dataIndex: 'article_currency',
+    key: 'article_currency',
+  },
+  {
+    title:'Action',
+    dataIndex:'id',
+    key:'id',
+    align:'right',
+    render:(id)=>(
+<Space>
+<Link href={`/dashboard/articles/${id}`}>
+  <Button icon={<LuFileEdit size={18} />} />
+</Link>
+<Popconfirm title='Delete the task' description='Are you sure to delete this task?' okText='Yes' cancelText='No' onConfirm={() => mutate(id)}>
+  <Button icon={<LuTrash size={18} />} danger />
+</Popconfirm>
+</Space>
+    ),
+  },
+]
+   return(
         
-        <div className='flex flex-row-reverse justify-end gap-2'>
-            <button title='Delete Item'>
-                <LuTrash size={21} className='text-red-600' onClick={() => setIsModelOpen(true)} />
-                <DeleteModal
-                  title={`Delete ${row.original.article_name}`}
-                  description={`Are you sure you want to delete the item with id = ${row.original.id}?`}
-                  isModalOpen={isModalOpen}
-                  handleOk={() => mutate(row.original.id!)}
-                  handleCancel={() => setIsModelOpen(false)}
-                />
-            </button>
-            <button title='Update Item'>
-                <LuFileEdit size={21} className='text-blue-600' />
-            </button>
-            <div className='flex-1' />
-        </div>
+       <>
+       {contextHolder}
+        <Table columns={articleColumns} rowKey={'id'} dataSource={data} loading={isLoading} bordered />
+       </>
 
 
     )
-},
-    },
-    ]
-
+}
+ 

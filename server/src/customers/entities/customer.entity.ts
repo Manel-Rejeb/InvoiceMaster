@@ -68,9 +68,7 @@ export class Customer {
 
   // Establishing one-to-many relationship with Project
   @ApiProperty({ type: () => Project })
-  @OneToMany(() => Project, (project) => project.customer, {
-    cascade: true,
-  })
+  @OneToMany(() => Project, (project) => project.customer)
   @JoinTable()
   projects: Project[];
 

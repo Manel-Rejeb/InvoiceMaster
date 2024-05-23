@@ -7,7 +7,6 @@ type ArticleType = {
   article_currency: string
   article_tax: number
   article_unit: string
-  article_picture: string
   createdAt: string
   updatedAt: string
   isSoftDelete: boolean

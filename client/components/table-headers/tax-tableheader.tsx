@@ -16,13 +16,6 @@ interface ComponentProps {
   data: TaxType[];
 }
 
-interface TableParams {
-  pagination?: TablePaginationConfig;
-  sortField?: string;
-  sortOrder?: string;
-  filters?: Record<string, any>;
-}
-
 export const TaxTable: FC<ComponentProps> = ({ isLoading, data = [] }) => {
   const [messageApi, contextHolder] = message.useMessage();
 

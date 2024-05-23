@@ -1,5 +1,5 @@
 type CustomerType = {
-  id: number
+  id?: number
   type_customer: boolean
   customer_email: string
   customer_number: number
