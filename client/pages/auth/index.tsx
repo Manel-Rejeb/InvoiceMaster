@@ -42,7 +42,7 @@ const Auth = () => {
 
             <div className='mt-8'>
               {/* <!-- Form --> */}
-              <Form layout='vertical' onFinish={(values: LoginFormType) => mutate(values)} style={{ maxWidth: 600 }} autoComplete='off'>
+              <Form layout='vertical' size='large' onFinish={(values: LoginFormType) => mutate(values)} autoComplete='off'>
                 <Form.Item<AuthLogin> label='Username' name='email' rules={[{ required: true, message: 'Please input your username!' }]}>
                   <Input />
                 </Form.Item>
@@ -73,7 +73,7 @@ const Auth = () => {
           </div>
         </div>
       </div>
-      <div className='bg-[#001529] flex-1 flex items-center justify-center bg-no-repeat bg-cover bg-center'>
+      <div className='bg-blue-500 flex-1 flex items-center justify-center bg-[url(/assets/bg-auth-image.png) bg-no-repeat bg-cover bg-center'>
         <img className='w-[70%]' alt='auth-image' src='assets/auth-screens.png' />
       </div>
     </div>
