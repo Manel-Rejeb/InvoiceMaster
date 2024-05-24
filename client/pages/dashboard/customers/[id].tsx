@@ -62,7 +62,7 @@ export default function Customer(): JSX.Element {
   }
 
   return (
-    <div className='bg-white h-full w-full flex flex-col items-center border shadow-sm mx-auto p-6 rounded-md overflow-hidden'>
+    <div className='bg-white h-full w-full flex flex-col items-center  mx-auto p-6  overflow-hidden'>
       <Form form={form} layout='vertical' onFinish={(values: CustomerFormType) => mutate({ ...customer, ...values, customer_type: isCorporate })} className='w-full'>
         <Space>
           <Typography.Text>Individual</Typography.Text>

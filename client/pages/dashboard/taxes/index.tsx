@@ -9,7 +9,6 @@ import { AiOutlineSearch } from 'react-icons/ai'
 import { TaxTable } from '@/components/table-headers/tax-tableheader'
 
 export default function Tax(): JSX.Element {
-
   const { data, isLoading } = useQuery({
     queryKey: ['taxes'],
     queryFn: GET,
@@ -17,7 +16,7 @@ export default function Tax(): JSX.Element {
   })
 
   return (
-    <div className='bg-white h-full w-full flex flex-col items-center border shadow-sm mx-auto gap-6 rounded-md overflow-hidden'>
+    <div className='bg-white h-full w-full flex flex-col items-center  mx-auto gap-6  overflow-hidden'>
       <div className='w-full flex items-center justify-between'>
         <div>
           <Input placeholder='Search Tax' suffix={<AiOutlineSearch />} />
@@ -30,7 +29,7 @@ export default function Tax(): JSX.Element {
       </div>
 
       <div className='w-full'>
-        <TaxTable isLoading={isLoading} data={data} />  
+        <TaxTable isLoading={isLoading} data={data} />
       </div>
     </div>
   )

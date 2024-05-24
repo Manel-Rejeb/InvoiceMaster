@@ -59,7 +59,7 @@ export default function Article(): JSX.Element {
   }
 
   return (
-    <div className='bg-white h-full w-full flex flex-col items-center border shadow-sm mx-auto p-6 rounded-md overflow-hidden'>
+    <div className='bg-white h-full w-full flex flex-col items-center  mx-auto p-6  overflow-hidden'>
       <Form form={form} layout='vertical' onFinish={(values: ProjectFormType) => mutate(values)} className='w-full'>
         <Form.Item label='Project Name' name='project_name' rules={rules.name}>
           <Input placeholder='Enter project name' />

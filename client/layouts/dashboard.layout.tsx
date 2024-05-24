@@ -105,8 +105,7 @@ export const DashboardLayout: FC<ComponentProps> = ({ children }) => {
   /* handles selected menu item index */
   const [selectedeMenuItem, setSelectedMenuItem] = useState('1')
   useEffect(() => {
-    console.log('Current pathname:', pathname)
-    const currentPath = paths.find((path) => pathname.startsWith(path.path)) // TODO: fix bug for selected dynamic paths
+    const currentPath = paths.find((path) => pathname.includes(path.label))
     if (currentPath) {
       setSelectedMenuItem(currentPath.key)
     } else {
@@ -117,8 +116,8 @@ export const DashboardLayout: FC<ComponentProps> = ({ children }) => {
   return (
     <Layout>
       <Sider width={275} trigger={null} collapsible collapsed={collapsed} style={{ overflow: 'auto', height: '100vh', position: 'sticky', left: 0, top: 0, bottom: 0 }}>
-        <div className='h-16 mb-6 flex items-center justify-center'>
-          <Image src='/logo/visto.png' height={48} width={collapsed ? 42 : 82} alt='visto logo image' />
+        <div className='h-12 mb-6 flex items-center justify-center m-2 rounded-[2px]' style={{ background: '#f5f5f5' }}>
+          <Image src='/logo/vistopic.png' height={48} width={collapsed ? 42 : 82} alt='visto logo image' />
         </div>
         <Menu theme='dark' mode='inline' selectedKeys={[selectedeMenuItem]} items={menu_items} />
       </Sider>
@@ -139,21 +138,24 @@ export const DashboardLayout: FC<ComponentProps> = ({ children }) => {
           </div>
           <AccountAvatar />
         </Header>
-        <Content style={{ margin: '24px 16px' }}>{children}</Content>
+        <Content style={{ margin: 16, padding: 24, borderRadius: 6, background: colorBgContainer }} className='border'>
+          {children}
+        </Content>
         <Footer style={{ textAlign: 'center' }}>Visto Consulting ©{new Date().getFullYear()} Created by Manel Rejeb.</Footer>
       </Layout>
     </Layout>
   )
 }
 
-const paths: { key: string; path: string }[] = [
-  { key: '1', path: '/dashboard' }, // Overview
-  { key: '2', path: '/dashboard/users' }, // Users
-  { key: '3', path: '/dashboard/customers' }, // Customers
-  { key: '4', path: '/dashboard/articles' }, // Articles
-  { key: '5', path: '/dashboard/invoices' }, // Invoices
-  { key: '6', path: '/dashboard/estimates' }, // Estimates
-  { key: '7', path: '/dashboard/taxes' }, // Taxes
-  { key: '8', path: '/dashboard/projects' }, // Projects
-  { key: '9', path: '/dashboard/settings' }, // Settings
+const paths: { key: string; label: string; path: string }[] = [
+  { key: '1', label: 'overview', path: '/dashboard' }, // Overview
+  { key: '2', label: 'users', path: '/dashboard/users' }, // Users
+  { key: '3', label: 'customers', path: '/dashboard/customers' }, // Customers
+  { key: '4', label: 'articles', path: '/dashboard/articles' }, // Articles
+  { key: '5', label: 'expenses', path: '/dashboard/expenses' }, // expenses
+  { key: '6', label: 'invoices', path: '/dashboard/invoices' }, // Invoices
+  { key: '7', label: 'estimates', path: '/dashboard/estimates' }, // Estimates
+  { key: '8', label: 'projects', path: '/dashboard/projects' }, // Projects
+  { key: '9', label: 'taxes', path: '/dashboard/taxes' }, // Taxes
+  { key: '10', label: 'settings', path: '/dashboard/settings' }, // Settings
 ]

@@ -29,6 +29,7 @@ export default function App({ Component, pageProps }: AppProps) {
         theme={{
           token: {
             borderRadius: 4,
+            fontSize: 16,
           },
         }}>
         {layout()}

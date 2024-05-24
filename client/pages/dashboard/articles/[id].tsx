@@ -61,7 +61,7 @@ export default function Article(): JSX.Element {
   }
 
   return (
-    <div className='bg-white h-full w-full flex flex-col items-center border shadow-sm mx-auto p-6 rounded-md overflow-hidden'>
+    <div className='bg-white h-full w-full flex flex-col items-center  mx-auto p-6  overflow-hidden'>
       <Form form={form} layout='vertical' onFinish={(values: ArticleFormType) => mutate({ ...values, article_tax_enabled: taxeable })} className='w-full'>
         <Form.Item<ArticleFormType> label='Article Name' name='article_name' className='flex-1' rules={rules.name}>
           <Input placeholder='article name' />

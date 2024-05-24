@@ -54,7 +54,7 @@ export default function Tax(): JSX.Element {
   }
 
   return (
-    <div className='bg-white h-full w-full flex flex-col items-center border shadow-sm mx-auto p-6 rounded-md overflow-hidden'>
+    <div className='bg-white h-full w-full flex flex-col items-center  mx-auto p-6  overflow-hidden'>
       <Form form={form} layout='vertical' onFinish={(values: TaxFormType) => mutate(values)} className='w-full'>
         <Form.Item<TaxFormType> label='Tax Name' name='tax_name' className='flex-1' rules={rules.name}>
           <Input placeholder='tax name' />
