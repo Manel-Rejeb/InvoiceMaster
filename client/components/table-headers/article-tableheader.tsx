@@ -1,12 +1,14 @@
 import { type FC, useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { LuFileEdit, LuTrash } from 'react-icons/lu'
+
+import { Button, Space, message, Popconfirm, Table, type TableColumnsType, Tag } from 'antd/lib'
 
 import { useMutation } from '@tanstack/react-query'
-import { LuFileEdit, LuTrash } from 'react-icons/lu'
-import { Button, Space, message, Popconfirm, Table, type TableColumnsType } from 'antd/lib'
-
 import { DELETE } from '@/actions/article-actions'
 import { queryClient } from '@/util/react-query-client'
+import { Typography } from 'antd'
 
 interface ComponentProps {
   isLoading: boolean
@@ -15,6 +17,8 @@ interface ComponentProps {
 
 export const ArticleTable: FC<ComponentProps> = ({ isLoading, data = [] }) => {
   const [messageApi, contextHolder] = message.useMessage()
+
+  const { pathname } = useRouter()
 
   const { mutate } = useMutation({
     mutationFn: DELETE,
@@ -41,35 +45,58 @@ export const ArticleTable: FC<ComponentProps> = ({ isLoading, data = [] }) => {
       dataIndex: 'article_name',
       key: 'article_name',
       sorter: (a, b) => a.article_name.toLowerCase().localeCompare(b.article_name.toLowerCase()),
+      render: (article_name) => <p className='capitalize'>{article_name}</p>,
       width: '30%',
-    },
-    {
-      title: 'Type',
-      dataIndex: 'article_type',
-      key: 'article_type',
-      render: (article_type) => (article_type ? 'Service' : 'Product'),
     },
     {
       title: 'Price',
       dataIndex: 'article_price',
       key: 'article_price',
-      render: (_, record) => Intl.NumberFormat('fr-TN', { style: 'currency', currency: record.article_currency }).format(record.article_price),
+      render: (_, record) => Intl.NumberFormat('en-EN', { style: 'currency', currency: record.article_currency }).format(record.article_price),
     },
+    pathname.includes('expenses') !== false
+      ? {
+          title: 'Buy Price',
+          dataIndex: 'article_buy_price',
+          key: 'article_buy_price',
+        }
+      : {
+          title: 'Type',
+          dataIndex: 'article_type',
+          key: 'article_type',
+          render: (unit) => {
+            switch (unit) {
+              case 'SERVICE':
+                return (
+                  <Tag className='font-medium' color='blue'>
+                    Service
+                  </Tag>
+                )
+              case 'PRODUCT':
+                return (
+                  <Tag className='font-medium' color='green'>
+                    Product
+                  </Tag>
+                )
+              default:
+                return (
+                  <Tag className='font-medium' color='red'>
+                    Other
+                  </Tag>
+                )
+            }
+          },
+        },
     {
-      title: 'Tax',
-      dataIndex: 'article_tax',
-      key: 'article_tax',
-      render: (article_tax) => `${article_tax}%`,
+      title: 'is Taxeable',
+      dataIndex: 'article_tax_enabled',
+      key: 'article_tax_enabled',
+      render: (tax) => (tax === true ? <Tag color='green'>YES</Tag> : <Tag color='red'>NO</Tag>),
     },
     {
       title: 'Unit',
       dataIndex: 'article_unit',
       key: 'article_unit',
-    },
-    {
-      title: 'Currency',
-      dataIndex: 'article_currency',
-      key: 'article_currency',
     },
     {
       title: 'Action',
@@ -78,7 +105,7 @@ export const ArticleTable: FC<ComponentProps> = ({ isLoading, data = [] }) => {
       align: 'right',
       render: (id) => (
         <Space>
-          <Link href={`/dashboard/articles/${id}`}>
+          <Link href={pathname.includes('expenses') ? `/dashboard/expenses/${id}` : `/dashboard/articles/${id}`}>
             <Button icon={<LuFileEdit size={18} />} />
           </Link>
           <Popconfirm title='Delete the task' description='Are you sure to delete this task?' okText='Yes' cancelText='No' onConfirm={() => mutate(id)}>

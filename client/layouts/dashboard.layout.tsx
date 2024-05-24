@@ -16,6 +16,7 @@ import {
   AiOutlineShopping,
   AiOutlineShop,
   AiOutlineProject,
+  AiOutlinePoundCircle,
 } from 'react-icons/ai'
 
 import { AccountAvatar } from '@/components/account-avatar'
@@ -64,21 +65,21 @@ export const DashboardLayout: FC<ComponentProps> = ({ children }) => {
     },
     {
       key: '5',
+      icon: <AiOutlinePoundCircle size={21} />,
+      label: 'Expenses',
+      onClick: () => push('/dashboard/expenses'),
+    },
+    {
+      key: '6',
       icon: <AiOutlineFileDone size={21} />,
       label: 'Invoices',
       onClick: () => push('/dashboard/invoices'),
     },
     {
-      key: '6',
+      key: '7',
       icon: <AiOutlineProject size={21} />,
       label: 'Estimates',
       onClick: () => push('/dashboard/estimates'),
-    },
-    {
-      key: '7',
-      icon: <AiOutlinePercentage size={21} />,
-      label: 'Taxes',
-      onClick: () => push('/dashboard/taxes'),
     },
     {
       key: '8',
@@ -88,6 +89,13 @@ export const DashboardLayout: FC<ComponentProps> = ({ children }) => {
     },
     {
       key: '9',
+      icon: <AiOutlinePercentage size={21} />,
+      label: 'Taxes',
+      onClick: () => push('/dashboard/taxes'),
+    },
+
+    {
+      key: '10',
       icon: <AiOutlineSetting size={21} />,
       label: 'Settings',
       onClick: () => push('/dashboard/settings'),

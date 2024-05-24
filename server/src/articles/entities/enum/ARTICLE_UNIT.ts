@@ -1,6 +1,6 @@
 export enum ARTICLE_UNIT {
-  HOURLY = 'HOURLY',
-  DAILY = 'DAILY',
+  HOURLY = 'HOUR',
+  DAILY = 'DAY',
   PROJECT = 'PROJECT',
   QUANTITY = 'QUANTITY',
 }

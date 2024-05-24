@@ -31,6 +31,9 @@ export class ProjectsService {
   async findAll(): Promise<Project[]> {
     return this.projectRepository.find({
       relations: ['customer', 'estimates'],
+      order: {
+        id: 'DESC',
+      },
     });
   }
 

@@ -17,7 +17,11 @@ export class ArticlesService {
   }
 
   async findAll(): Promise<Article[]> {
-    return this.articleRepository.find();
+    return this.articleRepository.find({
+      order: {
+        id: 'DESC',
+      },
+    });
   }
 
   async findOne(id: number): Promise<Article> {

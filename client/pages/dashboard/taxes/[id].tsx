@@ -7,7 +7,7 @@ import { POST, FIND, PATCH } from '@/actions/tax-action'
 import { queryClient } from '@/util/react-query-client'
 import { useMutation, useQuery } from '@tanstack/react-query'
 
-export default function Article(): JSX.Element {
+export default function Tax(): JSX.Element {
   const {
     query: { id },
     push,

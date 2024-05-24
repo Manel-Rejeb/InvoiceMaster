@@ -4,14 +4,11 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToOne,
-  JoinColumn,
 } from 'typeorm';
 
 import { ARTICLE_UNIT } from './enum/ARTICLE_UNIT';
 import { ApiProperty } from '@nestjs/swagger';
-import { Invoice } from 'src/invoices/entities/invoice.entity';
-import { Customer } from 'src/customers/entities/customer.entity';
+import { ARTICLE_TYPE } from './enum/ARTICLE_TYPE';
 
 @Entity()
 export class Article {
@@ -27,11 +24,7 @@ export class Article {
   article_description: string;
 
   @ApiProperty()
-  @Column({ name: 'article_type' })
-  article_type: boolean;
-
-  @ApiProperty()
-  @Column({ name: 'article_price' })
+  @Column({ name: 'article_price', type: 'float' })
   article_price: number;
 
   @ApiProperty()
@@ -39,8 +32,17 @@ export class Article {
   article_currency: string;
 
   @ApiProperty()
-  @Column({ name: 'article_tax' })
-  article_tax: number;
+  @Column({
+    name: 'article_type',
+    type: 'enum',
+    enum: ARTICLE_TYPE,
+    default: ARTICLE_TYPE.SERVICE,
+  })
+  article_type: string;
+
+  @ApiProperty()
+  @Column({ name: 'article_tax_enabled', default: false })
+  article_tax_enabled: boolean;
 
   @ApiProperty()
   @Column({
@@ -52,8 +54,8 @@ export class Article {
   article_unit: string;
 
   @ApiProperty()
-  @Column({ name: 'article_picture', nullable: true })
-  article_picture: string;
+  @Column({ name: 'article_buy_price', type: 'float', nullable: true })
+  article_buy_price?: number;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt?: Date;

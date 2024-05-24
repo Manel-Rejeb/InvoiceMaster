@@ -47,6 +47,7 @@ export default function Customer(): JSX.Element {
 
   // decide if the customer is corporate or individual
   const [isCorporate, setIsCorporate] = useState<boolean>(false)
+  // search select options
   const filterOption = (input: string, option?: { label: string; value: string }) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
 
   useEffect(() => {

@@ -1,0 +1,5 @@
+export enum ARTICLE_TYPE {
+  PRODUCT = 'PRODUCT',
+  SERVICE = 'SERVICE',
+  EXPENSE = 'EXPENSE',
+}
