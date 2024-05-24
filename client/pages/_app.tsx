@@ -2,12 +2,11 @@ import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 
-import { ConfigProvider, theme } from 'antd/lib'
+import { ConfigProvider } from 'antd/lib'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClient } from '@/util/react-query-client'
 
 import { DashboardLayout } from '@/layouts/dashboard.layout'
-
 
 export default function App({ Component, pageProps }: AppProps) {
   const { pathname } = useRouter()
@@ -26,9 +25,14 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ConfigProvider theme={{
-        algorithm: theme.defaultAlgorithm
-      }}>{layout()}</ConfigProvider>
+      <ConfigProvider
+        theme={{
+          token: {
+            borderRadius: 4,
+          },
+        }}>
+        {layout()}
+      </ConfigProvider>
     </QueryClientProvider>
   )
 }

@@ -9,3 +9,5 @@ type ProjectType = {
   updatedAt: string
   isSoftDelete: boolean
 }
+
+type ProjectFormType = Omit<ProjectType, 'createdAt' | 'updatedAt' | 'isSoftDelete'>

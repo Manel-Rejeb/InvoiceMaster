@@ -1,10 +1,11 @@
 import { type FC } from 'react'
+import Link from 'next/link'
+
 import { DELETE } from '@/actions/customer-actions'
 import { queryClient } from '@/util/react-query-client'
 import { useMutation } from '@tanstack/react-query'
-import { Button, message, Table, TableColumnsType } from 'antd/lib'
-import { Popconfirm, Space } from 'antd/lib'
-import Link from 'next/link'
+
+import { Button, message, Table, type TableColumnsType, Popconfirm, Space, Tag } from 'antd/lib'
 import { LuFileEdit, LuTrash } from 'react-icons/lu'
 
 interface ComponentProps {
@@ -37,12 +38,6 @@ export const CustomerTable: FC<ComponentProps> = ({ isLoading, data }) => {
   const customerColumns: TableColumnsType<CustomerType> = [
     Table.EXPAND_COLUMN,
     {
-      title:'id',
-      dataIndex:'id',
-      key:'id',
-
-    },
-    {
       title: 'Reference',
       dataIndex: 'customer_reference',
       key: 'customer_reference',
@@ -56,17 +51,7 @@ export const CustomerTable: FC<ComponentProps> = ({ isLoading, data }) => {
       title: 'Type',
       dataIndex: 'customer_type',
       key: 'customer_type',
-      render: (type_customer) => (type_customer ? 'Corporate' : 'Individual'),
-    },
-    {
-      title: 'Address',
-      dataIndex: 'customer_address',
-      key: 'customer_address',
-    },
-    {
-      title: 'Phone number',
-      dataIndex: 'customer_number',
-      key: 'customer_number',
+      render: (type_customer) => (type_customer ? <Tag color='blue'>Corporate</Tag> : <Tag color='purple'>Individual</Tag>),
     },
     {
       title: 'Action',

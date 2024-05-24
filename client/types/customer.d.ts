@@ -1,35 +1,29 @@
-type CustomerType = {
-  id?: number
-  type_customer: boolean
+interface CustomerType {
+  id: number
   customer_email: string
-  customer_number: number
-  customer_address: string
+  customer_contact_name: string
+  customer_contact_last_name: string
   customer_reference: string
-  customer_city: string
+  customer_type: boolean
+  customer_phone: string
   customer_country: string
+  customer_city: string
+  customer_address: string
   customer_zip: string
-  createdAt: string
-  updatedAt: string
-  isSoftDelete: boolean
-  corporate?: CorporateCustomerType
-  individual?: IndividualCustomerType
+  createdAt?: string
+  updatedAt?: string
+  corporate: CorporateType
+  // projects: any[]
+  // estimates: any[]
 }
 
-type CorporateCustomerType = {
+interface CorporateType {
   id: number
-  corporation_name: string
-  tax_number: number
-  industry: string
-  headquarter_address: string
-  contact_person_first_name: string
-  contact_person_last_name: string
-  contact_person_email: string
-  contact_person_phone_number: string
-  contact_person_job_title: string
+  corporate_TIN: string
+  corporate_industry: string
+  corporate_website: string
+  corporate_logo: string
+  corporate_type: string
 }
 
-type IndividualCustomerType = {
-  id: number
-  first_name: string
-  last_name: string
-}
+type CustomerFormType = Omit<CustomerType, 'createdAt' | 'updatedAt', 'customer_reference'>
