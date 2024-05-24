@@ -33,11 +33,6 @@ export class CustomersController {
     return this.customersService.findOne(+id);
   }
 
-  @Get('search/:customer_reference')
-  findOneBy(@Param('customer_reference') customer_reference: string) {
-    return this.customersService.findOneByReferenceCode(customer_reference);
-  }
-
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCustomer: Customer) {
     return this.customersService.update(+id, updateCustomer);

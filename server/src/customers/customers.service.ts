@@ -2,47 +2,40 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable, NotFoundException } from '@nestjs/common';
 
-import { Customer } from './entities/customer.entity';
-import { CorporateCustomer } from './entities/corporation.entity';
-import { IndividualCustomer } from './entities/individual.entity';
+import { Customer } from 'src/customers/entities/customer.entity';
+import { Corporate } from 'src/customers/entities/corporation.entity';
 
 @Injectable()
 export class CustomersService {
   constructor(
     @InjectRepository(Customer)
     private readonly customerRepository: Repository<Customer>,
-    @InjectRepository(CorporateCustomer)
-    private readonly corporateRepository: Repository<CorporateCustomer>,
-    @InjectRepository(IndividualCustomer)
-    private readonly individualRepository: Repository<IndividualCustomer>,
+    @InjectRepository(Corporate)
+    private readonly corporateRepository: Repository<Corporate>,
   ) {}
 
   async create(createCustomer: Customer): Promise<Customer> {
-    if (!createCustomer.type_customer) {
-      const indi = this.individualRepository.create(createCustomer.individual);
-      await this.individualRepository.save(indi);
-      createCustomer.individual = indi;
+    if (createCustomer.corporate && createCustomer.customer_type) {
+      const corporate = this.corporateRepository.create(
+        createCustomer.corporate,
+      );
+      await this.corporateRepository.save(corporate);
+      createCustomer.corporate = corporate;
     }
-
-    if (createCustomer.type_customer) {
-      const corp = this.corporateRepository.create(createCustomer.corporate);
-      await this.corporateRepository.save(corp);
-      createCustomer.corporate = corp;
-    }
-
-    return this.customerRepository.save(createCustomer);
+    createCustomer.customer_reference = `CLT#${createCustomer.customer_contact_name.slice(0, 1).toUpperCase()}-${Date.now()}`;
+    return this.customerRepository.save({ ...createCustomer });
   }
 
   async findAll(): Promise<Customer[]> {
     return this.customerRepository.find({
-      relations: ['individual', 'corporate', 'projects', 'estimates'],
+      relations: ['corporate', 'projects', 'estimates'],
     });
   }
 
   async findOne(id: number): Promise<Customer> {
     const customerData = await this.customerRepository.findOne({
       where: { id: id },
-      relations: ['individual', 'corporate'],
+      relations: ['corporate'],
     });
     if (!customerData) {
       throw new NotFoundException('Customer Not Found');
@@ -51,30 +44,24 @@ export class CustomersService {
   }
 
   async update(id: number, updateCustomer: Customer): Promise<Customer> {
+    // Retrieve existing customer data
     const customerData = await this.customerRepository.findOneBy({ id });
+
     if (!customerData) {
       throw new NotFoundException('Customer Not Found');
     }
 
-    /**
-     * @title Update Doc One to One
-     * @description Update each at a time
-     * @author manel-rejeb
-     * deconstruction of the object we are sending on the request to avoid resetting corporate and individuak throws an error by deconstructing we strip the relation adn keep to update only the customer
-     */
-    const { corporate, individual, ...rest } = updateCustomer;
+    const { corporate, ...rest } = updateCustomer;
 
+    // Update customer data
     await this.customerRepository.update(id, { ...rest });
 
-    if (!updateCustomer.type_customer) {
-      // this.individualRepository.delete(updateCustomer.id)
-      await this.individualRepository.update(individual.id, individual);
-    }
-    if (updateCustomer.type_customer) {
-      // this.individualRepository.delete(updateCustomer.id)
+    // If corporate data is provided and customer_type is true, update Corporate entity
+    if (updateCustomer.customer_type && updateCustomer.corporate) {
       await this.corporateRepository.update(corporate.id, corporate);
     }
 
+    // Retrieve and return updated customer data
     return await this.customerRepository.findOneBy({ id });
   }
 
@@ -84,13 +71,5 @@ export class CustomersService {
       throw new NotFoundException('Customer not found');
     }
     return await this.customerRepository.remove(customer);
-  }
-
-  async findOneByReferenceCode(
-    reference_code: string,
-  ): Promise<Customer | null> {
-    return await this.customerRepository.findOne({
-      where: { customer_reference: reference_code },
-    });
   }
 }

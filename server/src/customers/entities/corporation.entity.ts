@@ -5,50 +5,42 @@ import {
   JoinColumn,
   OneToOne,
 } from 'typeorm';
-import { Customer } from './customer.entity';
 import { ApiProperty } from '@nestjs/swagger';
 
+import { Customer } from 'src/customers/entities/customer.entity';
+import { BUSINESS_TYPE } from 'src/customers/entities/enum/BUSINESS_TYPE';
+
 @Entity()
-export class CorporateCustomer {
+export class Corporate {
   @PrimaryGeneratedColumn()
   id: number;
 
   @ApiProperty()
-  @Column({ name: 'corporation_name' })
-  corporation_name: string;
+  @Column({ name: 'corporate_TIN', unique: true })
+  corporate_TIN: string;
 
   @ApiProperty()
-  @Column({ name: 'tax_number' })
-  tax_number: string;
+  @Column({ name: 'corporate_industry' })
+  corporate_industry: string;
 
   @ApiProperty()
-  @Column({ name: 'industry' })
-  industry: string;
+  @Column({ name: 'corporate_website', unique: true })
+  corporate_website: string;
 
   @ApiProperty()
-  @Column({ name: 'headquarter_address' })
-  headquarter_address: string;
+  @Column({ name: 'corporate_logo' })
+  corporate_logo: string;
 
-  // @ApiProperty()
-  // @Column({ name: 'contact_person_first_name' })
-  // contact_person_first_name: string;
+  @ApiProperty()
+  @Column({
+    name: 'corporate_type',
+    type: 'enum',
+    enum: BUSINESS_TYPE,
+    default: BUSINESS_TYPE.OTHERS,
+  })
+  corporate_type: string;
 
-  // @ApiProperty()
-  // @Column({ name: 'contact_person_last_name' })
-  // contact_person_last_name: string;
-
-  // @ApiProperty()
-  // @Column({ name: 'contact_person_email' })
-  // contact_person_email: string;
-
-  // @ApiProperty()
-  // @Column({ name: 'contact_person_job_title' })
-  // contact_person_job_title: string;
-
-  // @ApiProperty()
-  // @Column({ name: 'contact_person_phone_number' })
-  // contact_person_phone_number: string;
-
+  @ApiProperty({ type: () => Customer })
   @OneToOne(() => Customer, (customer) => customer.corporate, {
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',

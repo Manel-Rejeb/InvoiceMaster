@@ -9,11 +9,12 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { IndividualCustomer } from './individual.entity';
-import { CorporateCustomer } from './corporation.entity';
+
 import { ApiProperty } from '@nestjs/swagger';
-import { Project } from 'src/projects/entities/project.entity';
+
+import { Corporate } from 'src/customers/entities/corporation.entity';
 import { Estimate } from 'src/estimate/entities/estimate.entity';
+import { Project } from 'src/projects/entities/project.entity';
 
 @Entity()
 export class Customer {
@@ -21,12 +22,28 @@ export class Customer {
   id: number;
 
   @ApiProperty()
-  @Column({ name: 'customer_type', type: 'boolean', default: true })
-  type_customer: boolean;
+  @Column({ name: 'customer_email', unique: true })
+  customer_email: string;
 
   @ApiProperty()
-  @Column({ name: 'customer_number' })
-  customer_number: string;
+  @Column({ name: 'customer_contact_name', nullable: false })
+  customer_contact_name: string;
+
+  @ApiProperty()
+  @Column({ name: 'customer_contact_last_name' })
+  customer_contact_last_name: string;
+
+  @ApiProperty()
+  @Column({ name: 'customer_reference', unique: true })
+  customer_reference: string;
+
+  @ApiProperty()
+  @Column({ name: 'customer_type', type: 'boolean', default: true })
+  customer_type: boolean;
+
+  @ApiProperty()
+  @Column({ name: 'customer_phone' })
+  customer_phone: string;
 
   @ApiProperty()
   @Column({ name: 'customer_country' })
@@ -44,27 +61,21 @@ export class Customer {
   @Column({ name: 'customer_zip' })
   customer_zip: string;
 
-  @ApiProperty()
-  @Column({ name: 'customer_email' })
-  customer_email: string;
-
-  @ApiProperty()
-  @Column({ name: 'customer_reference', unique: true })
-  customer_reference: string;
-
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt?: Date;
 
   @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt?: Date;
 
-  @ApiProperty({ type: IndividualCustomer })
-  @OneToOne(() => IndividualCustomer, (individual) => individual.customer)
-  individual: IndividualCustomer;
+  /* relations */
 
-  @ApiProperty({ type: CorporateCustomer })
-  @OneToOne(() => CorporateCustomer, (corporate) => corporate.customer)
-  corporate: CorporateCustomer;
+  // Establishing one-to-one relationship with Corporate
+  @ApiProperty({ type: Corporate })
+  @OneToOne(() => Corporate, (corporate) => corporate.customer, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  corporate: Corporate;
 
   // Establishing one-to-many relationship with Project
   @ApiProperty({ type: () => Project })
