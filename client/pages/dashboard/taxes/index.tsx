@@ -1,19 +1,14 @@
 import { type JSX } from 'react'
 
-import { useQuery } from '@tanstack/react-query'
 import { Button, Input } from 'antd/lib'
 import Link from 'next/link'
 
-import { GET } from '@/actions/tax-action'
 import { AiOutlineSearch } from 'react-icons/ai'
 import { TaxTable } from '@/components/table-headers/tax-tableheader'
+import { disptachTax } from '@/providers/tax-provider'
 
 export default function Tax(): JSX.Element {
-  const { data, isLoading } = useQuery({
-    queryKey: ['taxes'],
-    queryFn: GET,
-    staleTime: 0,
-  })
+  const { data, isLoading } = disptachTax()
 
   return (
     <div className='bg-white h-full w-full flex flex-col items-center  mx-auto gap-6  overflow-hidden'>

@@ -1,4 +1,4 @@
-import { type JSX, type ReactNode, useContext, createContext, useLayoutEffect, useState } from 'react'
+import { type JSX, type ReactNode, useContext, createContext } from 'react'
 import { CustomersStore, customersStore } from '@/providers/store/customer.store'
 
 import { useQuery } from '@tanstack/react-query'

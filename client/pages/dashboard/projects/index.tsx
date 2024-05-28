@@ -4,16 +4,10 @@ import { AiOutlineSearch } from 'react-icons/ai'
 
 import { Button, Input } from 'antd/lib'
 import { ProjectTable } from '@/components/table-headers/project-tableheader'
-
-import { GET } from '@/actions/project-actions'
-import { useQuery } from '@tanstack/react-query'
+import { disptachProject } from '@/providers/project-provider'
 
 export default function Projects(): JSX.Element {
-  const { data, isLoading } = useQuery({
-    queryKey: ['projects'],
-    queryFn: GET,
-    staleTime: 0,
-  })
+  const { data, isLoading } = disptachProject()
 
   return (
     <div className='bg-white h-full w-full flex flex-col items-center  mx-auto gap-6  overflow-hidden'>
