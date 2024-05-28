@@ -1,19 +1,15 @@
 import { type JSX } from 'react'
 
-import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { Button, Input } from 'antd/lib'
 
-import { GET } from '@/actions/customer-actions'
 import { CustomerTable } from '@/components/table-headers/customer-tableheader'
 import { AiOutlineSearch } from 'react-icons/ai'
 
+import { disptachCustomer } from '@/providers/customer-provider'
+
 export default function Customers(): JSX.Element {
-  const { data, isLoading } = useQuery({
-    queryKey: ['customers'],
-    queryFn: GET,
-    staleTime: 0,
-  })
+  const { data, isLoading } = disptachCustomer()
 
   return (
     <div className='bg-white h-full w-full flex flex-col items-center  mx-auto gap-6  overflow-hidden'>
@@ -27,6 +23,7 @@ export default function Customers(): JSX.Element {
           </Button>
         </Link>
       </div>
+
       <div className='w-full'>
         <CustomerTable isLoading={isLoading} data={data} />
       </div>

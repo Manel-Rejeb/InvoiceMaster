@@ -78,6 +78,12 @@ export const ProjectTable: FC<ComponentProps> = ({ isLoading, data = [] }) => {
       width: '10%',
     },
     {
+      title: 'Customer',
+      dataIndex: ['customer', 'customer_email'],
+      key: 'customer',
+      render: (customer) => customer,
+    },
+    {
       title: 'Action',
       dataIndex: 'id',
       key: 'id',

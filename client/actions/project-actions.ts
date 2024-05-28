@@ -4,7 +4,7 @@ export const GET = async () => await query.get('api/project').then((res) => res.
 
 export const FIND = async (id: string) => await query.get(`api/project/${id}`).then((res) => res.data)
 
-export const POST = (customer: string, data: ProjectFormType) =>
+export const POST = (customer: number, data: ProjectFormType) =>
   query.post(
     'api/project',
     { ...data },

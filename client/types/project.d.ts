@@ -8,6 +8,9 @@ type ProjectType = {
   createdAt: string
   updatedAt: string
   isSoftDelete: boolean
+  customer: CustomerType
 }
 
-type ProjectFormType = Omit<ProjectType, 'createdAt' | 'updatedAt' | 'isSoftDelete'>
+type ProjectFormType = Omit<ProjectType, 'createdAt' | 'updatedAt' | 'isSoftDelete' | 'customer'> & {
+  customer_Id: number
+}

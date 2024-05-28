@@ -1,6 +1,4 @@
-'use client'
-
-import { createContext, JSX, ReactNode, useContext, useLayoutEffect, useState } from 'react'
+import { createContext, type JSX, type ReactNode, useContext, useLayoutEffect, useState } from 'react'
 import { UserStore, userStore } from '@/providers/store/user-store'
 import { useRouter } from 'next/router'
 import { query } from '@/util/query'

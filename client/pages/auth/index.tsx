@@ -42,7 +42,7 @@ const Auth = () => {
 
             <div className='mt-8'>
               {/* <!-- Form --> */}
-              <Form layout='vertical' size='large' onFinish={(values: LoginFormType) => mutate(values)} autoComplete='off'>
+              <Form layout='vertical' size='large' onFinish={(values: LoginFormType) => mutate(values)} style={{ maxWidth: 600 }} autoComplete='off'>
                 <Form.Item<AuthLogin> label='Username' name='email' rules={[{ required: true, message: 'Please input your username!' }]}>
                   <Input />
                 </Form.Item>
