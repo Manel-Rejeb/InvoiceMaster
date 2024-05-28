@@ -15,6 +15,15 @@ export const POST = (customer: number, data: ProjectFormType) =>
     }
   )
 
-export const PATCH = (id: string, data: ProjectFormType) => query.patch(`api/project/${id}`, { ...data })
+export const PATCH = (id: string, data: ProjectFormType) =>
+  query.patch(
+    `api/project/${id}`,
+    { ...(({ customer_Id, ...c }) => c)(data) },
+    {
+      params: {
+        customer: data.customer_Id,
+      },
+    }
+  )
 
 export const DELETE = (id: number) => query.delete(`api/project/${id}`)

@@ -5,8 +5,8 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { FIND, PATCH, POST } from '@/actions/project-actions'
 import { queryClient } from '@/util/react-query-client'
 
-import moment from 'moment'
-import { Button, Form, FormRule, Input, Select, Space, Spin, DatePicker } from 'antd/lib'
+import dayjs from 'dayjs'
+import { Button, Form, FormRule, Input, Select, Space, Spin, DatePicker, message } from 'antd/lib'
 
 import { disptachCustomer } from '@/providers/customer-provider'
 
@@ -33,7 +33,7 @@ export default function Article(): JSX.Element {
     },
     onSuccess: () => push('/dashboard/projects'),
     onError: () => {
-      alert('Not saved')
+      message.error(`Could not ${id === 'create' ? 'save' : 'update'} the project. Please try again.`)
     },
   })
 
@@ -47,10 +47,10 @@ export default function Article(): JSX.Element {
     enabled: id !== 'create',
     refetchOnMount: true,
     select: (data) => {
-      form.setFieldsValue({
+      return form.setFieldsValue({
         ...data,
-        project_start_date: moment(data.project_start_date),
-        project_end_date: moment(data.project_end_date),
+        project_start_date: dayjs(data.project_start_date),
+        project_end_date: dayjs(data.project_end_date),
         customer_Id: data.customer.id,
       })
     },

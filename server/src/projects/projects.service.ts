@@ -48,12 +48,28 @@ export class ProjectsService {
     return projectData;
   }
 
-  async update(id: number, updateProject: Project): Promise<Project> {
+  async update(
+    id: number,
+    updateProject: Project,
+    customerId: number,
+  ): Promise<Project> {
     const projectData = await this.projectRepository.findOneBy({ id });
     if (!projectData) {
       throw new NotFoundException('Project Not Found');
     }
-    await this.projectRepository.update(id, updateProject);
+
+    const customer = await this.customerRepository.findOneBy({
+      id: customerId,
+    });
+
+    if (!customer) {
+      throw new NotFoundException('Customer not found');
+    }
+
+    await this.projectRepository.update(id, {
+      ...updateProject,
+      customer: customer,
+    });
     return await this.projectRepository.findOneBy({ id });
   }
 

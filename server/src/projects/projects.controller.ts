@@ -38,8 +38,12 @@ export class ProjectsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProject: Project) {
-    return this.projectsService.update(+id, updateProject);
+  update(
+    @Param('id') id: string,
+    @Body() updateProject: Project,
+    @Query('customer') customerId: string,
+  ) {
+    return this.projectsService.update(+id, updateProject, +customerId);
   }
 
   @Delete(':id')

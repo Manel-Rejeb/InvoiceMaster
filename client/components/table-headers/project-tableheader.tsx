@@ -1,11 +1,13 @@
 import { type FC, useState } from 'react'
 import Link from 'next/link'
 
-import { DELETE } from '@/actions/project-actions'
+import { LuFileEdit, LuTrash } from 'react-icons/lu'
+import { Button, message, Popconfirm, Space, Table, type TableColumnsType, Tag, Badge, Avatar } from 'antd/lib'
+
 import { queryClient } from '@/util/react-query-client'
 import { useMutation } from '@tanstack/react-query'
-import { Button, message, Popconfirm, Space, Table, type TableColumnsType, Tag, Badge } from 'antd/lib'
-import { LuFileEdit, LuTrash } from 'react-icons/lu'
+
+import { DELETE } from '@/actions/project-actions'
 
 interface ComponentProps {
   isLoading: boolean
@@ -81,7 +83,19 @@ export const ProjectTable: FC<ComponentProps> = ({ isLoading, data = [] }) => {
       title: 'Customer',
       dataIndex: ['customer', 'customer_email'],
       key: 'customer',
-      render: (customer) => customer,
+      render: (_, record) => (
+        <div className='flex items-center gap-2'>
+          <div>
+            <Avatar size='large'>{record.customer.customer_contact_name[0]}</Avatar>
+          </div>
+          <div className='flex flex-col leading-5'>
+            <p>
+              {record.customer.customer_contact_name} {record.customer.customer_contact_last_name}
+            </p>
+            <p>{record.customer.customer_email}</p>
+          </div>
+        </div>
+      ),
     },
     {
       title: 'Action',
