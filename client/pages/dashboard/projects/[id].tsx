@@ -6,12 +6,12 @@ import { FIND, PATCH, POST } from '@/actions/project-actions'
 import { queryClient } from '@/util/react-query-client'
 
 import dayjs from 'dayjs'
-import { Button, Form, FormRule, Input, Select, Space, Spin, DatePicker, message } from 'antd/lib'
+import { Button, Form, FormRule, Input, Select, Space, Spin, DatePicker, message, Avatar } from 'antd/lib'
 
 import { disptachCustomer } from '@/providers/customer-provider'
 
 export default function Article(): JSX.Element {
-  const { data: customers } = disptachCustomer()
+  const { data: customer } = disptachCustomer()
 
   const {
     query: { id },
@@ -93,7 +93,39 @@ export default function Article(): JSX.Element {
         </Form.Item>
 
         <Form.Item label='Customer' name={'customer_Id'} rules={rules.customer}>
-          <Select placeholder='Select project customer owner' options={customers.map((el) => ({ label: el.customer_email, value: el.id }))} />
+          <Select
+            placeholder='Select a customer to bill'
+            className='h-fit min-h-fit w-full'
+            labelRender={(el) => {
+              const element = customer?.find((c) => c.id === el.value)
+              if (!element) return <></>
+              return (
+                <div className='flex items-center gap-2 py-1'>
+                  <div>{element.customer_type ? <Avatar src={element.corporate.corporate_logo} /> : <Avatar size='large'>{element.customer_contact_name[0]}</Avatar>}</div>
+                  <div className='flex flex-col leading-5'>
+                    <p>
+                      {element.customer_contact_name} {element.customer_contact_last_name}
+                    </p>
+                    <p className='text-sm'>{element.customer_email}</p>
+                  </div>
+                </div>
+              )
+            }}
+            options={customer?.map((el) => ({
+              label: (
+                <div className='flex items-center gap-2'>
+                  <div>{el.customer_type ? <Avatar src={el.corporate.corporate_logo} /> : <Avatar size='large'>{el.customer_contact_name[0]}</Avatar>}</div>
+                  <div className='flex flex-col leading-5'>
+                    <p>
+                      {el.customer_contact_name} {el.customer_contact_last_name}
+                    </p>
+                    <p className='text-sm'>{el.customer_email}</p>
+                  </div>
+                </div>
+              ),
+              value: el.id,
+            }))}
+          />
         </Form.Item>
 
         <Form.Item>

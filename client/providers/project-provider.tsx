@@ -1,6 +1,6 @@
 import { type JSX, type ReactNode, useContext, createContext } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { ProjectStore, projectStore } from './store/project.store'
+import { ProjectStore, projectStore } from '@/providers/store/project.store'
 
 import { GET } from '@/actions/project-actions'
 

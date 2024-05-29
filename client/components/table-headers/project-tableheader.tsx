@@ -85,9 +85,7 @@ export const ProjectTable: FC<ComponentProps> = ({ isLoading, data = [] }) => {
       key: 'customer',
       render: (_, record) => (
         <div className='flex items-center gap-2'>
-          <div>
-            <Avatar size='large'>{record.customer.customer_contact_name[0]}</Avatar>
-          </div>
+          <div>{record.customer.customer_type ? <Avatar src={record.customer.corporate.corporate_logo} /> : <Avatar size='large'>{record.customer.customer_contact_name[0]}</Avatar>}</div>
           <div className='flex flex-col leading-5'>
             <p>
               {record.customer.customer_contact_name} {record.customer.customer_contact_last_name}
