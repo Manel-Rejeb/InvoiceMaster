@@ -19,12 +19,13 @@ export class EstimateService {
 
   async create(createEstimate: Estimate): Promise<Estimate> {
     const newEstimate = await this.estimateRepository.create(createEstimate);
+    // createEstimate.estimate_reference = `CLT#${createEstimate.estimate_status.slice(0, 1).toUpperCase()}-${Date.now()}`;
     return this.estimateRepository.save(newEstimate);
   }
 
   async findAll(): Promise<Estimate[]> {
     return this.estimateRepository.find({
-      relations: ['items', 'project', 'tax'],
+      relations: ['items', 'project'],
     });
   }
 

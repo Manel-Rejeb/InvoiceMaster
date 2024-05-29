@@ -38,9 +38,4 @@ export class Tax {
     default: false,
   })
   isSoftDelete?: boolean;
-
-  @ApiProperty({ type: () => Estimate })
-  @ManyToMany(() => Estimate, (estimate) => estimate.tax)
-  @JoinTable()
-  estimates: Estimate;
 }

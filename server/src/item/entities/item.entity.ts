@@ -18,7 +18,11 @@ export class Item {
   item_name: string;
 
   @ApiProperty()
-  @Column({ name: 'item_price' })
+  @Column({ name: 'item_reference' })
+  item_sous_total: string;
+
+  @ApiProperty()
+  @Column({ name: 'item_price', type: 'float' })
   item_price: number;
 
   @ApiProperty()
@@ -26,12 +30,20 @@ export class Item {
   item_unit: string;
 
   @ApiProperty()
-  @Column({ name: 'item_reference' })
-  item_sous_total: string;
+  @Column({ name: 'item_quantity' })
+  item_quantity: number;
 
   @ApiProperty()
-  @Column({ name: 'item_total' })
-  item_total: number;
+  @Column({ name: 'item_tax' })
+  item_tax: number;
+
+  @ApiProperty()
+  @Column({ name: 'item_discount', type: 'float' })
+  item_discount: number;
+
+  @ApiProperty()
+  @Column({ name: 'item_discount_type', type: 'bool' })
+  item_discount_type: boolean;
 
   //establish the relationship between the item and the invoice(many-to-one)
   @ApiProperty({ type: () => Estimate })

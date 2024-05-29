@@ -12,7 +12,6 @@ import { InvoicesModule } from './invoices/invoices.module';
 import { OrganizationModule } from './organization/organization.module';
 import { TaxesModule } from './taxes/taxes.module';
 import { ProjectsModule } from './projects/projects.module';
-import { ExpensesModule } from './expenses/expenses.module';
 import { EstimateModule } from './estimate/estimate.module';
 import { ItemModule } from './item/item.module';
 import { ContactPersonModule } from './contact-person/contact-person.module';
@@ -43,7 +42,6 @@ import { ContactPersonModule } from './contact-person/contact-person.module';
     OrganizationModule,
     TaxesModule,
     ProjectsModule,
-    ExpensesModule,
     EstimateModule,
     ItemModule,
     ContactPersonModule,

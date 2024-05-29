@@ -14,15 +14,18 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { ESTIMATE_STATUS } from './enum/ESTIMATE_STATUS';
 
 @Entity()
 export class Estimate {
   @PrimaryGeneratedColumn()
   id: number;
 
+  /* ? */
   @ApiProperty()
   @Column({ name: 'estimate_reference' })
   estimate_reference: string;
+  // "estimate_number": "EST-000001",
 
   // TODO: use the createdAt annotation
   @ApiProperty()
@@ -38,34 +41,29 @@ export class Estimate {
   estimate_currency: string;
 
   @ApiProperty()
-  @Column({ name: 'estimate_image' })
-  estimate_image: string;
+  @Column({ name: 'estimate_discount', type: 'float' })
+  estimate_discount: number;
+
+  @ApiProperty()
+  @Column({ name: 'estimate_discount_type', type: 'bool' })
+  estimate_discount_type: boolean;
+
+  @ApiProperty()
+  @Column({ name: 'estimate_notes', type: 'text' })
+  estimate_notes: string;
+
+  @ApiProperty()
+  @Column({
+    name: 'estimate_status',
+    type: 'enum',
+    enum: ESTIMATE_STATUS,
+    default: ESTIMATE_STATUS.DRAFT,
+  })
+  estimate_status: string;
 
   @ApiProperty()
   @Column({ name: 'estimate_total' })
   estimate_total: number;
-
-  @ApiProperty()
-  @Column({ name: 'estimate_subtotal' }) // price before tax and discount
-  estimate_subtotal: number;
-
-  @ApiProperty()
-  @Column({ name: 'estimate_discount' })
-  estimate_discount: number;
-
-  @ApiProperty()
-  @Column({ name: 'estimate_description' })
-  estimate_description: string;
-
-  @ApiProperty()
-  @Column({ name: 'estimate_status' })
-  estimate_status: boolean;
-
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  createdAt?: Date;
-
-  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  updatedAt?: Date;
 
   // Establishing one-to-many relationship items
   @ApiProperty({ type: () => Item })
@@ -75,9 +73,7 @@ export class Estimate {
 
   // Establishing many-to-one relationship with Project
   @ApiProperty({ type: () => Project })
-  @ManyToOne(() => Project, (project) => project.estimates, {
-    cascade: true,
-  })
+  @ManyToOne(() => Project, (project) => project.estimates, { cascade: true })
   @JoinTable()
   project: Project;
 
@@ -89,10 +85,19 @@ export class Estimate {
   @JoinTable()
   customer: Customer;
 
-  @ApiProperty({ type: () => Tax })
-  @ManyToOne(() => Tax, (tax) => tax.estimates, {
-    cascade: true,
+  @Column({
+    name: 'estimate_tax_per_item_enabled',
+    type: 'bool',
+    default: false,
   })
-  @JoinTable()
-  tax: Tax;
+  estimate_tax_per_item_enabled: boolean;
+
+  @Column({ name: 'estimate_tax', type: 'float', default: 0 })
+  estimate_tax: number;
+
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createdAt?: Date;
+
+  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  updatedAt?: Date;
 }
