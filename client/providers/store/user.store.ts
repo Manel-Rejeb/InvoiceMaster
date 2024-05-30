@@ -1,6 +1,7 @@
 export interface UserStore {
   isAuthenticated: boolean
-
+  data: UserType[]
+  isLoading: boolean
   user: AuthUserProfileType
 
   login: (data: LoginFormType) => Promise<void>
@@ -9,6 +10,8 @@ export interface UserStore {
 
 export const userStore: UserStore = {
   isAuthenticated: false,
+  isLoading: false,
+  data: [],
 
   user: {
     username: '',
