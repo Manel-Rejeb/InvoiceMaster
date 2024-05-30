@@ -56,7 +56,7 @@ export class Project {
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
   })
-  @JoinTable()
+  @JoinColumn()
   customer: Customer;
 
   // Establishing one-to-many relationship with estimate

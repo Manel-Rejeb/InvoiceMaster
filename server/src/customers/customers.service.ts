@@ -22,7 +22,7 @@ export class CustomersService {
       await this.corporateRepository.save(corporate);
       createCustomer.corporate = corporate;
     }
-    createCustomer.customer_reference = `CLT#${createCustomer.customer_contact_name.slice(0, 1).toUpperCase()}-${Date.now()}`;
+    createCustomer.customer_reference = `#CLT-${createCustomer.customer_contact_name.slice(0, 1).toUpperCase()}-${Date.now()}`;
     return this.customerRepository.save({ ...createCustomer });
   }
 

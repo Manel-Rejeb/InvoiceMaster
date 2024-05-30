@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Customer } from 'src/customers/entities/customer.entity';
+
 import { Item } from 'src/item/entities/item.entity';
+import { Customer } from 'src/customers/entities/customer.entity';
 import { Project } from 'src/projects/entities/project.entity';
-import { Tax } from 'src/taxes/entities/tax.entity';
+
 import {
   Column,
   CreateDateColumn,
@@ -21,13 +22,10 @@ export class Estimate {
   @PrimaryGeneratedColumn()
   id: number;
 
-  /* ? */
   @ApiProperty()
   @Column({ name: 'estimate_reference' })
   estimate_reference: string;
-  // "estimate_number": "EST-000001",
 
-  // TODO: use the createdAt annotation
   @ApiProperty()
   @Column({ name: 'estimate_date' })
   estimate_date: Date;
@@ -68,13 +66,15 @@ export class Estimate {
   // Establishing one-to-many relationship items
   @ApiProperty({ type: () => Item })
   @OneToMany(() => Item, (item) => item.estimate)
-  @JoinColumn()
   items: Item[];
 
   // Establishing many-to-one relationship with Project
   @ApiProperty({ type: () => Project })
-  @ManyToOne(() => Project, (project) => project.estimates, { cascade: true })
-  @JoinTable()
+  @ManyToOne(() => Project, (project) => project.estimates, {
+    cascade: true,
+    nullable: true,
+  })
+  @JoinColumn()
   project: Project;
 
   // Establishing many-to-one relationship with Customer
@@ -82,7 +82,7 @@ export class Estimate {
   @ManyToOne(() => Customer, (customer) => customer.estimates, {
     cascade: true,
   })
-  @JoinTable()
+  @JoinColumn()
   customer: Customer;
 
   @Column({

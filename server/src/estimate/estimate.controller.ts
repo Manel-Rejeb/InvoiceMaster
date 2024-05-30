@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { EstimateService } from './estimate.service';
 import { Estimate } from './entities/estimate.entity';
@@ -19,8 +20,12 @@ export class EstimateController {
   constructor(private readonly estimateService: EstimateService) {}
 
   @Post()
-  create(@Body() createEstimate: Estimate) {
-    return this.estimateService.create(createEstimate);
+  create(
+    @Body() createEstimate: Estimate,
+    @Query('customer') customer: string,
+    @Query('project') project: string,
+  ) {
+    return this.estimateService.create(createEstimate, +customer, +project);
   }
 
   @Get()
