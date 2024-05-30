@@ -13,8 +13,8 @@ interface CustomerType {
   createdAt?: string
   updatedAt?: string
   corporate: CorporateType
-  // projects: any[]
-  // estimates: any[]
+  projects: ProjectType[]
+  estimates: EstimateType[]
 }
 
 interface CorporateType {

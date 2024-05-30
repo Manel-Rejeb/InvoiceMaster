@@ -34,13 +34,13 @@ export default function UserProvider({ children }: ComponentProps): JSX.Element 
   }
 
   useLayoutEffect(() => {
-    if (getCookie('token')) {
-      setIsAuthenticated(true)
-      if (pathname === '/auth') push('/dashboard')
-    } else {
-      setIsAuthenticated(false)
-      push('/auth')
-    }
+    // if (getCookie('token')) {
+    //   setIsAuthenticated(true)
+    //   if (pathname === '/auth') push('/dashboard')
+    // } else {
+    //   setIsAuthenticated(false)
+    //   push('/auth')
+    // }
   }, [])
 
   return <UserContext.Provider value={{ isAuthenticated, user, login, logout }}>{children}</UserContext.Provider>

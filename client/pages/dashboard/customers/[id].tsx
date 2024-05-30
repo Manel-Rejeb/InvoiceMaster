@@ -224,7 +224,7 @@ const rules: {
       message: 'Please input your Corporate TIN!',
     },
     {
-      len: 12,
+      len: 9,
       message: 'The Corporate TIN should be 12 characters!',
     },
   ],

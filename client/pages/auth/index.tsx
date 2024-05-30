@@ -63,7 +63,7 @@ const Auth = () => {
                 </Form.Item>
 
                 <div className='flex flex-col'>
-                  <Link passHref href={'/forget-password'} className='w-full text-sm capitalize text-end text-blue-600'>
+                  <Link passHref href={'/auth/reset-password'} className='w-full text-sm capitalize text-end text-blue-600'>
                     forget password ?
                   </Link>
                 </div>
