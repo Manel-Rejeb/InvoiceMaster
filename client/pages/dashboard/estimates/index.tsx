@@ -13,8 +13,8 @@ export default function Estimates(): JSX.Element {
 
   return (
     <div className='bg-white h-full w-full flex flex-col items-center  mx-auto gap-6  overflow-hidden'>
-      <div className='w-full flex items-center justify-between'>
-        <div>
+      <div className='w-full flex items-center justify-between gap-6'>
+        <div className='w-full'>
           <Input placeholder='Search Article' suffix={<AiOutlineSearch />} />
         </div>
         <Link passHref href={'/dashboard/estimates/create'}>
