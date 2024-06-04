@@ -1,55 +1,36 @@
 import { type FC } from 'react'
-import { AiOutlineUser, AiOutlineSetting, AiOutlineClose } from 'react-icons/ai'
-import { type MenuProps, Dropdown, Space, Avatar } from 'antd/lib'
-import { useAuth } from '@/providers/user-provider'
+
+import { Space, Avatar } from 'antd/lib'
+
 import { useRouter } from 'next/router'
+import { useAuth } from '@/providers/user-provider'
 
-interface ComponentProps {}
+import { AiOutlineUser, AiOutlineSetting, AiOutlineLogout } from 'react-icons/ai'
 
-export const AccountAvatar: FC<ComponentProps> = ({}) => {
+interface ComponentProps {
+  collapse?: boolean
+}
+
+export const AccountAvatar: FC<ComponentProps> = ({ collapse = false }) => {
   const { push } = useRouter()
-  const { logout } = useAuth()
-
-  const items: MenuProps['items'] = [
-    {
-      key: '0',
-      label: (
-        <div className='capitalize flex items-center gap-2'>
-          <AiOutlineUser size={18} />
-          <p>profile</p>
-        </div>
-      ),
-    },
-    {
-      key: '1',
-      label: (
-        <div className='capitalize flex items-center gap-2'>
-          <AiOutlineSetting size={18} />
-          <p>settings</p>
-        </div>
-      ),
-    },
-    {
-      type: 'divider',
-    },
-    {
-      key: '3',
-      label: (
-        <div onClick={() => logout().then(() => push('/auth'))} className='capitalize flex items-center gap-2'>
-          <AiOutlineClose />
-          <p>logout</p>
-        </div>
-      ),
-    },
-  ]
+  const { logout, user } = useAuth()
 
   return (
-    <Dropdown menu={{ items }} trigger={['click']}>
-      <button className='h-16 w-16 flex items-center justify-center' onClick={(e) => e.preventDefault()}>
-        <Space>
-          <Avatar size={42} icon={<AiOutlineUser />} />
-        </Space>
+    <div className='w-full flex items-center justify-between px-4 pb-4'>
+      <button className='flex items-center gap-2 justify-center' onClick={(e) => e.preventDefault()}>
+        <Avatar size={42} icon={<AiOutlineUser />} />
+        {!collapse && (
+          <div className='flex-1 leading-5'>
+            <p className='w-full text-start capitalize font-medium'>{user?.username}</p>
+            <p className='w-full text-start text-gray-400'>{user?.email}</p>
+          </div>
+        )}
       </button>
-    </Dropdown>
+      {!collapse && (
+        <button onClick={() => logout().then(() => push('/auth'))}>
+          <AiOutlineLogout size={21} />
+        </button>
+      )}
+    </div>
   )
 }

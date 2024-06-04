@@ -27,20 +27,18 @@ export default function App({ Component, pageProps }: AppProps) {
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <UserProvider>
-        <Provider>
-          <ConfigProvider
-            theme={{
-              token: {
-                borderRadius: 4,
-                fontSize: 16,
-              },
-            }}>
-            {layout()}
-          </ConfigProvider>
-        </Provider>
-      </UserProvider>
-    </QueryClientProvider>
+    <ConfigProvider
+      theme={{
+        token: {
+          borderRadius: 6,
+          fontSize: 16,
+        },
+      }}>
+      <QueryClientProvider client={queryClient}>
+        <UserProvider>
+          <Provider>{layout()}</Provider>
+        </UserProvider>
+      </QueryClientProvider>
+    </ConfigProvider>
   )
 }

@@ -14,6 +14,7 @@ export default function ArticleProvider({ children }: ComponentProps): JSX.Eleme
     queryKey: ['articles'],
     queryFn: GET,
     staleTime: 0,
+    initialData: [],
   })
 
   return (

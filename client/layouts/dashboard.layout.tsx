@@ -3,7 +3,7 @@ import { type FC, type ReactNode, useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 
-import { type MenuProps, Button, Layout, Menu, theme } from 'antd/lib'
+import { type MenuProps, Button, Layout, Menu, theme, Divider } from 'antd/lib'
 import {
   AiOutlineMenuFold,
   AiOutlineMenuUnfold,
@@ -35,7 +35,7 @@ export const DashboardLayout: FC<ComponentProps> = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false)
 
   const {
-    token: { colorBgContainer },
+    token: { colorBgContainer, colorBorderSecondary },
   } = theme.useToken()
 
   const menu_items: MenuItem[] = [
@@ -115,14 +115,20 @@ export const DashboardLayout: FC<ComponentProps> = ({ children }) => {
 
   return (
     <Layout>
-      <Sider width={275} trigger={null} collapsible collapsed={collapsed} style={{ overflow: 'auto', height: '100vh', position: 'sticky', left: 0, top: 0, bottom: 0 }}>
-        <div className='h-12 mb-6 flex items-center justify-center m-2 rounded-[2px]' style={{ background: '#f5f5f5' }}>
-          <Image src='/logo/vistopic.png' height={48} width={collapsed ? 42 : 82} alt='visto logo image' />
+      <div className='top-0 lef-0 bottom-0 flex flex-col h-screen sticky border-r' style={{ background: '#fbfcfe', borderColor: colorBorderSecondary }}>
+        <Sider width={300} collapsible trigger={null} collapsed={collapsed} style={{ background: '#fbfcfe' }}>
+          <div className='h-12 mb-6 flex items-center justify-center m-2 rounded-[2px]'>
+            <Image src={collapsed ? '/logo/corona.png' : '/logo/VG.png'} height={48} width={collapsed ? 42 : 100} alt='visto logo image' />
+          </div>
+          <Menu mode='inline' selectedKeys={[selectedeMenuItem]} items={menu_items} style={{ background: '#fbfcfe', border: 0 }} />
+        </Sider>
+        <div className='flex-1 flex items-center justify-end flex-col'>
+          <Divider style={{ margin: '12px 0' }} />
+          <AccountAvatar collapse={collapsed} />
         </div>
-        <Menu theme='dark' mode='inline' selectedKeys={[selectedeMenuItem]} items={menu_items} />
-      </Sider>
-      <Layout>
-        <Header style={{ position: 'sticky', top: 0, zIndex: 1, width: '100%', padding: 0, background: colorBgContainer }} className='flex items-center justify-between border-b shadow-sm'>
+      </div>
+      <Layout style={{ background: colorBgContainer }}>
+        <Header style={{ position: 'sticky', top: 0, zIndex: 1, width: '100%', padding: 0, background: colorBgContainer }} className='flex items-center justify-between'>
           <div className='flex items-center'>
             <Button
               type='text'
@@ -136,12 +142,9 @@ export const DashboardLayout: FC<ComponentProps> = ({ children }) => {
             />
             <BreadCrumbs />
           </div>
-          <AccountAvatar />
         </Header>
-        <Content style={{ margin: 16, padding: 24, borderRadius: 6, background: colorBgContainer }} className='border'>
-          {children}
-        </Content>
-        <Footer style={{ textAlign: 'center' }}>Visto Consulting ©{new Date().getFullYear()} Created by Manel Rejeb.</Footer>
+        <Content style={{ margin: 16, padding: 24, borderRadius: 6 }}>{children}</Content>
+        <Footer style={{ textAlign: 'center', background: colorBgContainer }}>Visto Consulting ©{new Date().getFullYear()} Created by Manel Rejeb.</Footer>
       </Layout>
     </Layout>
   )
@@ -159,3 +162,14 @@ const paths: { key: string; label: string; path: string }[] = [
   { key: '9', label: 'taxes', path: '/dashboard/taxes' }, // Taxes
   { key: '10', label: 'settings', path: '/dashboard/settings' }, // Settings
 ]
+
+const style = {
+  borderWidth: 1,
+  height: '100vh',
+  overflow: 'auto',
+  position: 'sticky',
+  maxHeight: '100vh',
+  // background: '#fbfcfe',
+  background: '#ee0000',
+  // borderRightColor: colorBorderSecondary,
+}

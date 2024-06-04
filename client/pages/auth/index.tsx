@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 
-import { Form, Input, Checkbox, Typography, Button, message } from 'antd/lib'
+import { Form, Input, Checkbox, Typography, Button, message, Space } from 'antd/lib'
 import { queryClient } from '@/util/react-query-client'
 import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
@@ -52,8 +52,10 @@ const Auth = () => {
                 </Form.Item>
 
                 <Form.Item<AuthLogin> name='remember' valuePropName='checked' className='flex-1'>
-                  <Checkbox className='mr-2' />
-                  <Typography.Text>Remember me.</Typography.Text>
+                  <Space>
+                    <Checkbox className='mr-2' />
+                    <Typography.Text>Remember me.</Typography.Text>
+                  </Space>
                 </Form.Item>
 
                 <Form.Item>

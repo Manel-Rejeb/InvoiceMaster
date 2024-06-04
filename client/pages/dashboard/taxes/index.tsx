@@ -11,7 +11,7 @@ export default function Tax(): JSX.Element {
   const { data, isLoading } = disptachTax()
 
   return (
-    <div className='bg-white h-full w-full flex flex-col items-center  mx-auto gap-6  overflow-hidden'>
+    <div className='bg-white h-full w-full flex flex-col items-center mx-auto gap-6 overflow-hidden'>
       <div className='w-full flex items-center justify-between'>
         <div>
           <Input placeholder='Search Tax' suffix={<AiOutlineSearch />} />

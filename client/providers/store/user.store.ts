@@ -14,13 +14,11 @@ export const userStore: UserStore = {
   data: [],
 
   user: {
+    id: 0,
     username: '',
+    email: '',
     role: '',
-    firstName: '',
-    lastName: '',
-    badgeNumber: '',
-    isEligibleForEvaluation: false,
-    authorities: [],
+    isActive: false,
   },
 
   login: (data: LoginFormType) => new Promise<void>((resolve, reject) => {}),

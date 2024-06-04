@@ -8,4 +8,10 @@ type LoginFormType = Omit<AuthLogin, 'remember'>
 
 interface JwtToken {}
 
-interface AuthUserProfileType {}
+interface AuthUserProfileType {
+  id: number
+  email: string
+  username: string
+  isActive: boolean
+  role: string
+}
