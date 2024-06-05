@@ -15,6 +15,7 @@ import { ProjectsModule } from './projects/projects.module';
 import { EstimateModule } from './estimate/estimate.module';
 import { ItemModule } from './item/item.module';
 import { ContactPersonModule } from './contact-person/contact-person.module';
+import { FileUploadModule } from './file-upload/file-upload.module';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { ContactPersonModule } from './contact-person/contact-person.module';
     EstimateModule,
     ItemModule,
     ContactPersonModule,
+    FileUploadModule,
 
     /* End Modules */
   ],
