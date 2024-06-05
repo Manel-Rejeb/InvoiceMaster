@@ -13,6 +13,7 @@ export default function EstimateProvider({ children }: ComponentProps): JSX.Elem
     queryKey: ['estimates'],
     queryFn: GET,
     staleTime: 0,
+    initialData: [],
   })
 
   return (

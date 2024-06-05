@@ -40,7 +40,6 @@ export const ItemsTable: FC<ComponentProps> = ({ data = [] }) => {
 
   // table header
   const itemsColumns: TableColumnsType<ItemEstimateType> = [
-    Table.EXPAND_COLUMN,
     {
       title: 'Name',
       dataIndex: 'item_name',
@@ -49,10 +48,15 @@ export const ItemsTable: FC<ComponentProps> = ({ data = [] }) => {
       width: '30%',
     },
     {
-      title: 'Price HT',
+      title: 'Price',
       dataIndex: 'item_price',
       key: 'item_price',
       render: (_, record) => Intl.NumberFormat('en-EN', { style: 'currency', currency: record.article?.article_currency }).format(record.item_price!),
+    },
+    {
+      title: 'Quantity',
+      dataIndex: 'item_quantity',
+      key: 'item_quantity',
     },
     {
       title: 'Tax Added Value',
@@ -63,8 +67,14 @@ export const ItemsTable: FC<ComponentProps> = ({ data = [] }) => {
     {
       title: 'Total',
       align: 'right',
-      render: (_, record) => record.item_price! + (record.item_price! * record.item_tax) / 100,
+      render: (_, record) => {
+        const totalPrice = record.item_price! * record.item_quantity
+        const taxAmount = (totalPrice * record.item_tax) / 100
+        const totalWithTax = totalPrice + taxAmount
+        return Intl.NumberFormat('en-EN', { style: 'currency', currency: record.article?.article_currency }).format(totalWithTax)
+      },
     },
+
     {
       title: 'Action',
       dataIndex: 'id',

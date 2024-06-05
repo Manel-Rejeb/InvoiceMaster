@@ -14,6 +14,7 @@ export default function CustomerProvider({ children }: ComponentProps): JSX.Elem
     queryKey: ['customers'],
     queryFn: GET,
     staleTime: 0,
+    initialData: [],
   })
 
   return (

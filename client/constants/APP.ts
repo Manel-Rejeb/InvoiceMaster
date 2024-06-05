@@ -1,6 +1,6 @@
 export const app = {
   name: 'visto consulting',
-  logo: '/assets/logo/vistopic.png',
+  logo: '/logo/vistopic.png',
   email: 'contact@visto-consulting.com',
 
   detail: {

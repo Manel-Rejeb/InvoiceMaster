@@ -30,8 +30,8 @@ export default function App({ Component, pageProps }: AppProps) {
     <ConfigProvider
       theme={{
         token: {
-          borderRadius: 6,
-          fontSize: 16,
+          borderRadius: 4,
+          fontSize: 14,
         },
       }}>
       <QueryClientProvider client={queryClient}>

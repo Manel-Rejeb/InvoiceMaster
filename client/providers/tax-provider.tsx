@@ -14,6 +14,7 @@ export default function TaxProvider({ children }: ComponentProps): JSX.Element {
     queryKey: ['taxes'],
     queryFn: GET,
     staleTime: 0,
+    initialData: [],
   })
 
   return (

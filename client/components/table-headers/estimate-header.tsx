@@ -82,7 +82,7 @@ export const EstimateTable: FC<ComponentProps> = ({ isLoading, data }) => {
   return (
     <>
       {contextHolder}
-      <Table columns={estimateColumns} rowKey={'id'} dataSource={data} loading={isLoading} bordered />
+      <Table columns={estimateColumns} rowKey={'id'} dataSource={data} loading={isLoading} bordered size='small' />
     </>
   )
 }

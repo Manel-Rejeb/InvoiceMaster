@@ -47,29 +47,31 @@ export default function UserProvider({ children }: ComponentProps): JSX.Element 
     })
   }
 
-  useLayoutEffect(() => {
-    if (getCookie('token')) {
-      setUserLoading(true)
-      query
-        .get('/auth/profile', {
-          headers: {
-            Authorization: `Bearer ${getCookie('token')}`,
-          },
-        })
-        .then((res) => {
-          if (res.status === 200) {
-            setUser(res.data)
-            setIsAuthenticated(true)
-          }
-          setUserLoading(false)
-        })
-      setUserLoading(false)
-      if (pathname === '/auth') push('/dashboard')
-    } else {
-      setIsAuthenticated(false)
-      push('/auth')
-    }
-  }, [push, pathname])
+  // BUGGING
+
+  // useLayoutEffect(() => {
+  //   if (getCookie('token')) {
+  //     setUserLoading(true)
+  //     query
+  //       .get('/auth/profile', {
+  //         headers: {
+  //           Authorization: `Bearer ${getCookie('token')}`,
+  //         },
+  //       })
+  //       .then((res) => {
+  //         if (res.status === 200) {
+  //           setUser(res.data)
+  //           setIsAuthenticated(true)
+  //         }
+  //         setUserLoading(false)
+  //       })
+  //     setUserLoading(false)
+  //     if (pathname === '/auth') push('/dashboard')
+  //   } else {
+  //     setIsAuthenticated(false)
+  //     push('/auth')
+  //   }
+  // }, [push, pathname])
 
   if (isUserLoading) {
     return (

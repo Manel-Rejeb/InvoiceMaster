@@ -13,6 +13,7 @@ export default function ProjectProvider({ children }: ComponentProps): JSX.Eleme
     queryKey: ['projects'],
     queryFn: GET,
     staleTime: 0,
+    initialData: [],
   })
 
   return (
