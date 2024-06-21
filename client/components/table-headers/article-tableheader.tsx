@@ -8,7 +8,6 @@ import { Button, Space, message, Popconfirm, Table, type TableColumnsType, Tag }
 import { useMutation } from '@tanstack/react-query'
 import { DELETE } from '@/actions/article-actions'
 import { queryClient } from '@/util/react-query-client'
-import { Typography } from 'antd'
 
 interface ComponentProps {
   isLoading: boolean

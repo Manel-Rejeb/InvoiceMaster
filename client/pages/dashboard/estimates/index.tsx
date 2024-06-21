@@ -2,7 +2,7 @@ import { type JSX, useState } from 'react'
 
 import Link from 'next/link'
 import Head from 'next/head'
-import { Button, Input, Typography, Select } from 'antd/lib'
+import { Button, Input, Select } from 'antd/lib'
 
 import { AiOutlineSearch, AiOutlinePlus } from 'react-icons/ai'
 
@@ -22,7 +22,7 @@ export default function Estimates(): JSX.Element {
 
       <div className='w-full flex items-center justify-between gap-4'>
         <div className='w-full'>
-          <Input variant='filled' size='large' placeholder='Search Article' prefix={<AiOutlineSearch />} onChange={(e) => setSearch(e.target.value)} />
+          <Input variant='filled' size='large' placeholder='Search estimate' prefix={<AiOutlineSearch />} onChange={(e) => setSearch(e.target.value)} />
         </div>
         <Select
           size='large'
@@ -31,8 +31,8 @@ export default function Estimates(): JSX.Element {
           placeholder={'Status'}
           style={{ width: 150 }}
           options={[
-            { label: 'Expense', value: 'ACCEPTED' },
-            { label: 'Draft', value: 'DRAFT' },
+            { label: 'accepted', value: 'ACCEPTED' },
+            { label: 'rejected', value: 'REJECTED' },
           ]}
         />
         <Link passHref href={'/dashboard/estimates/create'}>

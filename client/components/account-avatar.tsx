@@ -5,7 +5,7 @@ import { Space, Avatar } from 'antd/lib'
 import { useRouter } from 'next/router'
 import { useAuth } from '@/providers/user-provider'
 
-import { AiOutlineUser, AiOutlineSetting, AiOutlineLogout } from 'react-icons/ai'
+import { AiOutlineUser, AiOutlineLogout } from 'react-icons/ai'
 
 interface ComponentProps {
   collapse?: boolean

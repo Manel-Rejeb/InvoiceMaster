@@ -43,6 +43,11 @@ export const CustomerTable: FC<ComponentProps> = ({ isLoading, data }) => {
       key: 'customer_reference',
     },
     {
+      title: 'Name',
+      dataIndex: 'customer_contact_name',
+      key: 'customer_contact_name',
+    },
+    {
       title: 'email',
       dataIndex: 'customer_email',
       key: 'customer_email',
@@ -52,6 +57,11 @@ export const CustomerTable: FC<ComponentProps> = ({ isLoading, data }) => {
       dataIndex: 'customer_type',
       key: 'customer_type',
       render: (type_customer) => (type_customer ? <Tag color='blue'>Corporate</Tag> : <Tag color='purple'>Individual</Tag>),
+    },
+    {
+      title: 'address',
+      dataIndex: 'customer_address',
+      key: 'customer_address',
     },
     {
       title: 'Action',
