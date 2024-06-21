@@ -93,7 +93,10 @@ export class EstimateService {
   }
 
   async findOne(id: number): Promise<Estimate> {
-    const estimateData = await this.estimateRepository.findOneBy({ id });
+    const estimateData = await this.estimateRepository.findOne({
+      where: { id: id },
+      relations: ['items.article', 'project', 'customer.corporate'],
+    });
     if (!estimateData) {
       throw new NotFoundException('Estimate Not Found');
     }
