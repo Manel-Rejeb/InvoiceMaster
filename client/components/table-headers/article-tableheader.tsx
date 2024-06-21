@@ -85,6 +85,11 @@ export const ArticleTable: FC<ComponentProps> = ({ isLoading, data = [] }) => {
                 )
             }
           },
+          filters: [
+            { text: 'Service', value: 'SERVICE' },
+            { text: 'product', value: 'PRODUCT' },
+          ],
+          onFilter: (value, record) => record.article_type === value,
         },
     {
       title: 'is Taxeable',

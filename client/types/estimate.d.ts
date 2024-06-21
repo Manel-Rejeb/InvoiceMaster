@@ -16,6 +16,7 @@ interface EstimateType {
   estimate_tax: number
   createdAt?: string
   udpatedAt?: string
+  invoice?: InvoiceType
 }
 
 interface ItemEstimateType {
@@ -25,5 +26,7 @@ interface ItemEstimateType {
   item_tax: number
   article?: ArticleType
 }
+
+interface InvoiceType {}
 
 type EstimateFormType = Omit<EstimateType, 'createdAt' | 'updatedAt'>

@@ -76,7 +76,7 @@ export const EstimateTable: FC<ComponentProps> = ({ isLoading, data }) => {
           {/* TODO: TO CHANGE PATH */}
           <Link
             href={{
-              pathname: '/estimate/preview',
+              pathname: '/dashboard/estimates/preview',
               search: 'ref=' + record.id,
             }}
             passHref>

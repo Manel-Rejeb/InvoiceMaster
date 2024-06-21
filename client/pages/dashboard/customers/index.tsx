@@ -1,4 +1,4 @@
-import { type JSX, useState } from 'react'
+import { type JSX, useEffect, useState } from 'react'
 
 import Link from 'next/link'
 import { Button, Input, Select } from 'antd/lib'
@@ -9,8 +9,15 @@ import { AiOutlinePlus, AiOutlineSearch } from 'react-icons/ai'
 import { disptachCustomer } from '@/providers/customer-provider'
 
 export default function Customers(): JSX.Element {
-  const { data, isLoading } = disptachCustomer()
+  const { data: customer, isLoading } = disptachCustomer()
   const [searched, setSearch] = useState<string>('')
+  const [filteredData, setFilteredData] = useState(customer)
+
+  useEffect(() => {
+    if (customer) {
+      setFilteredData(customer.filter((customer) => customer.customer_contact_name.toLowerCase().includes(searched.toLowerCase())))
+    }
+  }, [searched, customer])
 
   return (
     <div className='bg-white h-full w-full flex flex-col items-center  mx-auto gap-6  overflow-hidden'>
@@ -40,7 +47,7 @@ export default function Customers(): JSX.Element {
       </div>
 
       <div className='w-full'>
-        <CustomerTable isLoading={isLoading} data={data} />
+        <CustomerTable isLoading={isLoading} data={filteredData} />
       </div>
     </div>
   )

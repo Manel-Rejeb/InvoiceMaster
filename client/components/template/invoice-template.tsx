@@ -1,199 +1,164 @@
-import { FC } from 'react'
+import { type FC } from 'react'
+
 import Image from 'next/image'
 
-import { Button } from 'antd/lib'
+import { app } from '@/constants/APP'
 
-export const InvoiceTemplate: FC = () => {
+interface ComponentProps {
+  data: EstimateType
+}
+
+export const InvoiceTemplate: FC<ComponentProps> = ({ data }) => {
   return (
-    <div className='w-full max-w-[58rem] mx-auto'>
-      <div className='flex items-center justify-between py-6 mb-5 pb-5 border-b border-gray-200'>
-        <h2 className='text-xl font-semibold text-gray-800'>Invoice</h2>
+    <div id='PDF-Invoice' className='flex flex-col p-4 sm:p-10 bg-white'>
+      <div className='flex justify-between'>
         <div>
-          <div className='inline-flex gap-x-2'>
-            <Button>Invoice PDF</Button>
-            <Button type='primary'>Print</Button>
-          </div>
+          <Image src={app.logo} width={100} height={62} alt='visto logo' />
+          <h1 className='mt-2 text-lg md:text-xl font-semibold text-gray-800 capitalize'>{app.name}.</h1>
+        </div>
+
+        <div className='text-end'>
+          <h2 className='text-xl font-semibold text-gray-800'>{data.invoice ? 'Invoice' : 'Estimate'} #</h2>
+          <span className='mt-1 block text-gray-500'>{data.estimate_reference}</span>
+
+          <address className='not-italic text-gray-800 capitalize'>
+            {app.detail.adress.street}
+            <br />
+            {app.detail.adress.city}, {app.detail.adress.zip}
+            <br />
+            Tunisia
+            <br />
+          </address>
         </div>
       </div>
 
-      <div className='flex items-center mb-20 px-6'>
-        <Image src='/logo/vistopic.png' alt='Invoice logo master visto' width={100} height={82} />
-      </div>
-
-      {/*  */}
-      <div className='grid md:grid-cols-2 gap-3 mt-10'>
+      <div className='mt-8 grid sm:grid-cols-2 gap-3'>
         <div>
-          <div className='grid space-y-3'>
-            <dl className='grid sm:flex gap-x-3 text-sm'>
-              <dt className='min-w-36 max-w-[200px] text-gray-500'>Billed to:</dt>
-              <dd className='text-gray-800'>
-                <a className='inline-flex items-center gap-x-1.5 text-blue-600 decoration-2 hover:underline font-medium' href='#'>
-                  sara@site.com
-                </a>
-              </dd>
-            </dl>
-
-            <dl className='grid sm:flex gap-x-3 text-sm'>
-              <dt className='min-w-36 max-w-[200px] text-gray-500'>Billing details:</dt>
-              <dd className='font-medium text-gray-800'>
-                <span className='block font-semibold'>Sara Williams</span>
-                <address className='not-italic font-normal'>
-                  280 Suzanne Throughway,
-                  <br />
-                  Breannabury, OR 45801,
-                  <br />
-                  United States
-                  <br />
-                </address>
-              </dd>
-            </dl>
-
-            <dl className='grid sm:flex gap-x-3 text-sm'>
-              <dt className='min-w-36 max-w-[200px] text-gray-500'>Shipping details:</dt>
-              <dd className='font-medium text-gray-800'>
-                <span className='block font-semibold'>Sara Williams</span>
-                <address className='not-italic font-normal'>
-                  280 Suzanne Throughway,
-                  <br />
-                  Breannabury, OR 45801,
-                  <br />
-                  United States
-                  <br />
-                </address>
-              </dd>
-            </dl>
-          </div>
+          <h3 className='text-lg font-semibold text-gray-800'>Bill to:</h3>
+          <h3 className='text-lg font-semibold text-gray-800 capitalize'>
+            {data.customer.customer_contact_name} {data.customer.customer_contact_last_name}
+          </h3>
+          <address className='mt-2 not-italic text-gray-500 capitalize'>
+            {data.customer.customer_address}
+            <br />
+            {data.customer.customer_city}, {data.customer.customer_zip},
+            <br />
+            {data.customer.customer_country}
+            <br />
+          </address>
         </div>
 
-        <div>
-          <div className='grid space-y-3'>
-            <dl className='grid sm:flex gap-x-3 text-sm'>
-              <dt className='min-w-36 max-w-[200px] text-gray-500'>Invoice number:</dt>
-              <dd className='font-medium text-gray-800'>ADUQ2189H1-0038</dd>
+        <div className='sm:text-end space-y-2'>
+          <div className='grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-2'>
+            <dl className='grid sm:grid-cols-5 gap-x-3'>
+              <dt className='col-span-3 font-semibold text-gray-800'>Invoice date:</dt>
+              <dd className='col-span-2 text-gray-500'>{data.estimate_date.slice(0, 10)}</dd>
             </dl>
-
-            <dl className='grid sm:flex gap-x-3 text-sm'>
-              <dt className='min-w-36 max-w-[200px] text-gray-500'>Currency:</dt>
-              <dd className='font-medium text-gray-800'>USD - US Dollar</dd>
-            </dl>
-
-            <dl className='grid sm:flex gap-x-3 text-sm'>
-              <dt className='min-w-36 max-w-[200px] text-gray-500'>Due date:</dt>
-              <dd className='font-medium text-gray-800'>10 Jan 2023</dd>
-            </dl>
-
-            <dl className='grid sm:flex gap-x-3 text-sm'>
-              <dt className='min-w-36 max-w-[200px] text-gray-500'>Billing method:</dt>
-              <dd className='font-medium text-gray-800'>Send invoice</dd>
+            <dl className='grid sm:grid-cols-5 gap-x-3'>
+              <dt className='col-span-3 font-semibold text-gray-800'>Due date:</dt>
+              <dd className='col-span-2 text-gray-500'>{data.estimate_expiary_date.slice(0, 10)}</dd>
             </dl>
           </div>
         </div>
       </div>
 
-      <div className='mt-6 border border-gray-200 p-4 rounded-lg space-y-4 mt-20 mb-10'>
-        <div className='hidden sm:grid sm:grid-cols-5'>
-          <div className='sm:col-span-2 text-xs font-medium text-gray-500 uppercase'>Item</div>
-          <div className='text-start text-xs font-medium text-gray-500 uppercase'>Qty</div>
-          <div className='text-start text-xs font-medium text-gray-500 uppercase'>Rate</div>
-          <div className='text-end text-xs font-medium text-gray-500 uppercase'>Amount</div>
-        </div>
+      <div className='mt-6'>
+        <div className='border border-gray-200 p-4 rounded-lg space-y-4'>
+          <div className='hidden sm:grid sm:grid-cols-6'>
+            <div className='sm:col-span-2 text-xs font-medium text-gray-500 uppercase'>Item</div>
+            <div className='text-start text-xs font-medium text-gray-500 uppercase'>Qty</div>
+            <div className='text-start text-xs font-medium text-gray-500 uppercase'>Rate</div>
+            <div className='text-start text-xs font-medium text-gray-500 uppercase'>Tax</div>
+            <div className='text-end text-xs font-medium text-gray-500 uppercase'>Amount</div>
+          </div>
 
-        <div className='hidden sm:block border-b border-gray-200'></div>
+          <div className='hidden sm:block border-b border-gray-200'></div>
 
-        <div className='grid grid-cols-3 sm:grid-cols-5 gap-2'>
-          <div className='col-span-full sm:col-span-2'>
-            <h5 className='sm:hidden text-xs font-medium text-gray-500 uppercase'>Item</h5>
-            <p className='font-medium text-gray-800'>Design UX and UI</p>
-          </div>
-          <div>
-            <h5 className='sm:hidden text-xs font-medium text-gray-500 uppercase'>Qty</h5>
-            <p className='text-gray-800'>1</p>
-          </div>
-          <div>
-            <h5 className='sm:hidden text-xs font-medium text-gray-500 uppercase'>Rate</h5>
-            <p className='text-gray-800'>5</p>
-          </div>
-          <div>
-            <h5 className='sm:hidden text-xs font-medium text-gray-500 uppercase'>Amount</h5>
-            <p className='sm:text-end text-gray-800'>$500</p>
-          </div>
-        </div>
+          {data.items.map((el: ItemEstimateType) => (
+            <div key={el.id} className='grid grid-cols-3 sm:grid-cols-6 gap-2'>
+              <div className='col-span-full sm:col-span-2'>
+                <h5 className='sm:hidden text-xs font-medium text-gray-500 uppercase'>Item</h5>
+                <p className='font-medium text-gray-800'>{el.article?.article_name}</p>
+              </div>
+              <div>
+                <h5 className='sm:hidden text-xs font-medium text-gray-500 uppercase'>Qty</h5>
+                <p className='text-gray-800'>{el.item_quantity}</p>
+              </div>
+              <div>
+                <h5 className='sm:hidden text-xs font-medium text-gray-500 uppercase'>Rate</h5>
+                <p className='text-gray-800'>
+                  {Intl.NumberFormat('ar-TN', {
+                    style: 'currency',
+                    currency: el.article?.article_currency,
+                  }).format(el.item_price!)}
+                </p>
+              </div>
+              <div>
+                <h5 className='sm:hidden text-xs font-medium text-gray-500 uppercase'>Tax</h5>
+                <p className='text-gray-800'>+{el.item_tax}%</p>
+              </div>
+              <div>
+                <h5 className='sm:hidden text-xs font-medium text-gray-500 uppercase'>Amount</h5>
+                <p className='sm:text-end text-gray-800'>
+                  {Intl.NumberFormat('ar-TN', {
+                    style: 'currency',
+                    currency: el.article?.article_currency,
+                  }).format((el.item_price! + (el.item_price! * el.item_tax) / 100) * el.item_quantity)}
+                </p>
+              </div>
+            </div>
+          ))}
 
-        <div className='sm:hidden border-b border-gray-200'></div>
-
-        <div className='grid grid-cols-3 sm:grid-cols-5 gap-2'>
-          <div className='col-span-full sm:col-span-2'>
-            <h5 className='sm:hidden text-xs font-medium text-gray-500 uppercase'>Item</h5>
-            <p className='font-medium text-gray-800'>Web project</p>
-          </div>
-          <div>
-            <h5 className='sm:hidden text-xs font-medium text-gray-500 uppercase'>Qty</h5>
-            <p className='text-gray-800'>1</p>
-          </div>
-          <div>
-            <h5 className='sm:hidden text-xs font-medium text-gray-500 uppercase'>Rate</h5>
-            <p className='text-gray-800'>24</p>
-          </div>
-          <div>
-            <h5 className='sm:hidden text-xs font-medium text-gray-500 uppercase'>Amount</h5>
-            <p className='sm:text-end text-gray-800'>$1250</p>
-          </div>
-        </div>
-
-        <div className='sm:hidden border-b border-gray-200'></div>
-
-        <div className='grid grid-cols-3 sm:grid-cols-5 gap-2'>
-          <div className='col-span-full sm:col-span-2'>
-            <h5 className='sm:hidden text-xs font-medium text-gray-500 uppercase'>Item</h5>
-            <p className='font-medium text-gray-800'>SEO</p>
-          </div>
-          <div>
-            <h5 className='sm:hidden text-xs font-medium text-gray-500 uppercase'>Qty</h5>
-            <p className='text-gray-800'>1</p>
-          </div>
-          <div>
-            <h5 className='sm:hidden text-xs font-medium text-gray-500 uppercase'>Rate</h5>
-            <p className='text-gray-800'>6</p>
-          </div>
-          <div>
-            <h5 className='sm:hidden text-xs font-medium text-gray-500 uppercase'>Amount</h5>
-            <p className='sm:text-end text-gray-800'>$2000</p>
-          </div>
+          <div className='sm:hidden border-b border-gray-200'></div>
         </div>
       </div>
 
       <div className='mt-8 flex sm:justify-end'>
         <div className='w-full max-w-2xl sm:text-end space-y-2'>
           <div className='grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-2'>
-            <dl className='grid sm:grid-cols-5 gap-x-3 text-sm'>
-              <dt className='col-span-3 text-gray-500'>Subotal:</dt>
-              <dd className='col-span-2 font-medium text-gray-800'>$2750.00</dd>
+            <dl className='grid sm:grid-cols-5 gap-x-3'>
+              <dt className='col-span-3 font-semibold text-gray-800'>Total HT:</dt>
+              <dd className='col-span-2 text-gray-500'>
+                {Intl.NumberFormat('ar-TN', {
+                  style: 'currency',
+                  currency: data.estimate_currency,
+                }).format(data.estimate_total)}
+              </dd>
             </dl>
 
-            <dl className='grid sm:grid-cols-5 gap-x-3 text-sm'>
-              <dt className='col-span-3 text-gray-500'>Total:</dt>
-              <dd className='col-span-2 font-medium text-gray-800'>$2750.00</dd>
+            <dl className='grid sm:grid-cols-5 gap-x-3'>
+              <dt className='col-span-3 font-semibold text-gray-800'>Tax:</dt>
+              <dd className='col-span-2 text-gray-500'>
+                {Intl.NumberFormat('ar-TN', {
+                  style: 'currency',
+                  currency: data.estimate_currency,
+                }).format((data.estimate_total * data.estimate_tax) / 100)}
+              </dd>
             </dl>
 
-            <dl className='grid sm:grid-cols-5 gap-x-3 text-sm'>
-              <dt className='col-span-3 text-gray-500'>Tax:</dt>
-              <dd className='col-span-2 font-medium text-gray-800'>$39.00</dd>
-            </dl>
-
-            <dl className='grid sm:grid-cols-5 gap-x-3 text-sm'>
-              <dt className='col-span-3 text-gray-500'>Amount paid:</dt>
-              <dd className='col-span-2 font-medium text-gray-800'>$2789.00</dd>
-            </dl>
-
-            <dl className='grid sm:grid-cols-5 gap-x-3 text-sm'>
-              <dt className='col-span-3 text-gray-500'>Due balance:</dt>
-              <dd className='col-span-2 font-medium text-gray-800'>$0.00</dd>
+            <dl className='grid sm:grid-cols-5 gap-x-3'>
+              <dt className='col-span-3 font-semibold text-gray-800'>Total:</dt>
+              <dd className='col-span-2 text-gray-500'>
+                {Intl.NumberFormat('ar-TN', {
+                  style: 'currency',
+                  currency: data.estimate_currency,
+                }).format(data.estimate_total + (data.estimate_total * data.estimate_tax) / 100)}
+              </dd>
             </dl>
           </div>
         </div>
       </div>
 
-      {/*  */}
+      <div className='mt-8 sm:mt-12'>
+        <h4 className='text-lg font-semibold text-gray-800'>Thank you!</h4>
+        <p className='text-gray-500'>If you have any questions concerning this invoice, use the following contact information:</p>
+        <div className='mt-2'>
+          <p className='block text-sm font-medium text-gray-800'>example@site.com</p>
+          <p className='block text-sm font-medium text-gray-800'>+1 (062) 109-9222</p>
+        </div>
+      </div>
+
+      <p className='mt-5 text-sm text-gray-500'>© {new Date().getFullYear()} Manel.</p>
     </div>
   )
 }

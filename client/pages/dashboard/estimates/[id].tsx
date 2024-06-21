@@ -7,6 +7,7 @@ import { app } from '@/constants/APP'
 import { CURRENCY } from '@/constants/CURRENCY'
 
 import { ItemsTable } from '@/components/table-headers/item-tableheader'
+import { NoteTableHeader } from '@/components/table-headers/note-tableheader'
 
 import { queryClient } from '@/util/react-query-client'
 import { FIND, PATCH, POST } from '@/actions/estimate-actions'
@@ -20,7 +21,7 @@ import { disptachProject } from '@/providers/project-provider'
 import { disptachTax } from '@/providers/tax-provider'
 
 export default function Estimate(): JSX.Element {
-  const [note, setNote] = useState<string>()
+  const [notes, setNotes] = useState<{ note: string }[]>([])
   const [items, setItems] = useState<ItemEstimateType[]>([])
 
   const { data: customer } = disptachCustomer()
@@ -42,12 +43,20 @@ export default function Estimate(): JSX.Element {
         return POST({
           ...values,
           items: form.getFieldValue('items'),
+          estimate_notes: JSON.stringify(form.getFieldValue('estimate_notes')),
           estimate_total: items.reduce((total: number, item: ItemEstimateType) => {
             return total + item.item_price! * item.item_quantity
           }, 0),
         })
       } else {
-        return PATCH(query.id as string, values)
+        return PATCH(query.id as string, {
+          ...values,
+          items: form.getFieldValue('items'),
+          estimate_notes: JSON.stringify(form.getFieldValue('estimate_notes')),
+          estimate_total: items.reduce((total: number, item: ItemEstimateType) => {
+            return total + item.item_price! * item.item_quantity
+          }, 0),
+        })
       }
     },
     onSettled: async () => {
@@ -68,12 +77,15 @@ export default function Estimate(): JSX.Element {
     select: (data) => {
       if (items.length === 0) {
         setItems(data.items)
+        setNotes(JSON.parse(data.estimate_notes))
       }
+
       form.setFieldsValue({
         ...data,
         estimate_date: dayjs(data.estimate_date),
         estimate_expiary_date: dayjs(data.estimate_expiary_date),
         items: data.items,
+        estimate_notes: JSON.parse(data.estimate_notes),
       })
     },
   })
@@ -229,72 +241,59 @@ export default function Estimate(): JSX.Element {
           <ItemsTable form={form} items={items} setItems={setItems} />
         </div>
 
-        <div className='grid grid-cols-2'>
-          <div className='flex sm:justify-start'>
-            <Space>
-              <Input.TextArea placeholder='Add some notes' className='w-full' value={note} onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setNote(e.target.value)} />
-              <Button
-                onClick={() => {
-                  const currentNotes = form.getFieldValue('estimate_notes') || []
-                  const updatedNotes = [...currentNotes, note]
-                  form.setFieldsValue({ estimate_notes: updatedNotes.join(',') })
-                  setNote('')
-                }}>
-                Add
-              </Button>
-            </Space>
-          </div>
-          <div className='flex sm:justify-end mt-10'>
-            <div className='max-w-2xl sm:text-end space-y-2'>
-              <div className='grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-2'>
-                <dl className='grid sm:grid-cols-5 gap-x-3 text-sm'>
-                  <dt className='col-span-3 text-gray-500'>Total HT:</dt>
-                  <dd className='col-span-2 font-medium text-gray-800'>
-                    {items.reduce((total: number, item: ItemEstimateType) => {
-                      return total + item.item_price! * item.item_quantity
-                    }, 0)}
-                  </dd>
-                </dl>
+        <div className='flex justify-end mt-10'>
+          <div className='max-w-2xl sm:text-end space-y-2'>
+            <div className='grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-2'>
+              <dl className='grid sm:grid-cols-5 gap-x-3 text-sm'>
+                <dt className='col-span-3 text-gray-500'>Total HT:</dt>
+                <dd className='col-span-2 font-medium text-gray-800'>
+                  {items.reduce((total: number, item: ItemEstimateType) => {
+                    return total + item.item_price! * item.item_quantity
+                  }, 0)}
+                </dd>
+              </dl>
 
-                <Form.Item noStyle shouldUpdate>
-                  {() => {
-                    return (
-                      <dl className='grid sm:grid-cols-5 gap-x-3 text-sm'>
-                        <dt className='col-span-3 text-gray-500'>Tax:</dt>
-                        <dd className='col-span-2 font-medium text-gray-800'>
-                          {(items.reduce((total: number, item: ItemEstimateType) => {
+              <Form.Item noStyle shouldUpdate>
+                {() => {
+                  return (
+                    <dl className='grid sm:grid-cols-5 gap-x-3 text-sm'>
+                      <dt className='col-span-3 text-gray-500'>Tax:</dt>
+                      <dd className='col-span-2 font-medium text-gray-800'>
+                        {(items.reduce((total: number, item: ItemEstimateType) => {
+                          return total + item.item_price! * item.item_quantity
+                        }, 0) *
+                          form.getFieldValue('estimate_tax')) /
+                          100}
+                      </dd>
+                    </dl>
+                  )
+                }}
+              </Form.Item>
+
+              <Form.Item noStyle shouldUpdate>
+                {() => {
+                  return (
+                    <dl className='grid sm:grid-cols-5 gap-x-3 text-sm'>
+                      <dt className='col-span-3 text-gray-500'>Total:</dt>
+                      <dd className='col-span-2 font-medium text-gray-800'>
+                        {items.reduce((total: number, item: ItemEstimateType) => {
+                          return total + item.item_price! * item.item_quantity
+                        }, 0) +
+                          (items.reduce((total: number, item: ItemEstimateType) => {
                             return total + item.item_price! * item.item_quantity
                           }, 0) *
                             form.getFieldValue('estimate_tax')) /
                             100}
-                        </dd>
-                      </dl>
-                    )
-                  }}
-                </Form.Item>
-
-                <Form.Item noStyle shouldUpdate>
-                  {() => {
-                    return (
-                      <dl className='grid sm:grid-cols-5 gap-x-3 text-sm'>
-                        <dt className='col-span-3 text-gray-500'>Total:</dt>
-                        <dd className='col-span-2 font-medium text-gray-800'>
-                          {items.reduce((total: number, item: ItemEstimateType) => {
-                            return total + item.item_price! * item.item_quantity
-                          }, 0) +
-                            (items.reduce((total: number, item: ItemEstimateType) => {
-                              return total + item.item_price! * item.item_quantity
-                            }, 0) *
-                              form.getFieldValue('estimate_tax')) /
-                              100}
-                        </dd>
-                      </dl>
-                    )
-                  }}
-                </Form.Item>
-              </div>
+                      </dd>
+                    </dl>
+                  )
+                }}
+              </Form.Item>
             </div>
           </div>
+        </div>
+        <div className='mt-6 border border-gray-200 rounded-lg space-y-4'>
+          <NoteTableHeader form={form} notes={notes} setNotes={setNotes} />
         </div>
       </Form>
     </div>
