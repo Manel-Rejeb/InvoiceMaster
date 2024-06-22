@@ -9,7 +9,6 @@ import {
 import { USER_ROLE } from './enum/ROLE';
 import { ApiProperty } from '@nestjs/swagger';
 
-
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -34,6 +33,10 @@ export class User {
   @ApiProperty()
   @Column({ type: 'enum', enum: USER_ROLE, default: USER_ROLE.MODERATOR })
   role: string;
+
+  @ApiProperty()
+  @Column()
+  privilege: string;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt?: Date;

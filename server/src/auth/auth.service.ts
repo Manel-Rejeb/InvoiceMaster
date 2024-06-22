@@ -11,7 +11,20 @@ export class AuthService {
   constructor(
     private userService: UserService,
     private jwtService: JwtService,
-  ) {}
+  ) {
+    // TODO: TO REVIEW
+    if (!userService.findByEmail('manel.rejeb@visto.com')) {
+      userService.createUser({
+        id: null,
+        username: 'manel rejeb',
+        email: 'manel.rejeb@visto.com',
+        password: 'admin00',
+        isActive: true,
+        role: 'ADMIN',
+        privilege: 'ADMIN',
+      });
+    }
+  }
 
   async validateUser(email: string, password: string): Promise<User> {
     const user = await this.userService.findByEmail(email);

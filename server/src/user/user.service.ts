@@ -48,6 +48,13 @@ export class UserService {
     if (!userData) {
       throw new NotFoundException('User not found');
     }
+
+    const newHash = await bcrypt.hash(user.password, 10);
+
+    if (user.password !== userData.password) {
+      user.password = newHash;
+    }
+
     const updatedUser = this.userRepository.merge(userData, user);
     return await this.userRepository.save(updatedUser);
   }
