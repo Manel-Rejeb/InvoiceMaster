@@ -8,4 +8,4 @@ interface TaxType {
   updatedAt?: string
 }
 
-type TaxFormType = Omit<TaxType, 'createdAt' | 'updateAt'>
+type TaxFormType = Omit<TaxType, 'createdAt' | 'updatedAt'>

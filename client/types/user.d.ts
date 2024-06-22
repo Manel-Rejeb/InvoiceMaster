@@ -4,6 +4,8 @@ type UserType = {
   email: string
   password: string
   role: string
+  isActive: boolean
+  privilege: string
   createdAt?: string
   updatedAt?: string
   isSoftDelete: boolean

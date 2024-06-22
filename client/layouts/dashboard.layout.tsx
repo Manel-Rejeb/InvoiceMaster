@@ -21,6 +21,7 @@ import {
 
 import { AccountAvatar } from '@/components/account-avatar'
 import { BreadCrumbs } from '@/components/breadcrumb'
+import { useAuth } from '@/providers/user-provider'
 
 interface ComponentProps {
   children: ReactNode
@@ -34,72 +35,23 @@ export const DashboardLayout: FC<ComponentProps> = ({ children }) => {
   const { push, pathname } = useRouter()
   const [collapsed, setCollapsed] = useState(false)
 
+  const { user } = useAuth()
+
   const {
     token: { colorBgContainer, colorBorderSecondary },
   } = theme.useToken()
 
   const menu_items: MenuItem[] = [
-    {
-      key: '1',
-      icon: <AiOutlinePieChart size={21} />,
-      label: 'Overview',
-      onClick: () => push('/dashboard'),
-    },
-    {
-      key: '2',
-      icon: <AiOutlineTeam size={21} />,
-      label: 'Users',
-      onClick: () => push('/dashboard/users'),
-    },
-    {
-      key: '3',
-      icon: <AiOutlineShop size={21} />,
-      label: 'Customers',
-      onClick: () => push('/dashboard/customers'),
-    },
-    {
-      key: '4',
-      icon: <AiOutlineShopping size={21} />,
-      label: 'Articles',
-      onClick: () => push('/dashboard/articles'),
-    },
-    {
-      key: '5',
-      icon: <AiOutlinePoundCircle size={21} />,
-      label: 'Expenses',
-      onClick: () => push('/dashboard/expenses'),
-    },
-    {
-      key: '6',
-      icon: <AiOutlineFileDone size={21} />,
-      label: 'Invoices',
-      onClick: () => push('/dashboard/invoices'),
-    },
-    {
-      key: '7',
-      icon: <AiOutlineProject size={21} />,
-      label: 'Estimates',
-      onClick: () => push('/dashboard/estimates'),
-    },
-    {
-      key: '8',
-      icon: <AiOutlineCluster size={21} />,
-      label: 'Projects',
-      onClick: () => push('/dashboard/projects'),
-    },
-    {
-      key: '9',
-      icon: <AiOutlinePercentage size={21} />,
-      label: 'Taxes',
-      onClick: () => push('/dashboard/taxes'),
-    },
-
-    {
-      key: '10',
-      icon: <AiOutlineSetting size={21} />,
-      label: 'Settings',
-      onClick: () => push('/dashboard/settings'),
-    },
+    { key: '1', icon: <AiOutlinePieChart size={21} />, label: 'Overview', onClick: () => push('/dashboard') },
+    { key: '2', icon: <AiOutlineTeam size={21} />, label: 'Users', onClick: () => push('/dashboard/users') },
+    { key: '3', icon: <AiOutlineShop size={21} />, label: 'Customers', onClick: () => push('/dashboard/customers') },
+    { key: '4', icon: <AiOutlineShopping size={21} />, label: 'Articles', onClick: () => push('/dashboard/articles') },
+    { key: '5', icon: <AiOutlinePoundCircle size={21} />, label: 'Expenses', onClick: () => push('/dashboard/expenses') },
+    { key: '6', icon: <AiOutlineFileDone size={21} />, label: 'Invoices', onClick: () => push('/dashboard/invoices') },
+    { key: '7', icon: <AiOutlineProject size={21} />, label: 'Estimates', onClick: () => push('/dashboard/estimates') },
+    { key: '8', icon: <AiOutlineCluster size={21} />, label: 'Projects', onClick: () => push('/dashboard/projects') },
+    { key: '9', icon: <AiOutlinePercentage size={21} />, label: 'Taxes', onClick: () => push('/dashboard/taxes') },
+    { key: '10', icon: <AiOutlineSetting size={21} />, label: 'Settings', onClick: () => push('/dashboard/settings') },
   ]
 
   /* handles selected menu item index */
@@ -131,13 +83,12 @@ export const DashboardLayout: FC<ComponentProps> = ({ children }) => {
         <Header style={{ position: 'sticky', top: 0, zIndex: 1, width: '100%', padding: 0, background: colorBgContainer }} className='flex items-center justify-between'>
           <div className='flex items-center'>
             <Button
-              type='text'
+              type='link'
               onClick={() => setCollapsed(!collapsed)}
               icon={collapsed ? <AiOutlineMenuUnfold size={21} /> : <AiOutlineMenuFold size={21} />}
               style={{
-                fontSize: '16px',
                 width: 64,
-                height: 64,
+                color: '#101',
               }}
             />
             <BreadCrumbs />

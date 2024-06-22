@@ -1,4 +1,4 @@
-import { createContext, type JSX, type ReactNode, useContext, useLayoutEffect, useState } from 'react'
+import { createContext, type JSX, type ReactNode, useContext, useEffect, useState, useLayoutEffect } from 'react'
 
 import { query } from '@/util/query'
 import { useRouter } from 'next/router'
@@ -23,55 +23,54 @@ export default function UserProvider({ children }: ComponentProps): JSX.Element 
     staleTime: 0,
   })
 
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(userStore.isAuthenticated)
+  const [isUserLoading, setUserLoading] = useState<boolean>(true)
   const [user, setUser] = useState<AuthUserProfileType>(userStore.user)
-  const [isUserLoading, setUserLoading] = useState<boolean>(false)
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(userStore.isAuthenticated)
 
   const login = async (data: LoginFormType) =>
     await query.post('/auth/login', { ...data }).then((res) => {
       setCookie('token', res.data.access_token)
-      setUser(res.data.user)
       setIsAuthenticated(true)
       push('/dashboard')
     })
 
-  const logout = async (): Promise<boolean> => {
-    return new Promise<boolean>((resolve, reject) => {
-      try {
-        deleteCookie('token')
-        setIsAuthenticated(false)
-        resolve(true)
-      } catch (error) {
-        reject(error)
-      }
-    })
+  const logout = (): void => {
+    deleteCookie('token')
+    setIsAuthenticated(false)
+    push('/auth')
   }
 
-  // BUGGING
+  const getCurrentUser = async () => {
+    setUserLoading(true)
+    await query
+      .get('/auth/profile', {
+        headers: {
+          Authorization: `Bearer ${getCookie('token')}`,
+        },
+      })
+      .then((res) => {
+        setUser(res.data)
+        setIsAuthenticated(false)
+        setUserLoading(false)
+      })
+      .catch(() => {
+        setUser(userStore.user)
+        setIsAuthenticated(userStore.isAuthenticated)
+        push('/auth').then(() => setUserLoading(false))
+      })
+  }
 
-  // useLayoutEffect(() => {
-  //   if (getCookie('token')) {
-  //     setUserLoading(true)
-  //     query
-  //       .get('/auth/profile', {
-  //         headers: {
-  //           Authorization: `Bearer ${getCookie('token')}`,
-  //         },
-  //       })
-  //       .then((res) => {
-  //         if (res.status === 200) {
-  //           setUser(res.data)
-  //           setIsAuthenticated(true)
-  //         }
-  //         setUserLoading(false)
-  //       })
-  //     setUserLoading(false)
-  //     if (pathname === '/auth') push('/dashboard')
-  //   } else {
-  //     setIsAuthenticated(false)
-  //     push('/auth')
-  //   }
-  // }, [push, pathname])
+  useEffect(() => {
+    getCurrentUser()
+  }, [isAuthenticated])
+
+  useLayoutEffect(() => {
+    if (getCookie('token')) {
+      push('/dashboard')
+    } else {
+      push('/auth')
+    }
+  }, [])
 
   if (isUserLoading) {
     return (

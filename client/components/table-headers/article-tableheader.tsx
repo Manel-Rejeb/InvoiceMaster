@@ -101,6 +101,13 @@ export const ArticleTable: FC<ComponentProps> = ({ isLoading, data = [] }) => {
       title: 'Unit',
       dataIndex: 'article_unit',
       key: 'article_unit',
+      filters: [
+        { text: 'Project', value: 'PROJECT' },
+        { text: 'Quantity', value: 'QUANTITY' },
+        { text: 'Hour', value: 'HOUR' },
+        { text: 'Day', value: 'DAY' },
+      ],
+      onFilter: (value, record) => record.article_unit === value,
     },
     {
       title: 'Action',

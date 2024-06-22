@@ -1,4 +1,4 @@
-import { useState, type JSX } from 'react'
+import { useEffect, useState, type JSX } from 'react'
 import Link from 'next/link'
 import { AiOutlinePlus, AiOutlineSearch } from 'react-icons/ai'
 
@@ -7,8 +7,15 @@ import { UserTable } from '@/components/table-headers/user-header'
 import { disptachUser } from '@/providers/user-provider'
 
 export default function Projects(): JSX.Element {
-  const { data, isLoading } = disptachUser()
+  const { data: user, isLoading } = disptachUser()
   const [searched, setSearch] = useState<string>('')
+  const [filteredData, setFilteredData] = useState(user)
+
+  useEffect(() => {
+    if (user) {
+      setFilteredData(user.filter((user) => user.username.toLowerCase().includes(searched.toLowerCase())))
+    }
+  }, [searched, user])
 
   return (
     <div className='bg-white h-full w-full flex flex-col items-center  mx-auto gap-6  overflow-hidden'>
@@ -38,7 +45,7 @@ export default function Projects(): JSX.Element {
       </div>
 
       <div className='w-full'>
-        <UserTable isLoading={isLoading} data={data} />
+        <UserTable isLoading={isLoading} data={filteredData} />
       </div>
     </div>
   )

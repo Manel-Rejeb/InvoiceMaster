@@ -64,6 +64,14 @@ export const ProjectTable: FC<ComponentProps> = ({ isLoading, data = [] }) => {
             return <Tag color='red'>N/A</Tag>
         }
       },
+      filters: [
+        { text: 'OnBording', value: 'OnBording' },
+        { text: 'Ongoing', value: 'Ongoing' },
+        { text: 'Completed', value: 'Completed' },
+        { text: 'Cancelled', value: 'Cancelled' },
+        { text: 'OnHold', value: 'OnHold' },
+      ],
+      onFilter: (value, record) => record.project_status === value,
     },
     {
       title: 'Start Date',

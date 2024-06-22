@@ -21,7 +21,7 @@ export default function Expenses(): JSX.Element {
         <div className='w-full'>
           <Input variant='filled' size='large' placeholder='Search expense' prefix={<AiOutlineSearch />} onChange={(e) => setSearch(e.target.value)} />
         </div>
-        <Select
+        {/* <Select
           size='large'
           allowClear
           variant='filled'
@@ -33,9 +33,9 @@ export default function Expenses(): JSX.Element {
             { label: 'hour', value: 'HOUR' },
             { label: 'day', value: 'DAY' },
           ]}
-        />
+        /> */}
 
-        <Select size='large' variant='filled' showSearch allowClear placeholder='Currency' filterOption={filterOption} options={CURRENCY.map((el) => ({ label: el.value, value: el.value }))} />
+        {/* <Select size='large' variant='filled' showSearch allowClear placeholder='Currency' filterOption={filterOption} options={CURRENCY.map((el) => ({ label: el.value, value: el.value }))} /> */}
         <Link passHref href={'/dashboard/expenses/create'}>
           <Button type='primary' size='large' className='capitalize'>
             <div className='flex items-center gap-2'>

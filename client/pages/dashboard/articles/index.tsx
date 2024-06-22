@@ -1,17 +1,23 @@
-import { type JSX, useState } from 'react'
+import { type JSX, useState, useEffect } from 'react'
 import Link from 'next/link'
 
-import { Button, Input, Select } from 'antd/lib'
+import { Button, Input } from 'antd/lib'
 
 import { AiOutlinePlus, AiOutlineSearch } from 'react-icons/ai'
 import { ArticleTable } from '@/components/table-headers/article-tableheader'
 import { disptachArticle } from '@/providers/article-provider'
-import { CURRENCY } from '@/constants/CURRENCY'
 
 export default function Articles(): JSX.Element {
-  const { data, isLoading } = disptachArticle()
+  const { data: article, isLoading } = disptachArticle()
   const [searched, setSearch] = useState<string>('')
   const filterOption = (input: string, option?: { label: string; value: string | number }) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+  const [filteredData, setFilteredData] = useState(article)
+
+  useEffect(() => {
+    if (article) {
+      setFilteredData(article.filter((article) => article.article_name.toLowerCase().includes(searched.toLowerCase())))
+    }
+  }, [searched, article])
 
   if (isLoading) return <div>Loading...</div>
 
@@ -21,7 +27,7 @@ export default function Articles(): JSX.Element {
         <div className='w-full'>
           <Input variant='filled' size='large' placeholder='Search Article' prefix={<AiOutlineSearch />} onChange={(e) => setSearch(e.target.value)} />
         </div>
-        <Select
+        {/* <Select                        
           size='large'
           allowClear
           variant='filled'
@@ -31,8 +37,8 @@ export default function Articles(): JSX.Element {
             { label: 'Service', value: 'SERVICE' },
             { label: 'Product', value: 'PRODUCT' },
           ]}
-        />
-        <Select
+        /> */}
+        {/* <Select
           size='large'
           allowClear
           variant='filled'
@@ -44,9 +50,9 @@ export default function Articles(): JSX.Element {
             { label: 'Hour', value: 'HOUR' },
             { label: 'Day', value: 'DAY' },
           ]}
-        />
+        /> */}
 
-        <Select size='large' variant='filled' showSearch allowClear placeholder='Currency' filterOption={filterOption} options={CURRENCY.map((el) => ({ label: el.value, value: el.value }))} />
+        {/* <Select size='large' variant='filled' showSearch allowClear placeholder='Currency' filterOption={filterOption} options={CURRENCY.map((el) => ({ label: el.value, value: el.value }))} /> */}
         <Link passHref href={'/dashboard/articles/create'}>
           <Button type='primary' size='large' className='capitalize'>
             <div className='flex items-center gap-2'>
@@ -58,7 +64,7 @@ export default function Articles(): JSX.Element {
       </div>
 
       <div className='w-full'>
-        <ArticleTable isLoading={isLoading} data={data.filter((el) => el.article_type !== 'EXPENSE')} />
+        <ArticleTable isLoading={isLoading} data={filteredData.filter((el) => el.article_type !== 'EXPENSE')} />
       </div>
     </div>
   )

@@ -36,14 +36,14 @@ const Auth = () => {
         <div className='w-full flex-1 flex items-center justify-center p-4'>
           <div className='w-full max-w-[400px]'>
             <div className='text-center'>
-              <h1 className='block text-2xl font-bold text-gray-800 dark:text-white'>Sign in</h1>
-              <p className='mt-2 text-sm text-gray-600 dark:text-gray-400'>Enter you credentials to connect to your account.</p>
+              <h1 className='block text-3xl font-bold text-gray-800'>Sign in</h1>
+              <p className='mt-1 text-sm text-gray-600'>Enter you credentials to connect to your account.</p>
             </div>
 
             <div className='mt-8'>
               {/* <!-- Form --> */}
-              <Form layout='vertical' size='large' onFinish={(values: LoginFormType) => mutate(values)} style={{ maxWidth: 600 }} autoComplete='off'>
-                <Form.Item<AuthLogin> label='Username' name='email' rules={[{ required: true, message: 'Please input your username!' }]}>
+              <Form layout='vertical' size='large' form={form} onFinish={(values: LoginFormType) => mutate(values)} labelCol={{ flex: '32px' }} style={{ maxWidth: 600 }} autoComplete='off'>
+                <Form.Item<AuthLogin> label='Email' name='email' rules={[{ required: true, message: 'Please input your email!' }]}>
                   <Input />
                 </Form.Item>
 
@@ -53,7 +53,7 @@ const Auth = () => {
 
                 <Form.Item<AuthLogin> name='remember' valuePropName='checked' className='flex-1'>
                   <Space>
-                    <Checkbox className='mr-2' />
+                    <Checkbox className='mr-2' checked />
                     <Typography.Text>Remember me.</Typography.Text>
                   </Space>
                 </Form.Item>

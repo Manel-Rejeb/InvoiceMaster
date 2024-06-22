@@ -1,4 +1,4 @@
-import { useState, type JSX } from 'react'
+import { useEffect, useState, type JSX } from 'react'
 import Link from 'next/link'
 import { AiOutlinePlus, AiOutlineSearch } from 'react-icons/ai'
 
@@ -7,15 +7,23 @@ import { ProjectTable } from '@/components/table-headers/project-tableheader'
 import { disptachProject } from '@/providers/project-provider'
 
 export default function Projects(): JSX.Element {
-  const { data, isLoading } = disptachProject()
+  const { data: project, isLoading } = disptachProject()
   const [searched, setSearch] = useState<string>('')
+  const [filteredData, setFilteredData] = useState(project)
+
+  useEffect(() => {
+    if (project) {
+      setFilteredData(project.filter((project) => project.project_name.toLowerCase().includes(searched.toLowerCase())))
+    }
+  }, [searched, project])
+
   return (
     <div className='bg-white h-full w-full flex flex-col items-center  mx-auto gap-6  overflow-hidden'>
       <div className='w-full flex items-center justify-between gap-4'>
         <div className='w-full'>
           <Input variant='filled' size='large' placeholder='Search project' prefix={<AiOutlineSearch />} onChange={(e) => setSearch(e.target.value)} />
         </div>
-        <Select
+        {/* <Select
           size='large'
           allowClear
           variant='filled'
@@ -28,7 +36,7 @@ export default function Projects(): JSX.Element {
             { label: 'Cancelled', value: 'Cancelled' },
             { label: 'OnHold', value: 'OnHold' },
           ]}
-        />
+        /> */}
         <Link passHref href={'/dashboard/projects/create'}>
           <Button type='primary' size='large' className='capitalize'>
             <div className='flex items-center gap-2'>
@@ -40,7 +48,7 @@ export default function Projects(): JSX.Element {
       </div>
 
       <div className='w-full'>
-        <ProjectTable isLoading={isLoading} data={data} />
+        <ProjectTable isLoading={isLoading} data={filteredData} />
       </div>
     </div>
   )

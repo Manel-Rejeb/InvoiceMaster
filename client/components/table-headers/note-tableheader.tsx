@@ -11,10 +11,6 @@ interface ComponentProps {
 }
 export const NoteTableHeader: FC<ComponentProps> = ({ form, notes, setNotes }) => {
   useEffect(() => {
-    form.setFieldValue('notes', notes)
-  }, [notes])
-
-  useEffect(() => {
     form.setFieldValue('estimate_notes', notes)
   }, [notes])
 

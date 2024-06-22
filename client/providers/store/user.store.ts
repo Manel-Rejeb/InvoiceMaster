@@ -1,11 +1,11 @@
 export interface UserStore {
-  isAuthenticated: boolean
   data: UserType[]
   isLoading: boolean
-  user: AuthUserProfileType
 
+  user: AuthUserProfileType
+  isAuthenticated: boolean
   login: (data: LoginFormType) => Promise<void>
-  logout: () => Promise<boolean>
+  logout: () => void
 }
 
 export const userStore: UserStore = {
@@ -22,5 +22,5 @@ export const userStore: UserStore = {
   },
 
   login: (data: LoginFormType) => new Promise<void>((resolve, reject) => {}),
-  logout: () => new Promise<boolean>((resolve, reject) => {}),
+  logout: () => {},
 }

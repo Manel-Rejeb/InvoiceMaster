@@ -27,7 +27,7 @@ export const AccountAvatar: FC<ComponentProps> = ({ collapse = false }) => {
         )}
       </button>
       {!collapse && (
-        <button onClick={() => logout().then(() => push('/auth'))}>
+        <button onClick={logout}>
           <AiOutlineLogout size={21} />
         </button>
       )}
