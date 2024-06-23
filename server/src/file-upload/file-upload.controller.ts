@@ -6,16 +6,20 @@ import {
   Patch,
   Param,
   Delete,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { FileUploadService } from './file-upload.service';
+import { FileInterceptor } from '@nestjs/platform-express';
 
-@Controller('file-upload')
+@Controller('upload')
 export class FileUploadController {
   constructor(private readonly fileUploadService: FileUploadService) {}
 
-  @Post()
-  create(@Body() createFile: File) {
-    return this.fileUploadService.create(createFile);
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('file'))
+  uploadFile(@UploadedFile() file: Express.Multer.File) {
+    console.log(file);
   }
 
   @Get()

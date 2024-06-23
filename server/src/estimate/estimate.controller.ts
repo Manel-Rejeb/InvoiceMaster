@@ -39,8 +39,18 @@ export class EstimateController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateEstimate: Estimate) {
-    return this.estimateService.update(+id, updateEstimate);
+  update(
+    @Param('id') id: string,
+    @Body() updateEstimate: Estimate,
+    @Query('customer') customer: string,
+    @Query('project') project: string,
+  ) {
+    return this.estimateService.update(
+      +id,
+      updateEstimate,
+      +customer,
+      +project,
+    );
   }
 
   @Delete(':id')

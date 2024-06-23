@@ -71,12 +71,9 @@ export class EstimateService {
       await this.itemRepository.save(createEstimate.items);
     }
 
-    // Generate the estimate reference
-    const now = new Date();
-    const day = String(now.getDate()).padStart(2, '0');
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-
-    savedEstimate.estimate_reference = `#INV-${savedEstimate.id}${day}${month}`;
+    savedEstimate.estimate_reference = this.generateEstimateReference(
+      savedEstimate.id,
+    );
 
     // Update the saved estimate with the new estimate reference
     await this.estimateRepository.update(savedEstimate.id, {
@@ -103,13 +100,83 @@ export class EstimateService {
     return estimateData;
   }
 
-  async update(id: number, updateEstimate: Estimate): Promise<Estimate> {
-    const estimateData = await this.estimateRepository.findOneBy({ id });
-    if (!estimateData) {
+  async update(
+    id: number,
+    updateEstimate: Estimate,
+    customerId: number,
+    projectId?: number,
+  ): Promise<Estimate> {
+    const existingEstimate = await this.estimateRepository.findOne({
+      where: { id },
+      relations: ['items', 'project'], // Include 'project' relation
+    });
+
+    if (!existingEstimate) {
       throw new NotFoundException('Estimate Not Found');
     }
-    await this.estimateRepository.update(id, updateEstimate);
-    return await this.estimateRepository.findOneBy({ id });
+
+    // Update the properties of the existing estimate
+    Object.assign(existingEstimate, updateEstimate);
+
+    // If projectId is provided, retrieve the project entity and assign it to the estimate
+    if (projectId) {
+      const project = await this.projectRepository.findOne({
+        where: { id: projectId },
+      });
+      if (!project) {
+        throw new NotFoundException('Project not found');
+      }
+      existingEstimate.project = project;
+    } else {
+      // If projectId is not provided, remove the project association from the estimate
+      existingEstimate.project = null;
+    }
+
+    // If customerId is provided, retrieve the customer entity and assign it to the estimate
+    if (customerId) {
+      const customer = await this.customerRepository.findOne({
+        where: { id: customerId },
+      });
+      if (!customer) {
+        throw new NotFoundException('Customer not found');
+      }
+      existingEstimate.customer = customer;
+    }
+
+    // Update existing items and remove any items not included in the updated list
+    if (updateEstimate.items && updateEstimate.items.length > 0) {
+      const updatedItemIds = updateEstimate.items.map((item) => item.id);
+
+      // Remove items that are not in the updated list
+      existingEstimate.items = existingEstimate.items.filter((item) =>
+        updatedItemIds.includes(item.id),
+      );
+
+      for (const updatedItem of updateEstimate.items) {
+        const existingItem = existingEstimate.items.find(
+          (item) => item.id === updatedItem.id,
+        );
+        if (existingItem) {
+          // Update existing item
+          Object.assign(existingItem, updatedItem);
+          await this.itemRepository.save(existingItem);
+        } else {
+          // If the item doesn't exist in the existing items, it's a new item, so save it
+          updatedItem.estimate = existingEstimate;
+          await this.itemRepository.save(updatedItem);
+        }
+      }
+    } else {
+      // If no items are provided in the update, remove all existing items
+      existingEstimate.items = [];
+    }
+
+    // Save the updated estimate
+    const updatedEstimate =
+      await this.estimateRepository.save(existingEstimate);
+
+    // Return the updated estimate
+    return updatedEstimate;
   }
 
   async remove(id: number) {
@@ -126,5 +193,12 @@ export class EstimateService {
     return await this.estimateRepository.findOne({
       where: { estimate_reference: reference_code },
     });
+  }
+
+  private generateEstimateReference(estimateId: number): string {
+    const now = new Date();
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    return `EST-${estimateId}`;
   }
 }

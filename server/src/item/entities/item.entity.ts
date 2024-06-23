@@ -25,7 +25,7 @@ export class Item {
   item_quantity: number;
 
   @ApiProperty()
-  @Column({ name: 'item_tax' })
+  @Column({ name: 'item_tax', type: 'float' })
   item_tax: number;
 
   //establish the relationship between the item and the invoice(many-to-one)

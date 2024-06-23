@@ -16,6 +16,7 @@ import { EstimateModule } from './estimate/estimate.module';
 import { ItemModule } from './item/item.module';
 import { ContactPersonModule } from './contact-person/contact-person.module';
 import { FileUploadModule } from './file-upload/file-upload.module';
+import { SettingsModule } from './settings/settings.module';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { FileUploadModule } from './file-upload/file-upload.module';
     ItemModule,
     ContactPersonModule,
     FileUploadModule,
+    SettingsModule,
 
     /* End Modules */
   ],

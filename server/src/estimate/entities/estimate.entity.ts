@@ -43,10 +43,6 @@ export class Estimate {
   estimate_discount: number;
 
   @ApiProperty()
-  @Column({ name: 'estimate_discount_type', type: 'bool' })
-  estimate_discount_type: boolean;
-
-  @ApiProperty()
   @Column({ name: 'estimate_notes', type: 'text' })
   estimate_notes: string;
 
@@ -60,7 +56,7 @@ export class Estimate {
   estimate_status: string;
 
   @ApiProperty()
-  @Column({ name: 'estimate_total' })
+  @Column({ name: 'estimate_total', type: 'float' })
   estimate_total: number;
 
   // Establishing one-to-many relationship items
@@ -84,13 +80,6 @@ export class Estimate {
   })
   @JoinColumn()
   customer: Customer;
-
-  @Column({
-    name: 'estimate_tax_per_item_enabled',
-    type: 'bool',
-    default: false,
-  })
-  estimate_tax_per_item_enabled: boolean;
 
   @Column({ name: 'estimate_tax', type: 'float', default: 0 })
   estimate_tax: number;

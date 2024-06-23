@@ -19,20 +19,6 @@ export class TaxesService {
     return this.taxRepository.save(newTax);
   }
 
-  // async create(createTax: Tax, estimateId: number): Promise<Tax> {
-  //   const estimate = await this.taxRepository.findOneBy({
-  //     id: estimateId,
-  //   });
-  //   if (!estimate) {
-  //     throw new NotFoundException('estimate not found');
-  //   }
-  //   const newTax = await this.taxRepository.create({
-  //     ...createTax,
-  //     estimates: estimate,
-  //   });
-  //   return this.taxRepository.save(newTax);
-  // }
-
   async findAll(): Promise<Tax[]> {
     return this.taxRepository.find({
       order: { id: 'DESC' },
