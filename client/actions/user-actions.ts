@@ -1,4 +1,5 @@
 import { query } from '@/util/query'
+import { getCookie } from 'cookies-next'
 
 export const GET = async () => await query.get('api/user').then((res) => res.data)
 

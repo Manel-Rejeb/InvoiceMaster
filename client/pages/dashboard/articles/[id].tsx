@@ -75,7 +75,7 @@ export default function Article(): JSX.Element {
           <InputNumber placeholder='article price' className='w-full' min={0} />
         </Form.Item>
 
-        <Form.Item<ArticleFormType> label='Article Currency' name='article_currency' className='flex-1'>
+        <Form.Item<ArticleFormType> label='Article Currency' name='article_currency' className='flex-1' initialValue={'TND'}>
           <Select showSearch placeholder={'USD'} filterOption={filterOption} options={CURRENCY.map((el) => ({ label: el.value, value: el.value }))} />
         </Form.Item>
 

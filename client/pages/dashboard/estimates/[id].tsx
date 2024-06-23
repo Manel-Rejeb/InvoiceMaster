@@ -39,24 +39,29 @@ export default function Estimate(): JSX.Element {
   // mutations
   const { mutate } = useMutation({
     mutationFn: async (values: EstimateFormType) => {
+      const articles = items
+      const estimateNotes = form.getFieldValue('estimate_notes')
+
+      const totalHT = articles.reduce((total: number, item: ItemEstimateType) => {
+        return total + (item.item_price! + (item.item_price! * item.item_tax) / 100)! * item.item_quantity
+      }, 0)
+
+      const discountAmount = (totalHT * form.getFieldValue('estimate_discount')) / 100
+      const subtotal = totalHT - discountAmount
+      const taxAmount = (subtotal * form.getFieldValue('estimate_tax')) / 100
+      const total = subtotal + taxAmount
+
+      const payload = {
+        ...values,
+        items: form.getFieldValue('items'),
+        estimate_notes: JSON.stringify(estimateNotes),
+        estimate_total: total,
+      }
+
       if (query.id === 'create') {
-        return POST({
-          ...values,
-          items: form.getFieldValue('items'),
-          estimate_notes: JSON.stringify(form.getFieldValue('estimate_notes')),
-          estimate_total: items.reduce((total: number, item: ItemEstimateType) => {
-            return total + item.item_price! * item.item_quantity
-          }, 0),
-        })
+        return POST(payload)
       } else {
-        return PATCH(query.id as string, {
-          ...values,
-          items: form.getFieldValue('items'),
-          estimate_notes: JSON.stringify(form.getFieldValue('estimate_notes')),
-          estimate_total: items.reduce((total: number, item: ItemEstimateType) => {
-            return total + item.item_price! * item.item_quantity
-          }, 0),
-        })
+        return PATCH(query.id as string, payload)
       }
     },
     onSettled: async () => {
@@ -70,15 +75,17 @@ export default function Estimate(): JSX.Element {
 
   const filterOption = (input: string, option?: { label: string; value: string | number }) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
 
-  const { isLoading } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['estimate', query.id],
     queryFn: () => FIND(query.id as string),
-    enabled: query.id !== 'create' && undefined,
-    select: (data) => {
-      if (items.length === 0) {
-        setItems(data.items)
-        setNotes(JSON.parse(data.estimate_notes))
-      }
+    enabled: query.id !== 'create',
+    refetchOnMount: true,
+  })
+
+  useEffect(() => {
+    if (data) {
+      setItems(data.items)
+      setNotes(JSON.parse(data.estimate_notes))
 
       form.setFieldsValue({
         ...data,
@@ -87,8 +94,8 @@ export default function Estimate(): JSX.Element {
         items: data.items,
         estimate_notes: JSON.parse(data.estimate_notes),
       })
-    },
-  })
+    }
+  }, [data, query.id])
 
   if (query.id !== 'create' && isLoading) {
     return (
@@ -114,7 +121,7 @@ export default function Estimate(): JSX.Element {
               <Button type='primary' htmlType='submit'>
                 <div className='flex items-center gap-2'>
                   <AiOutlineFileDone />
-                  <p>Preview</p>
+                  {query.id === 'create' ? <p>Create</p> : <p>Update</p>}
                 </div>
               </Button>
             </Form.Item>
@@ -183,7 +190,7 @@ export default function Estimate(): JSX.Element {
               {() => {
                 return (
                   <div className='flex gap-x-3 mt-6 text-sm'>
-                    <div className='min-w-36 max-w-[200px] text-gray-500 dark:text-neutral-500'>{form.getFieldValue(['project', 'id']) && 'Folder details:'}</div>
+                    <div className='min-w-36 max-w-[200px] text-gray-500 dark:text-neutral-500'>{form.getFieldValue(['project', 'id']) && 'Project details:'}</div>
                     <div className='font-medium text-gray-800 dark:text-neutral-200'>
                       <span className='block font-semibold'>{project.find((el) => el.id === form.getFieldValue(['project', 'id']))?.project_name}</span>
                       <div className='not-italic font-normal'>{project.find((el) => el.id === form.getFieldValue(['project', 'id']))?.project_status}</div>
@@ -206,31 +213,15 @@ export default function Estimate(): JSX.Element {
                     { label: 'Draft', value: 'DRAFT' },
                     { label: 'Accepted', value: 'ACCEPTED' },
                     { label: 'Rejected', value: 'REJECTED' },
-                    { label: 'Published', value: 'PUBLISHED' },
-                    { label: 'Sent', value: 'SENT' },
-                    { label: 'Viewed', value: 'VIEWED' },
+                    { label: 'Expired', value: 'EXPIRED' },
+                    { label: 'Converted', value: 'CONVERTED' },
                   ]}
                 />
               </Form.Item>
             )}
 
             <Form.Item label='Estimate discount' name='estimate_discount' className='m-0' initialValue={0}>
-              <InputNumber
-                placeholder='0.00'
-                className='w-full'
-                addonAfter={
-                  <Form.Item className='m-0'>
-                    <Select
-                      style={{ width: 62 }}
-                      defaultValue={true}
-                      options={[
-                        { label: '%', value: true },
-                        { label: '$', value: false },
-                      ]}
-                    />
-                  </Form.Item>
-                }
-              />
+              <InputNumber placeholder='0.00' min={0} className='w-full' addonAfter={'%'} />
             </Form.Item>
             <Form.Item label='Estimate tax' name='estimate_tax' className='m-0' initialValue={0}>
               <Select allowClear showSearch filterOption={filterOption} placeholder='Select a tax' className='h-fit min-h-fit w-full' options={taxOptions} />
@@ -244,26 +235,20 @@ export default function Estimate(): JSX.Element {
         <div className='flex justify-end mt-10'>
           <div className='max-w-2xl sm:text-end space-y-2'>
             <div className='grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-2'>
-              <dl className='grid sm:grid-cols-5 gap-x-3 text-sm'>
-                <dt className='col-span-3 text-gray-500'>Total HT:</dt>
-                <dd className='col-span-2 font-medium text-gray-800'>
-                  {items.reduce((total: number, item: ItemEstimateType) => {
-                    return total + item.item_price! * item.item_quantity
-                  }, 0)}
-                </dd>
-              </dl>
-
               <Form.Item noStyle shouldUpdate>
                 {() => {
                   return (
                     <dl className='grid sm:grid-cols-5 gap-x-3 text-sm'>
-                      <dt className='col-span-3 text-gray-500'>Tax:</dt>
+                      <dt className='col-span-3 text-gray-500'>Total HT:</dt>
                       <dd className='col-span-2 font-medium text-gray-800'>
-                        {(items.reduce((total: number, item: ItemEstimateType) => {
-                          return total + item.item_price! * item.item_quantity
-                        }, 0) *
-                          form.getFieldValue('estimate_tax')) /
-                          100}
+                        {Intl.NumberFormat('fr-TN', {
+                          style: 'currency',
+                          currency: form.getFieldValue('estimate_currency') ?? 'TND',
+                        }).format(
+                          items.reduce((total: number, item: ItemEstimateType) => {
+                            return total + (item.item_price! + (item.item_price! * item.item_tax) / 100)! * item.item_quantity
+                          }, 0)
+                        )}
                       </dd>
                     </dl>
                   )
@@ -274,16 +259,69 @@ export default function Estimate(): JSX.Element {
                 {() => {
                   return (
                     <dl className='grid sm:grid-cols-5 gap-x-3 text-sm'>
+                      <dt className='col-span-3 text-gray-500'>Discount:</dt>
+                      <dd className='col-span-2 font-medium text-gray-800'>
+                        -
+                        {Intl.NumberFormat('fr-TN', {
+                          style: 'currency',
+                          currency: form.getFieldValue('estimate_currency') ?? 'TND',
+                        }).format(
+                          (items.reduce((total: number, item: ItemEstimateType) => {
+                            return total + (item.item_price! + (item.item_price! * item.item_tax) / 100)! * item.item_quantity
+                          }, 0) *
+                            form.getFieldValue('estimate_discount')) /
+                            100
+                        )}
+                      </dd>
+                    </dl>
+                  )
+                }}
+              </Form.Item>
+
+              <Form.Item noStyle shouldUpdate>
+                {() => {
+                  const totalHT = items.reduce((total: number, item: ItemEstimateType) => {
+                    return total + (item.item_price! + (item.item_price! * item.item_tax) / 100)! * item.item_quantity
+                  }, 0)
+
+                  const discountAmount = (totalHT * form.getFieldValue('estimate_discount')) / 100
+                  const subtotal = totalHT - discountAmount
+                  const taxAmount = (subtotal * form.getFieldValue('estimate_tax')) / 100
+
+                  return (
+                    <dl className='grid sm:grid-cols-5 gap-x-3 text-sm'>
+                      <dt className='col-span-3 text-gray-500'>Tax:</dt>
+                      <dd className='col-span-2 font-medium text-gray-800'>
+                        +
+                        {Intl.NumberFormat('fr-TN', {
+                          style: 'currency',
+                          currency: form.getFieldValue('estimate_currency') ?? 'TND',
+                        }).format(taxAmount)}
+                      </dd>
+                    </dl>
+                  )
+                }}
+              </Form.Item>
+
+              <Form.Item noStyle shouldUpdate>
+                {() => {
+                  const totalHT = items.reduce((total: number, item: ItemEstimateType) => {
+                    return total + (item.item_price! + (item.item_price! * item.item_tax) / 100)! * item.item_quantity
+                  }, 0)
+
+                  const discountAmount = (totalHT * form.getFieldValue('estimate_discount')) / 100
+                  const subtotal = totalHT - discountAmount
+                  const taxAmount = (subtotal * form.getFieldValue('estimate_tax')) / 100
+                  const total = subtotal + taxAmount
+
+                  return (
+                    <dl className='grid sm:grid-cols-5 gap-x-3 text-sm'>
                       <dt className='col-span-3 text-gray-500'>Total:</dt>
                       <dd className='col-span-2 font-medium text-gray-800'>
-                        {items.reduce((total: number, item: ItemEstimateType) => {
-                          return total + item.item_price! * item.item_quantity
-                        }, 0) +
-                          (items.reduce((total: number, item: ItemEstimateType) => {
-                            return total + item.item_price! * item.item_quantity
-                          }, 0) *
-                            form.getFieldValue('estimate_tax')) /
-                            100}
+                        {Intl.NumberFormat('fr-TN', {
+                          style: 'currency',
+                          currency: form.getFieldValue('estimate_currency') ?? 'TND',
+                        }).format(total)}
                       </dd>
                     </dl>
                   )

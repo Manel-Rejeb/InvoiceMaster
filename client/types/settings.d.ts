@@ -1,5 +1,5 @@
 interface OrgaConfig {
-  id: number
+  id: string
   organization_name: string
   organization_email: string
   organization_phone: string
@@ -7,7 +7,7 @@ interface OrgaConfig {
   organization_city: string
   organization_address: string
   organization_zip: string
-  organization_TIN: number
+  organization_TIN: string
   organization_industry: string
   organization_type: string
   organization_website: string

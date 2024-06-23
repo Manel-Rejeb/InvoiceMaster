@@ -15,13 +15,13 @@ interface ComponentProps {
 }
 
 export default function UserProvider({ children }: ComponentProps): JSX.Element {
-  const { push, pathname } = useRouter()
-
   const { data, isLoading } = useQuery({
     queryKey: ['users'],
     queryFn: GET,
     staleTime: 0,
   })
+
+  const { push, pathname } = useRouter()
 
   const [isUserLoading, setUserLoading] = useState<boolean>(true)
   const [user, setUser] = useState<AuthUserProfileType>(userStore.user)
@@ -31,7 +31,9 @@ export default function UserProvider({ children }: ComponentProps): JSX.Element 
     await query.post('/auth/login', { ...data }).then((res) => {
       setCookie('token', res.data.access_token)
       setIsAuthenticated(true)
+      setUserLoading(true)
       push('/dashboard')
+      getCurrentUser()
     })
 
   const logout = (): void => {
@@ -56,19 +58,19 @@ export default function UserProvider({ children }: ComponentProps): JSX.Element 
       .catch(() => {
         setUser(userStore.user)
         setIsAuthenticated(userStore.isAuthenticated)
-        push('/auth').then(() => setUserLoading(false))
+        push('/auth')
+        setUserLoading(false)
       })
+    setUserLoading(false)
   }
 
   useEffect(() => {
-    getCurrentUser()
-  }, [isAuthenticated])
-
-  useLayoutEffect(() => {
-    if (getCookie('token')) {
-      push('/dashboard')
+    if (pathname.startsWith('/dashboard')) {
+      getCurrentUser()
     } else {
       push('/auth')
+      setUserLoading(false)
+      setIsAuthenticated(false)
     }
   }, [])
 

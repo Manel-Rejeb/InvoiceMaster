@@ -100,6 +100,7 @@ export const UserTable: FC<ComponentProps> = ({ isLoading, data = [] }) => {
       <Table
         columns={userColumns}
         rowKey={'id'}
+        size='small'
         dataSource={data}
         loading={isLoading}
         bordered

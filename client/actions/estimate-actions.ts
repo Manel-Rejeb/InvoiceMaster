@@ -16,6 +16,16 @@ export const POST = (data: EstimateFormType) =>
     }
   )
 
-export const PATCH = (id: string, data: EstimateFormType) => query.patch(`api/estimate/${id}`, { ...data })
+export const PATCH = (id: string, data: EstimateFormType) =>
+  query.patch(
+    `api/estimate/${id}`,
+    { ...data },
+    {
+      params: {
+        customer: data.customer.id,
+        project: data.project?.id,
+      },
+    }
+  )
 
 export const DELETE = (id: number) => query.delete(`api/estimate/${id}`)

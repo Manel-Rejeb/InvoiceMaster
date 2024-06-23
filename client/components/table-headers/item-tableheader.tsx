@@ -114,7 +114,7 @@ export const ItemsTable: FC<ComponentProps> = ({ form, items, setItems }) => {
         const taxAmount = (price * taxValue) / 100
         const totalWithTax = (price + taxAmount) * quantity
         const currency = items[index].article?.article_currency || 'USD'
-        return Intl.NumberFormat('ar-TN', {
+        return Intl.NumberFormat('fr-TN', {
           style: 'currency',
           currency: currency,
         }).format(totalWithTax)

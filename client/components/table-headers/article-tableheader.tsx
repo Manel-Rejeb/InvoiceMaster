@@ -51,13 +51,14 @@ export const ArticleTable: FC<ComponentProps> = ({ isLoading, data = [] }) => {
       title: 'Price',
       dataIndex: 'article_price',
       key: 'article_price',
-      render: (_, record) => Intl.NumberFormat('en-EN', { style: 'currency', currency: record.article_currency }).format(record.article_price),
+      render: (_, record) => Intl.NumberFormat('fr-TN', { style: 'currency', currency: record.article_currency }).format(record.article_price),
     },
     pathname.includes('expenses') !== false
       ? {
           title: 'Buy Price',
           dataIndex: 'article_buy_price',
           key: 'article_buy_price',
+          render: (_, record) => Intl.NumberFormat('fr-TN', { style: 'currency', currency: record.article_currency }).format(record.article_buy_price),
         }
       : {
           title: 'Type',
