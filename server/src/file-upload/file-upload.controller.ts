@@ -3,42 +3,34 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
-  Delete,
   UseInterceptors,
   UploadedFile,
+  Res,
+  NotFoundException,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import { FileUploadService } from './file-upload.service';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Response } from 'express';
+import { Public } from 'src/shared/decorators/public.decorator';
+import path from 'path';
+import * as fs from 'fs';
 
-@Controller('upload')
+@Public()
+@Controller('file')
 export class FileUploadController {
   constructor(private readonly fileUploadService: FileUploadService) {}
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
-  uploadFile(@UploadedFile() file: Express.Multer.File) {
-    console.log(file);
+  async uploadFile(@UploadedFile() file: Express.Multer.File) {
+    return await this.fileUploadService.uploadFile(file);
   }
 
-  @Get()
-  findAll() {
-    return this.fileUploadService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.fileUploadService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFile: File) {
-    return this.fileUploadService.update(+id, updateFile);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.fileUploadService.remove(+id);
-  }
+  // @Get(':filename')
+  // async getFile(@Param('filename') filename: string, @Res() res: Response) {
+  //   const filePath = `./uploads/${filename}`;
+  //   res.sendFile(filePath, { root: '.' });
+  // }
 }

@@ -17,6 +17,7 @@ import { ItemModule } from './item/item.module';
 import { ContactPersonModule } from './contact-person/contact-person.module';
 import { FileUploadModule } from './file-upload/file-upload.module';
 import { SettingsModule } from './settings/settings.module';
+import { StripeModule } from './stripe/stripe.module';
 
 @Module({
   imports: [
@@ -49,6 +50,7 @@ import { SettingsModule } from './settings/settings.module';
     ContactPersonModule,
     FileUploadModule,
     SettingsModule,
+    StripeModule,
 
     /* End Modules */
   ],

@@ -2,11 +2,13 @@ import { ApiProperty } from '@nestjs/swagger';
 
 import {
   Column,
-  CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
+
+import { Estimate } from 'src/estimate/entities/estimate.entity';
 import { INVOICE_STATUS } from './enum/INVOICE_STATUS';
 
 @Entity()
@@ -27,20 +29,16 @@ export class Invoice {
   invoice_due_date: Date;
 
   @ApiProperty()
-  @Column({ name: 'invoice_currency' })
-  invoice_currency: string;
+  @Column({ name: 'invoice_amount', type: 'float' })
+  invoice_amount: number;
 
   @ApiProperty()
-  @Column({ name: 'invoice_image' })
-  invoice_image: string;
+  @Column({ name: 'invoice_amount_paid', type: 'float' })
+  invoice_amount_paid: number;
 
   @ApiProperty()
-  @Column({ name: 'tampon_signature' })
-  tampon_signature: string;
-
-  @ApiProperty()
-  @Column({ name: 'invoice_tva', type: 'boolean' })
-  invoice_tva: boolean;
+  @Column({ name: 'invoice_amount_remaining', type: 'float' })
+  invoice_amount_remaining: number;
 
   @ApiProperty()
   @Column({
@@ -51,33 +49,11 @@ export class Invoice {
   })
   invoice_payment_status: string;
 
-  @ApiProperty()
-  @Column({ name: 'total_price' })
-  invoice_total: number;
-
-  @ApiProperty()
-  @Column({ name: 'subtotal' }) // price before tax and discount
-  invoice_subtotal: number;
-
-  @ApiProperty()
-  @Column({ name: 'discount' })
-  invoice_discount: number;
-
-  @ApiProperty()
-  @Column({ name: 'total_amount' })
-  invoice_total_amount: number;
-
-  @ApiProperty()
-  @Column({ name: 'invoice_description' })
-  invoice_description: string;
-
-  @ApiProperty()
-  @Column({ name: 'invoice_payment_method' })
-  invoice_payment_method: string;
-
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  createdAt?: Date;
-
-  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  updatedAt?: Date;
+  @ApiProperty({ type: () => Estimate })
+  @OneToOne(() => Estimate, (estimate) => estimate.invoice, {
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn()
+  estimate: Estimate;
 }

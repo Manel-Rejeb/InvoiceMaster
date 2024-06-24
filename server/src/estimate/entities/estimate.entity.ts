@@ -3,14 +3,15 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Item } from 'src/item/entities/item.entity';
 import { Customer } from 'src/customers/entities/customer.entity';
 import { Project } from 'src/projects/entities/project.entity';
+import { Invoice } from 'src/invoices/entities/invoice.entity';
 
 import {
   Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
-  JoinTable,
   ManyToOne,
+  OneToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -89,4 +90,11 @@ export class Estimate {
 
   @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt?: Date;
+
+  @ApiProperty({ type: Invoice })
+  @OneToOne(() => Invoice, (invoice) => invoice.estimate, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  invoice: Invoice;
 }

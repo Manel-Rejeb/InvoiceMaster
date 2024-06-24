@@ -1,24 +1,25 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { extname } from 'path';
 
 @Injectable()
 export class FileUploadService {
-  create(createFile: File) {
-    return 'This action adds a new fileUpload';
-  }
+  async uploadFile(File: Express.Multer.File) {
+    const allowedMimeTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+    const maxSize = 5 * 1024 * 1024;
 
-  findAll() {
-    return `This action returns all fileUpload`;
-  }
+    if (!allowedMimeTypes.includes(File.mimetype)) {
+      throw new BadRequestException('Invalid file type');
+    }
+    if (File.size > maxSize) {
+      throw new BadRequestException('File size exceeds limit');
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} fileUpload`;
-  }
+    const randomName = Array(32)
+      .fill(null)
+      .map(() => Math.round(Math.random() * 16).toString(16))
+      .join('');
+    const newFilename = `${randomName}${extname(File.originalname)}`;
 
-  update(id: number, updateFile: File) {
-    return `This action updates a #${id} fileUpload`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} fileUpload`;
+    return newFilename;
   }
 }

@@ -11,6 +11,7 @@ import { Estimate } from 'src/estimate/entities/estimate.entity';
 import { Item } from 'src/item/entities/item.entity';
 import { Customer } from 'src/customers/entities/customer.entity';
 import { Project } from 'src/projects/entities/project.entity';
+import { Invoice } from 'src/invoices/entities/invoice.entity';
 
 @Injectable()
 export class EstimateService {
@@ -26,6 +27,9 @@ export class EstimateService {
 
     @InjectRepository(Item)
     private readonly itemRepository: Repository<Item>,
+
+    @InjectRepository(Invoice)
+    private readonly invoiceRepository: Repository<Invoice>,
   ) {}
 
   async create(
@@ -85,14 +89,14 @@ export class EstimateService {
 
   async findAll(): Promise<Estimate[]> {
     return this.estimateRepository.find({
-      relations: ['items.article', 'project', 'customer.corporate'],
+      relations: ['items.article', 'project', 'customer.corporate', 'invoice'],
     });
   }
 
   async findOne(id: number): Promise<Estimate> {
     const estimateData = await this.estimateRepository.findOne({
       where: { id: id },
-      relations: ['items.article', 'project', 'customer.corporate'],
+      relations: ['items.article', 'project', 'customer.corporate', 'invoice'],
     });
     if (!estimateData) {
       throw new NotFoundException('Estimate Not Found');
@@ -108,7 +112,7 @@ export class EstimateService {
   ): Promise<Estimate> {
     const existingEstimate = await this.estimateRepository.findOne({
       where: { id },
-      relations: ['items', 'project'], // Include 'project' relation
+      relations: ['items.article', 'project', 'customer.corporate', 'invoice'],
     });
 
     if (!existingEstimate) {
@@ -141,6 +145,18 @@ export class EstimateService {
         throw new NotFoundException('Customer not found');
       }
       existingEstimate.customer = customer;
+    }
+
+    // Handle invoice update
+    if (updateEstimate.invoice) {
+      if (existingEstimate.invoice && existingEstimate.invoice.id) {
+        await this.invoiceRepository.remove(existingEstimate.invoice);
+      }
+      const newInvoice = this.invoiceRepository.create(updateEstimate.invoice);
+      const savedInvoice = await this.invoiceRepository.save(newInvoice);
+      existingEstimate.invoice = savedInvoice;
+    } else {
+      existingEstimate.invoice = null;
     }
 
     // Update existing items and remove any items not included in the updated list
