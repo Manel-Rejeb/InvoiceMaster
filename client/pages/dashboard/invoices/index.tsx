@@ -14,7 +14,7 @@ export default function Invoices(): JSX.Element {
         <div className='w-full'>
           <Input variant='filled' size='large' placeholder='Search invoice' prefix={<AiOutlineSearch />} onChange={(e) => setSearch(e.target.value)} />
         </div>
-        <Select
+        {/* <Select
           size='large'
           allowClear
           variant='filled'
@@ -25,7 +25,7 @@ export default function Invoices(): JSX.Element {
             { label: 'unpaid', value: 'UNPAID' },
             { label: 'partually paid', value: 'PAETUALLY PAID' },
           ]}
-        />
+        /> */}
         <Link passHref href={'/dashboard/estimates/create'}>
           <Button type='primary' size='large' className='capitalize'>
             <div className='flex items-center gap-2'>

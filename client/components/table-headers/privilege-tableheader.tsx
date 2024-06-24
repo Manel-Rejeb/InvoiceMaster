@@ -1,7 +1,5 @@
 import React, { FC, useEffect } from 'react'
-import { LuTrash } from 'react-icons/lu'
 import { Button, Popconfirm, Table, TableColumnsType, Checkbox } from 'antd'
-import { AiOutlinePlus } from 'react-icons/ai'
 import { type FormInstance } from 'antd'
 
 interface ComponentProps {

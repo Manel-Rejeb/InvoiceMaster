@@ -65,7 +65,7 @@ export default function UserProvider({ children }: ComponentProps): JSX.Element 
   }
 
   useEffect(() => {
-    if (pathname.startsWith('/dashboard')) {
+    if (pathname.startsWith('/dashboard') || pathname.startsWith('/estimate')) {
       getCurrentUser()
     } else {
       push('/auth')

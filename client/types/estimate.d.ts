@@ -25,6 +25,15 @@ interface ItemEstimateType {
   article?: ArticleType
 }
 
-interface InvoiceType {}
+interface InvoiceType {
+  id?: number
+  invoice_reference: string
+  invoice_date: string
+  invoice_due_date: string
+  invoice_amount: number
+  invoice_amount_paid: number
+  invoice_amount_remaining: number
+  invoice_payment_status: string
+}
 
 type EstimateFormType = Omit<EstimateType, 'createdAt' | 'updatedAt'>

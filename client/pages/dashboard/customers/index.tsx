@@ -25,7 +25,7 @@ export default function Customers(): JSX.Element {
         <div className='w-full'>
           <Input variant='filled' size='large' placeholder='Search customer' prefix={<AiOutlineSearch />} onChange={(e) => setSearch(e.target.value)} />
         </div>
-        <Select
+        {/* <Select
           size='large'
           allowClear
           variant='filled'
@@ -35,7 +35,7 @@ export default function Customers(): JSX.Element {
             { label: 'Individual', value: 'INDIVIDUAL' },
             { label: 'Corporate', value: 'CORPORATE' },
           ]}
-        />
+        /> */}
         <Link passHref href={'/dashboard/customers/create'}>
           <Button type='primary' size='large' className='capitalize'>
             <div className='flex items-center gap-2'>

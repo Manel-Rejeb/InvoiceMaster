@@ -84,20 +84,22 @@ export default function Settings(): JSX.Element {
         <Form.Item label='Organization Website' name={'organization_website'} className='flex-1' rules={rules.organization_website}>
           <Input placeholder='Corporate Website' />
         </Form.Item>
-        <Form.Item
+
+        {/* <Form.Item
           label='Upload'
           valuePropName='fileList'
           getValueFromEvent={(e: any) => {
             if (e && e.fileList && e.fileList.length > 0) {
               form.setFieldsValue({ corporate: { corporate_logo: e.fileList[0].originFileObj } })
+              console.log('file')
               return e.fileList[0].originFileObj
             }
             return null // or whatever default value you want
           }}>
-          <Upload action='https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload' listType='picture' maxCount={1}>
+          <Upload action='http://localhost:7080/file/upload' listType='picture' maxCount={1}>
             <Button icon={<LuUploadCloud />}>Upload (Max: 1)</Button>
           </Upload>
-        </Form.Item>
+        </Form.Item> */}
 
         <Form.Item>
           <Button type='primary' htmlType='submit'>

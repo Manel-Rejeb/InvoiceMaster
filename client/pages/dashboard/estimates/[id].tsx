@@ -106,7 +106,7 @@ export default function Estimate(): JSX.Element {
   }
 
   return (
-    <div className='max-w-[85rem] px-4 sm:px-6 lg:px-8 mx-auto my-4'>
+    <div className='px-4 sm:px-6 lg:px-8 my-4'>
       <Form form={form} labelCol={{ span: 8 }} labelAlign='left' onFinish={(values: EstimateFormType) => mutate({ ...values })} className='w-full'>
         <div className='mb-5 pb-5 flex justify-between items-center border-b border-gray-200'>
           <h2 className='text-2xl font-semibold text-gray-800'>Estimate</h2>

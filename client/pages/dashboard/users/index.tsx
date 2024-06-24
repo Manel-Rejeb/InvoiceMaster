@@ -23,7 +23,7 @@ export default function Projects(): JSX.Element {
         <div className='w-full'>
           <Input variant='filled' size='large' placeholder='Search user' prefix={<AiOutlineSearch />} onChange={(e) => setSearch(e.target.value)} />
         </div>
-        <Select
+        {/* <Select
           size='large'
           allowClear
           variant='filled'
@@ -33,7 +33,7 @@ export default function Projects(): JSX.Element {
             { label: 'moderator', value: 'MODERATOR' },
             { label: 'client', value: 'CLIENT' },
           ]}
-        />
+        /> */}
         <Link passHref href={'/dashboard/users/create'}>
           <Button type='primary' size='large' className='capitalize'>
             <div className='flex items-center gap-2'>

@@ -149,9 +149,9 @@ export default function Customer(): JSX.Element {
               />
             </Form.Item>
 
-            <Form.Item
+            {/* <Form.Item
               label='Upload'
-              valuePropName='fileList'
+              valuePropName=''
               getValueFromEvent={(e: any) => {
                 if (e && e.fileList && e.fileList.length > 0) {
                   form.setFieldsValue({ corporate: { corporate_logo: e.fileList[0].originFileObj } })
@@ -159,10 +159,10 @@ export default function Customer(): JSX.Element {
                 }
                 return null // or whatever default value you want
               }}>
-              <Upload action='https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload' listType='picture' maxCount={1}>
+              <Upload action='http://localhost:7080/file/upload' listType='picture' maxCount={1}>
                 <Button icon={<LuUploadCloud />}>Upload (Max: 1)</Button>
               </Upload>
-            </Form.Item>
+            </Form.Item> */}
           </>
         )}
 
@@ -224,7 +224,7 @@ const rules: {
       message: 'Please input your Corporate TIN!',
     },
     {
-      len: 9,
+      len: 12,
       message: 'The Corporate TIN should be 12 characters!',
     },
   ],

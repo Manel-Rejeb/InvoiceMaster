@@ -58,8 +58,8 @@ export const CustomerTable: FC<ComponentProps> = ({ isLoading, data }) => {
       key: 'customer_type',
       render: (type_customer) => (type_customer ? <Tag color='blue'>Corporate</Tag> : <Tag color='purple'>Individual</Tag>),
       filters: [
-        { text: 'Corporate', value: false },
-        { text: 'Inidividual', value: true },
+        { text: 'Corporate', value: true },
+        { text: 'Inidividual', value: false },
       ],
       onFilter: (value, record) => record.customer_type === value,
     },

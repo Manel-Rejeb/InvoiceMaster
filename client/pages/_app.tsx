@@ -17,9 +17,19 @@ export default function App({ Component, pageProps }: AppProps) {
   const layout = () => {
     if (pathname.includes('/dashboard')) {
       return (
-        <DashboardLayout>
+        <Provider>
+          <DashboardLayout>
+            <Component {...pageProps} />
+          </DashboardLayout>
+        </Provider>
+      )
+    }
+
+    if (pathname.includes('/auth')) {
+      return (
+        <Provider>
           <Component {...pageProps} />
-        </DashboardLayout>
+        </Provider>
       )
     }
 
@@ -34,11 +44,7 @@ export default function App({ Component, pageProps }: AppProps) {
           fontSize: 14,
         },
       }}>
-      <QueryClientProvider client={queryClient}>
-        <UserProvider>
-          <Provider>{layout()}</Provider>
-        </UserProvider>
-      </QueryClientProvider>
+      <QueryClientProvider client={queryClient}>{layout()}</QueryClientProvider>
     </ConfigProvider>
   )
 }
